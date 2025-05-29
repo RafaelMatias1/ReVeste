@@ -1,0 +1,230 @@
+body {
+  background: #f3f8f2;
+  font-family: 'Lato', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.cabecalho {
+  background: #6A8A65;
+  color: #fff;
+  padding: 14px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+}
+
+.container-cabecalho {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+.logo a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+.logo img {
+  height: 38px;
+  margin-right: 12px;
+}
+.logo h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.menu_principal ul {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+  margin: 0;
+  padding: 0;
+  align-items: center;
+}
+.menu_principal a {
+  color: #fff;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.menu_principal a:hover {
+  color: #dbeed3;
+}
+.menu_principal img {
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.menu_usuario span {
+  margin-right: 8px;
+}
+
+.main-login-novo {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f3f8f2;
+  padding: 40px 0;
+}
+
+.card-login-novo {
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(106,138,101,0.10);
+  padding: 40px 36px 32px 36px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.titulo-login-novo {
+  font-size: 26px;
+  color: #6A8A65;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.subtitulo-login-novo {
+  color: #6c757d;
+  font-size: 15px;
+  margin-bottom: 28px;
+}
+
+.form-login-novo {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+}
+
+.input-group label {
+  font-size: 14px;
+  color: #495057;
+  margin-bottom: 7px;
+  font-weight: 600;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1.5px solid #dbeed3;
+  border-radius: 22px;
+  font-size: 15px;
+  background: #f8f9fa;
+  color: #343a40;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.input-group input:focus {
+  border-color: #6A8A65;
+  box-shadow: 0 0 0 2px rgba(106,138,101,0.13);
+  outline: none;
+}
+
+.login-opcoes {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.checkbox-lembrar {
+  display: flex;
+  align-items: center;
+}
+.checkbox-lembrar input[type="checkbox"] {
+  margin-right: 7px;
+  accent-color: #6A8A65;
+}
+.checkbox-lembrar label {
+  color: #495057;
+  font-weight: 400;
+}
+
+.link-esqueceu-senha {
+  color: #6A8A65;
+  text-decoration: none;
+  font-weight: 600;
+}
+.link-esqueceu-senha:hover {
+  text-decoration: underline;
+}
+
+.botao-login-novo {
+  background: #6A8A65;
+  color: #fff;
+  border: none;
+  border-radius: 22px;
+  padding: 13px 0;
+  font-size: 17px;
+  font-weight: 700;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  width: 100%;
+}
+.botao-login-novo:hover {
+  background: #557052;
+  transform: translateY(-2px);
+}
+
+.login-link-cadastro {
+  margin-top: 18px;
+  font-size: 15px;
+  color: #495057;
+}
+.login-link-cadastro a {
+  color: #6A8A65;
+  font-weight: 700;
+  text-decoration: none;
+}
+.login-link-cadastro a:hover {
+  text-decoration: underline;
+}
+
+/* Rodapé */
+.rodape {
+  background: #404040;
+  color: #ccc;
+  padding: 25px 0;
+  text-align: center;
+  font-size: 14px;
+  margin-top: auto;
+}
+.rodape .container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+/* Responsivo */
+@media (max-width: 600px) {
+  .card-login-novo {
+    padding: 24px 8px 18px 8px;
+  }
+  .container-cabecalho {
+    flex-direction: column;
+    gap: 10px;
+    padding: 0 8px;
+  }
+}

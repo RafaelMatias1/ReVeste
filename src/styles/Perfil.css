@@ -1,0 +1,479 @@
+/* Estilos para a página perfil.html - ReVeste */
+body {
+    font-family: 'Lato', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa; /* Cinza muito claro para o fundo geral da página */
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Estilos do Cabeçalho (Consistente com style.css) --- */
+.cabecalho {
+    background-color: #6A8A65; /* Mesmo verde da index, corresponde ao verde da imagem #657d61 (aproximado) */
+    color: #fff;
+    padding: 12px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.cabecalho .container-cabecalho { /* Usar um container para o cabeçalho */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex; /* Garante que os itens dentro do logo (imagem e h1) fiquem lado a lado */
+    align-items: center; /* Alinha os itens verticalmente ao centro */
+    /* Removendo margin-right se existir, pois já é tratado pelo 'gap' ou 'margin-right' da imagem */
+}
+
+.logo img {
+    height: 38px;
+    margin-right: 12px; /* Adiciona um espaço entre o ícone e o texto "ReVeste" */
+}
+
+.logo h1 {
+    margin: 0; /* Remove margens padrão do h1 para melhor controle de espaçamento */
+    font-size: 28px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Regra para remover o sublinhado do link do logo */
+.logo a {
+    text-decoration: none; /* Remove a linha debaixo do texto "ReVeste" */
+    color: inherit; /* Garante que a cor do texto seja herdada do pai (branco do cabeçalho) */
+    display: flex; /* Adicionado para garantir que o ícone e o H1 dentro do link fiquem lado a lado, se houver um comportamento inesperado */
+    align-items: center; /* Alinha verticalmente os itens dentro do link */
+}
+
+
+.menu_principal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.menu_principal li {
+    margin-left: 25px;
+}
+
+.menu_principal a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.menu_principal a:hover {
+    color: #e0e0e0;
+}
+
+.menu_principal a img { /* Ícone de coração e outros ícones do menu principal */
+    height: 24px;
+    vertical-align: middle;
+}
+
+.menu_usuario span {
+    margin-right: 8px;
+    font-weight: 400;
+}
+
+.menu_usuario img { /* Ícone de perfil */
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #fff;
+}
+/* --- Layout da Página de Perfil --- */
+.pagina-container {
+    display: flex;
+    flex-grow: 1;
+    max-width: 1200px;
+    margin: 20px auto; /* Espaçamento acima/abaixo e centralizado */
+    width: 100%;
+    background-color: #fff; /* Fundo branco para a área do menu lateral e conteúdo */
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+}
+
+.pagina-container.perfil-novo {
+    display: flex;
+    max-width: 900px;
+    margin: 32px auto;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 4px 24px rgba(106,138,101,0.07);
+    min-height: 500px;
+}
+
+.menu-lateral {
+    width: 220px; /* Largura do menu lateral */
+    background-color: #f1f3f5; /* Cinza claro para o menu lateral, como na imagem */
+    padding: 25px 0; /* Padding vertical, sem padding horizontal nos itens */
+    border-right: 1px solid #e9ecef;
+    flex-shrink: 0; /* Impede que o menu encolha */
+    border-radius: 8px 0 0 8px;
+}
+
+.menu-lateral ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-lateral li a {
+    display: block;
+    padding: 12px 25px; /* Padding para os itens do menu */
+    color: #495057; /* Cor do texto do menu */
+    text-decoration: none;
+    font-size: 16px;
+    border-left: 3px solid transparent; /* Para o indicador de item ativo */
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.menu-lateral li a:hover {
+    background-color: #e9ecef;
+    color: #000;
+}
+
+.menu-lateral li a.ativo {
+    background-color: #fff; /* Fundo do item ativo */
+    color: #6A8A65; /* Cor do texto do item ativo (verde principal) */
+    font-weight: 700;
+    border-left-color: #6A8A65; /* Borda verde no item ativo */
+}
+
+/* --- Conteúdo Principal do Perfil --- */
+.secao_conteudo_perfil {
+    flex-grow: 1;
+    padding: 30px 40px; /* Mais padding interno */
+}
+
+.perfil-main-novo {
+    flex: 1;
+    padding: 40px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil-avatar-novo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+}
+.perfil-avatar-novo img {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #6A8A65;
+    margin-bottom: 12px;
+}
+.perfil-avatar-novo h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #6A8A65;
+    font-weight: 700;
+}
+.perfil-email {
+    color: #6c757d;
+    font-size: 15px;
+    margin-top: 2px;
+}
+
+.perfil-form-novo {
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.perfil-form-row {
+    display: flex;
+    gap: 18px;
+}
+.perfil-form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    position: relative;
+}
+.perfil-form-group label {
+    font-size: 14px;
+    color: #495057;
+    font-weight: 600;
+}
+.perfil-form-group input,
+.perfil-form-group textarea {
+    padding: 10px 14px;
+    border: 1.5px solid #dbeed3;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #f8f9fa;
+    color: #343a40;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+.perfil-form-group input:focus,
+.perfil-form-group textarea:focus {
+    border-color: #6A8A65;
+    box-shadow: 0 0 0 2px rgba(106,138,101,0.13);
+    outline: none;
+}
+
+.perfil-form-group select {
+    padding: 10px 14px;
+    border: 1.5px solid #dbeed3;
+    border-radius: 8px;
+    font-size: 15px;
+    background: #f8f9fa;
+    color: #343a40;
+    transition: border 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 18px 18px;
+    padding-right: 36px;
+}
+.perfil-form-group select:focus {
+    border-color: #6A8A65;
+    box-shadow: 0 0 0 2px rgba(106,138,101,0.13);
+}
+
+.perfil-form-actions {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 10px;
+}
+.perfil-salvo-msg {
+    color: #28a745;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+@media (max-width: 900px) {
+    .pagina-container.perfil-novo {
+        flex-direction: column;
+        max-width: 98vw;
+    }
+    .perfil-main-novo {
+        padding: 24px 8px;
+    }
+    .perfil-form-novo {
+        max-width: 100%;
+    }
+    .perfil-form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.perfil-header h2 {
+    font-size: 26px;
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 8px;
+}
+
+.perfil-header p {
+    font-size: 16px;
+    color: #6c757d;
+    margin-bottom: 30px;
+}
+
+.form-perfil .info-perfil {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.form-perfil .info-perfil label {
+    width: 200px; /* Largura fixa para os labels */
+    font-weight: 400; /* Mais leve */
+    color: #495057;
+    font-size: 15px;
+    margin-right: 20px; /* Espaço entre label e input */
+    text-align: right; /* Alinha o texto do label à direita para ficar próximo ao input */
+    flex-shrink: 0;
+}
+
+.form-perfil .info-perfil input[type="text"],
+.form-perfil .info-perfil input[type="email"],
+.form-perfil .info-perfil input[type="tel"],
+.form-perfil .info-perfil textarea {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: 1px solid #ced4da; /* Borda sutil */
+    border-radius: 6px; /* Cantos levemente arredondados */
+    background-color: #f8f9fa; /* Fundo cinza claro para os inputs, como na imagem */
+    font-size: 15px;
+    color: #495057;
+    box-sizing: border-box;
+}
+.form-perfil .info-perfil textarea {
+    resize: vertical; /* Permite redimensionamento vertical apenas */
+    line-height: 1.5;
+}
+
+
+.form-perfil .info-perfil input[readonly],
+.form-perfil .info-perfil textarea[readonly] {
+    background-color: #e9ecef; /* Fundo um pouco diferente para readonly */
+    color: #6c757d;
+}
+
+
+.input-com-extra {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.input-com-extra input {
+    flex-grow: 1;
+    border-top-right-radius: 0 !important; /* Ajuste para o span não ficar estranho */
+    border-bottom-right-radius: 0 !important;
+}
+
+
+.texto-verificado {
+    font-size: 13px;
+    color: #28a745; /* Verde para verificado */
+    margin-left: -1px; /* Para sobrepor a borda do input */
+    padding: 10px 15px;
+    background-color: #f8f9fa;
+    border: 1px solid #ced4da;
+    border-left: none;
+    border-radius: 0 6px 6px 0;
+    white-space: nowrap;
+}
+
+.info-perfil-salvar {
+    display: flex;
+    justify-content: flex-end; /* Alinha o botão à direita */
+    margin-top: 30px;
+}
+
+.botao-salvar {
+    background-color: #6A8A65; /* Verde principal */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.botao-salvar:hover {
+    background-color: #587554; /* Verde mais escuro no hover */
+}
+
+.botao-sair {
+  background: #f3b13a;
+  color: #fff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.botao-sair:hover {
+  background: #d18e0c;
+}
+
+.botao-apagar {
+  background: #e74c3c;
+  color: #fff;
+  padding: 12px 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.botao-apagar:hover {
+  background: #c0392b;
+}
+
+/* Modal de confirmação de exclusão de conta */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+.modal-content {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px 28px 24px 28px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+  max-width: 350px;
+  width: 90vw;
+  text-align: center;
+  animation: modalShow 0.2s;
+}
+@keyframes modalShow {
+  from { transform: scale(0.92); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+.modal-content h3 {
+  margin-top: 0;
+  color: #e74c3c;
+  font-size: 22px;
+  font-weight: 700;
+}
+.modal-content p {
+  color: #444;
+  font-size: 16px;
+  margin: 18px 0 28px 0;
+}
+.modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+/* --- Estilos do Rodapé (Consistente com style.css) --- */
+.rodape {
+    background-color: #404040; /* Mesmo cinza escuro da index */
+    color: #ccc;
+    padding: 25px 0;
+    text-align: center;
+    font-size: 14px;
+    margin-top: auto; /* Garante que o rodapé fique no final */
+}
+
+.rodape p {
+    margin: 0;
+}
