@@ -1,0 +1,67 @@
+/* Estilos para CategoriaPage.jsx */
+
+.main-categoria-page {
+    padding: 40px 0;
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}
+
+.categoria-titulo {
+    font-size: 2.5em;
+    color: #6A8A65;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.categoria-descricao {
+    font-size: 1.1em;
+    color: #555;
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.grid-categoria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+    justify-content: center;
+    padding-bottom: 40px;
+}
+
+.categoria-actions {
+    margin-top: 50px;
+    text-align: center;
+}
+
+/* Reutilizando estilos de botões de globals.css */
+.categoria-actions .btn-secondary {
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+/* Reutiliza .no-products-message da Home.css */
+/* Responsividade */
+@media (max-width: 768px) {
+    .categoria-titulo {
+        font-size: 2em;
+    }
+    .categoria-descricao {
+        font-size: 1em;
+    }
+    .grid-categoria {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid-categoria {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+}

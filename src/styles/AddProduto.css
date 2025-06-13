@@ -1,0 +1,271 @@
+/* Estilos Específicos da Página de Publicação (AddProduto) */
+
+.main-publicar {
+    padding: 40px 0;
+    background-color: #f8f9fa; /* Fundo leve para o conteúdo principal */
+    flex-grow: 1; /* Permite que o main ocupe o espaço restante */
+}
+
+.container-publicar {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.titulo-pagina {
+    font-size: 32px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.subtitulo-pagina {
+    font-size: 16px;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.form-publicar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.form-grupo {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-grupo label {
+    font-size: 15px;
+    color: #495057;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.form-grupo input[type="text"],
+.form-grupo textarea,
+.form-grupo select {
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #495057;
+    background-color: #fdfdfd;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-grupo textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-grupo input[type="text"]:focus,
+.form-grupo textarea:focus,
+.form-grupo select:focus {
+    border-color: #88B085;
+    box-shadow: 0 0 0 3px rgba(106, 138, 101, 0.25);
+    outline: none;
+}
+
+.form-grupo small {
+    font-size: 13px;
+    color: #6c757d;
+    margin-top: 5px;
+}
+
+.form-grupo-linha {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-grupo-linha .form-grupo {
+    flex: 1;
+    min-width: 280px;
+}
+
+.botao-publicar {
+    background-color: #6A8A65;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    margin-top: 20px;
+    align-self: center;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.botao-publicar:hover {
+    background-color: #587554;
+    transform: translateY(-3px);
+}
+
+/* Estilo para o input de arquivo personalizado */
+.custom-file-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 8px;
+    background-color: #fdfdfd;
+    padding: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    overflow: hidden;
+}
+
+.custom-file-input input[type="file"] {
+    position: absolute;
+    left: -9999px;
+}
+
+.custom-file-button {
+    background-color: #6A8A65;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+    margin-right: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.custom-file-button:hover {
+    background-color: #587554;
+}
+
+.file-names-display {
+    flex-grow: 1;
+    color: #495057;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5;
+    padding: 5px 0;
+}
+
+.custom-file-input:focus-within {
+    border-color: #88B085;
+    box-shadow: 0 0 0 3px rgba(106, 138, 101, 0.25);
+    outline: none;
+}
+
+/* Pré-visualização de fotos */
+.foto-previews {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.preview-thumbnail {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* Responsividade da Página de Publicação */
+@media (max-width: 768px) {
+    .container-publicar {
+        padding: 30px 20px;
+    }
+    .titulo-pagina {
+        font-size: 28px;
+    }
+    .subtitulo-pagina {
+        font-size: 15px;
+        margin-bottom: 30px;
+    }
+    .form-grupo-linha {
+        flex-direction: column;
+        gap: 15px;
+    }
+    .form-grupo-linha .form-grupo {
+        min-width: unset;
+        width: 100%;
+    }
+    .botao-publicar {
+        width: 100%;
+        font-size: 17px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-pagina { font-size: 24px; }
+    .container-publicar { padding: 20px 15px; }
+    .custom-file-button {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    .file-names-display {
+        font-size: 14px;
+    }
+    .preview-thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Novo div para agrupar botões do formulário */
+.form-actions-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center; /* Centraliza os botões */
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+/* Botão de Excluir Anúncio no formulário */
+.btn-excluir-form {
+    background-color: #dc3545; /* Vermelho */
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    width: fit-content;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn-excluir-form:hover {
+    background-color: #c82333; /* Vermelho mais escuro */
+    transform: translateY(-3px);
+}
+
+/* Responsividade para botões do formulário */
+@media (max-width: 768px) {
+    .form-actions-buttons {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .btn-excluir-form {
+        width: 100%;
+    }
+}

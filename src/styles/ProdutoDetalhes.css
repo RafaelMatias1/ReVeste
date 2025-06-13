@@ -1,0 +1,315 @@
+/* Estilos para a página ProdutoDetalhes.jsx */
+
+.main-produto {
+    flex-grow: 1; /* Permite que o main ocupe o espaço restante */
+    padding: 20px 0 40px;
+    background-color: #f8f9fa; /* Fundo claro da página de produto */
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    margin-bottom: 25px;
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.breadcrumb ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.breadcrumb li {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb li a {
+    color: #6c757d;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.breadcrumb li a:hover {
+    color: #333;
+}
+
+.breadcrumb li + li::before {
+    content: "→"; /* Seta separadora */
+    margin: 0 8px;
+    color: #adb5bd;
+}
+
+.breadcrumb li span {
+    font-weight: 700;
+    color: #343a40;
+}
+
+/* Seção principal do produto (Detalhes e Imagem) */
+.detalhes-produto {
+    display: flex;
+    gap: 40px;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 40px;
+    flex-wrap: wrap; /* Permite que os blocos quebrem a linha */
+}
+
+.imagem-produto-grande {
+    flex: 1;
+    min-width: 300px;
+    max-width: 45%; /* Ocupa quase metade da largura */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f2f5; /* Fundo para a imagem */
+    border-radius: 8px;
+    overflow: hidden;
+    padding: 10px; /* Padding interno para a imagem */
+}
+
+.imagem-produto-grande img {
+    max-width: 100%;
+    max-height: 500px; /* Limita a altura da imagem grande */
+    height: auto;
+    display: block;
+    border-radius: 8px;
+    object-fit: contain; /* Garante que a imagem se ajuste sem cortar */
+}
+
+.info-produto-detalhes {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 280px;
+}
+
+.titulo-produto-detalhes {
+    font-size: 32px;
+    color: #343a40;
+    margin-top: 0;
+    margin-bottom: 25px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.botoes-acao {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.botao-solicitar,
+.botao-chat {
+    flex-basis: 200px; /* Define uma base para o tamanho */
+    flex-grow: 1; /* Permite que cresçam */
+    padding: 14px 15px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    text-align: center;
+    text-decoration: none;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 50px;
+}
+
+.botao-solicitar {
+    background-color: #6A8A65;
+    color: white;
+}
+
+.botao-solicitar:hover {
+    background-color: #587554;
+    transform: translateY(-2px);
+}
+
+.botao-chat {
+    background-color: #A5D6A7;
+    color: #343a40;
+    border: 1px solid #90C392;
+}
+
+.botao-chat:hover {
+    background-color: #90C392;
+    transform: translateY(-2px);
+}
+
+.lista-detalhes {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 16px;
+    color: #495057;
+    line-height: 1.8;
+}
+
+.lista-detalhes li {
+    padding-left: 1.2em;
+    position: relative;
+}
+
+.lista-detalhes li::before {
+    content: "•";
+    color: #6A8A65;
+    position: absolute;
+    left: 0;
+}
+
+/* Ações do Proprietário (Editar/Excluir) */
+.owner-actions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px dashed #e0e0e0;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: flex-end; /* Alinha os botões à direita */
+}
+
+.owner-actions .btn-editar-produto {
+    background-color: #f0ad4e; /* Laranja/Amarelo para editar */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.owner-actions .btn-editar-produto:hover {
+    background-color: #ec971f;
+    transform: translateY(-2px);
+}
+
+.owner-actions .btn-excluir-produto {
+    background-color: #dc3545; /* Vermelho para excluir */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 1em;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+}
+.owner-actions .btn-excluir-produto:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
+}
+
+
+/* --- Seção de Outras Roupas (Produtos Relacionados) --- */
+.secao_outras_roupas {
+    padding-top: 20px;
+}
+
+.secao_outras_roupas h2 {
+    color: #333;
+    margin-bottom: 25px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.secao_outras_roupas .lista_itens {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* Min-width para cards menores */
+    gap: 20px;
+}
+
+/* (O ProdutoCard.css já estiliza os cards individuais, então não precisa repetir item_produto aqui) */
+
+
+/* --- Responsividade (mantida e pode ser ajustada conforme necessário) --- */
+@media (max-width: 992px) {
+    .detalhes-produto {
+        gap: 30px;
+    }
+    .imagem-produto-grande {
+        max-width: 100%; /* Em telas médias, imagem ocupa 100% da largura do flex item */
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 15px;
+    }
+    .detalhes-produto {
+        flex-direction: column;
+        gap: 25px;
+        padding: 20px;
+    }
+    .imagem-produto-grande {
+        min-width: unset;
+        width: 100%;
+        max-height: 400px;
+    }
+    .titulo-produto-detalhes {
+        font-size: 26px;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    .info-produto-detalhes {
+        align-items: center; /* Centraliza conteúdo em coluna */
+    }
+    .botoes-acao {
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+        max-width: 320px; /* Limita a largura dos botões empilhados */
+        margin-left: auto; /* Centraliza os botões */
+        margin-right: auto;
+    }
+    .botao-solicitar,
+    .botao-chat {
+        width: 100%;
+    }
+    .lista-detalhes {
+        font-size: 15px;
+        width: 100%;
+        max-width: 320px;
+        padding-left: 1em;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .lista-detalhes li {
+        padding-left: 0.5em;
+    }
+    .owner-actions {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px; /* Limita a largura dos botões de dono */
+        margin-left: auto;
+        margin-right: auto;
+        gap: 12px;
+    }
+    .owner-actions .btn-editar-produto,
+    .owner-actions .btn-excluir-produto {
+        width: 100%;
+    }
+    .secao_outras_roupas .lista_itens {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    .secao_outras_roupas .item_produto .imagem_produto_fundo {
+        height: 160px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-produto-detalhes { font-size: 22px; }
+    .secao_outras_roupas .lista_itens {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas muito pequenas */
+    }
+}

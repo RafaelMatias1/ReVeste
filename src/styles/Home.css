@@ -1,314 +1,287 @@
-body {
-  font-family: 'Lato', sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #f9f9f9;
-  color: #333;
-  line-height: 1.6;
+/* Seu CSS da Home - ReVeste */
+
+/* Main da Home */
+main {
+    padding-top: 0;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Cabeçalho */
-.cabecalho {
-  background-color: #6A8A65;
-  color: #fff;
-  padding: 12px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
-}
-
-.cabecalho .container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-}
-
-.logo img {
-  height: 40px;
-  margin-right: 14px;
-}
-
-.logo h1 {
-  margin: 0;
-  font-size: 30px;
-  font-weight: 700;
-  letter-spacing: 1px;
-}
-
-.menu_principal ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  align-items: center;
-}
-
-.menu_principal li {
-  margin-left: 28px;
-}
-
-.menu_principal li:first-child {
-  margin-left: 0;
-}
-
-.menu_principal a {
-  color: #fff;
-  text-decoration: none;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  transition: color 0.3s;
-}
-
-.menu_principal a:hover {
-  color: #dbeed3;
-}
-
-.menu_principal a img {
-  height: 24px;
-  vertical-align: middle;
-}
-
-.menu_usuario span {
-  margin-right: 8px;
-  font-weight: 400;
-}
-
-.menu_usuario img {
-  height: 32px;
-  width: 32px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 1.5px solid #fff;
-}
-
-/* Botão Publicar Item */
-.btn-publicar {
-  background: #6A8A65;
-  color: #fff !important;
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-weight: 700;
-  text-decoration: none;
-  border: none;
-  transition: background 0.2s;
-  box-shadow: 0 2px 8px rgba(106,138,101,0.08);
-}
-.btn-publicar:hover {
-  background: #557052;
-  color: #fff;
-}
-
-/* Busca */
+/* Seção de Busca */
 .secao_busca {
-  padding: 28px 0 18px 0;
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+    padding: 28px 0 18px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
 }
 
 .secao_busca .container input[type="text"] {
-  width: 100%;
-  padding: 14px 24px;
-  border: 1px solid #e0e0e0;
-  border-radius: 25px;
-  font-size: 17px;
-  background-color: #f5f5f5;
-  color: #555;
-  outline: none;
-  transition: border 0.2s;
+    width: 100%;
+    padding: 14px 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: 25px;
+    font-size: 17px;
+    background-color: #f5f5f5;
+    color: #555;
+    outline: none;
+    transition: border 0.2s;
 }
 .secao_busca .container input[type="text"]:focus {
-  border: 1.5px solid #6A8A65;
+    border: 1.5px solid #6A8A65;
 }
 .secao_busca .container input[type="text"]::placeholder {
-  color: #aaa;
+    color: #aaa;
 }
 
-/* Carrossel de Categorias */
+/* Seções de Produtos (geral) */
+.secao_produtos {
+    padding: 38px 0;
+}
+.secao_produtos h2 {
+    color: #333;
+    margin-bottom: 25px;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+/* Carrossel de Categorias (secao_produtos.destaque) */
 .secao_produtos.destaque {
-  background: #f3f8f2;
-  border-radius: 0 0 18px 18px;
-  margin-bottom: 18px;
-  box-shadow: 0 2px 8px rgba(106,138,101,0.04);
+    background: #f3f8f2;
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(106,138,101,0.04);
 }
 
 .carrossel-categorias {
-  margin-top: 18px;
-  position: relative;
+    margin-top: 18px;
+    position: relative;
 }
 
 /* Espaçamento entre os slides do carrossel */
 .carrossel-categorias .slick-slide > div {
-  padding: 0 16px;
+    padding: 0 16px;
 }
 .carrossel-categorias .slick-list {
-  margin: 0 -16px;
+    margin: 0 -16px;
 }
 
 /* Personalização das setas do slick */
 .carrossel-categorias .slick-arrow {
-  opacity: 0;
-  transition: opacity 0.2s;
-  z-index: 2;
-  width: 48px;
-  height: 48px;
-  background: #6A8A65 !important;
-  border-radius: 50%;
-  color: #fff !important;
-  display: flex !important;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  box-shadow: 0 2px 8px rgba(62,93,58,0.12);
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    background: #6A8A65 !important; /* Cor das setas */
+    border-radius: 50%;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 2px 8px rgba(62,93,58,0.12);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
 }
 .carrossel-categorias:hover .slick-arrow {
-  opacity: 1;
+    opacity: 1;
 }
 
-/* Remove o content padrão */
+/* Remove o content padrão do slick */
 .carrossel-categorias .slick-prev:before,
 .carrossel-categorias .slick-next:before {
-  content: none !important;
-  display: none !important;
+    content: none !important;
+    display: none !important;
 }
 
 /* Ajusta a posição das setas */
 .carrossel-categorias .slick-prev {
-  left: -24px;
+    left: -24px;
 }
 .carrossel-categorias .slick-next {
-  right: -24px;
+    right: -24px;
 }
 
-/* SVG das setas */
+/* SVG das setas (para as setas personalizadas) */
 .carrossel-categorias .slick-prev svg,
 .carrossel-categorias .slick-next svg {
-  width: 28px;
-  height: 28px;
-  display: block;
-  fill: #fff;
+    width: 28px;
+    height: 28px;
+    display: block;
+    fill: #fff; /* Preenche o SVG de branco */
 }
 
-/* Cards de produto */
+/* --- ESTILOS ANTIGOS DO ITEM_PRODUTO, MANTIDOS PARA CARROSSEL DE CATEGORIAS --- */
+/* Estes estilos podem ser removidos se ProdutoCard for usado para TUDO */
+/* Mas como as imagens de categorias são diferentes, vou mantê-los por agora */
 .item_produto .imagem_produto_fundo {
-  width: 100%;
-  height: 100%;
-  min-height: 180px;
-  max-height: 220px;
-  object-fit: cover;
-  display: block;
-  border-radius: 14px 14px 0 0;
-  position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+    max-height: 220px;
+    object-fit: cover;
+    display: block;
+    border-radius: 14px 14px 0 0;
+    position: relative;
 }
 .item_produto {
-  background-color: #fff;
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-  position: relative;
-  transition: transform 0.3s, box-shadow 0.3s;
-  min-height: 260px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Para a imagem ocupar o topo */
-  padding: 0;
+    background-color: #fff;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    position: relative;
+    transition: transform 0.3s, box-shadow 0.3s;
+    min-height: 260px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 0;
 }
 .item_produto:hover {
-  transform: translateY(-7px) scale(1.03);
-  box-shadow: 0 8px 20px rgba(106,138,101,0.13);
+    transform: translateY(-7px) scale(1.03);
+    box-shadow: 0 8px 20px rgba(106,138,101,0.13);
 }
 .item_produto .info_produto {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(165, 214, 167, 0.92);
-  padding: 12px 10px 10px 10px;
-  border-radius: 0 0 14px 14px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(165, 214, 167, 0.92);
+    padding: 12px 10px 10px 10px;
+    border-radius: 0 0 14px 14px;
 }
 .item_produto .nome_produto {
-  color: #fff;
-  font-weight: 700;
-  font-size: 16px;
-  text-align: center;
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    color: #fff;
+    font-weight: 700;
+    font-size: 16px;
+    text-align: center;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-/* Seções de produtos */
-.secao_produtos {
-  padding: 38px 0;
-}
-.secao_produtos h2 {
-  color: #333;
-  margin-bottom: 25px;
-  text-align: left;
-  font-size: 24px;
-  font-weight: 700;
-}
+
+/* Grid para Itens Dinâmicos (e também para as seções estáticas de produtos) */
 .lista_itens {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
-  gap: 28px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 28px;
+    justify-content: center;
 }
 
-/* Rodapé */
-.rodape {
-  background-color: #404040;
-  color: #ccc;
-  padding: 30px 0;
-  text-align: center;
-  font-size: 14px;
+/* NOVO: Estilos para o Carrossel de Produtos Dinâmicos */
+.carrossel-dinamico {
+    margin-top: 18px;
+    position: relative;
+    padding-bottom: 40px; /* Para dar espaço ao slick-dots, se ativado no futuro */
 }
-.rodape .container p {
-  margin: 0;
+.carrossel-dinamico .slick-slide > div {
+    padding: 0 16px; /* Espaçamento entre os cards no carrossel */
+}
+.carrossel-dinamico .slick-list {
+    margin: 0 -16px;
+}
+/* Reutiliza os estilos das setas do carrossel-categorias */
+.carrossel-dinamico .slick-arrow {
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+    width: 48px;
+    height: 48px;
+    background: #6A8A65 !important;
+    border-radius: 50%;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: 0 2px 8px rgba(62,93,58,0.12);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.carrossel-dinamico:hover .slick-arrow {
+    opacity: 1;
+}
+.carrossel-dinamico .slick-prev:before,
+.carrossel-dinamico .slick-next:before {
+    content: none !important;
+    display: none !important;
+}
+.carrossel-dinamico .slick-prev {
+    left: -24px;
+}
+.carrossel-dinamico .slick-next {
+    right: -24px;
+}
+.carrossel-dinamico .slick-prev svg,
+.carrossel-dinamico .slick-next svg {
+    width: 28px;
+    height: 28px;
+    display: block;
+    fill: #fff;
 }
 
-/* Responsividade */
+
+/* Mensagem quando não há produtos */
+.no-products-message {
+    text-align: center;
+    font-size: 1.1em;
+    color: #777;
+    padding: 30px 0;
+}
+
+/* Responsividade (do seu código, ajustado ligeiramente) */
 @media (max-width: 900px) {
-  .container {
-    padding: 0 10px;
-  }
-  .carrossel-categorias .slick-slide > div {
-    padding: 0 8px;
-  }
-  .carrossel-categorias .slick-list {
-    margin: 0 -8px;
-  }
-  .lista_itens {
-    gap: 16px;
-  }
+    .container {
+        padding: 0 15px;
+    }
+    .cabecalho .container {
+        padding: 0 15px;
+    }
+    .carrossel-categorias .slick-slide > div,
+    .carrossel-dinamico .slick-slide > div { /* Aplica ao novo carrossel também */
+        padding: 0 10px;
+    }
+    .carrossel-categorias .slick-list,
+    .carrossel-dinamico .slick-list { /* Aplica ao novo carrossel também */
+        margin: 0 -10px;
+    }
+    .lista_itens {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
 }
 @media (max-width: 600px) {
-  .cabecalho .container {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 10px;
-  }
-  .logo h1 {
-    font-size: 22px;
-  }
-  .item_produto .imagem_produto_fundo {
-    height: 120px;
-  }
-  .secao_produtos {
-    padding: 22px 0;
-  }
-  .lista_itens {
-    grid-template-columns: 1fr;
-  }
+    .cabecalho .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 0 15px;
+    }
+    .logo h1 {
+        font-size: 24px;
+    }
+    .menu_principal li {
+        margin-left: 15px;
+    }
+    .menu_principal a {
+        font-size: 15px;
+    }
+    /* Estilos para o item_produto em mobile (se ainda estiver usando) */
+    .item_produto .imagem_produto_fundo {
+        min-height: 150px;
+        max-height: 180px;
+    }
+    .item_produto {
+        min-height: unset;
+        padding-bottom: 12px;
+    }
+    .secao_produtos {
+        padding: 25px 0;
+    }
+    .lista_itens {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 }
