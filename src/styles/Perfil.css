@@ -173,31 +173,35 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 32px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 12px;
+    border: 1px solid #e9ecef;
 }
 .perfil-avatar-novo img {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
     border: 3px solid #6A8A65;
     margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 .perfil-avatar-novo h2 {
-    margin: 0;
-    font-size: 22px;
+    margin: 0 0 5px 0;
+    font-size: 20px;
     color: #6A8A65;
     font-weight: 700;
 }
 .perfil-email {
     color: #6c757d;
-    font-size: 15px;
-    margin-top: 2px;
+    font-size: 14px;
+    margin-top: 0;
 }
 
 .perfil-form-novo {
     width: 100%;
-    max-width: 500px;
     display: flex;
     flex-direction: column;
     gap: 18px;
@@ -211,67 +215,76 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 7px;
+    gap: 6px;
     position: relative;
 }
 .perfil-form-group label {
-    font-size: 14px;
+    font-size: 13px;
     color: #495057;
     font-weight: 600;
 }
 .perfil-form-group input,
 .perfil-form-group textarea {
     padding: 10px 14px;
-    border: 1.5px solid #dbeed3;
-    border-radius: 8px;
-    font-size: 15px;
-    background: #f8f9fa;
-    color: #343a40;
-    transition: border 0.2s, box-shadow 0.2s;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    color: #495057;
+    transition: border-color 0.2s, box-shadow 0.2s;
     box-sizing: border-box;
 }
 .perfil-form-group input:focus,
 .perfil-form-group textarea:focus {
     border-color: #6A8A65;
-    box-shadow: 0 0 0 2px rgba(106,138,101,0.13);
+    box-shadow: 0 0 0 3px rgba(106,138,101,0.1);
     outline: none;
 }
 
 .perfil-form-group select {
     padding: 10px 14px;
-    border: 1.5px solid #dbeed3;
-    border-radius: 8px;
-    font-size: 15px;
-    background: #f8f9fa;
-    color: #343a40;
-    transition: border 0.2s, box-shadow 0.2s;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    font-size: 14px;
+    background: #fff;
+    color: #495057;
+    transition: border-color 0.2s, box-shadow 0.2s;
     box-sizing: border-box;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     outline: none;
     cursor: pointer;
-    background-image: url("data:image/svg+xml;utf8,<svg fill='gray' height='18' viewBox='0 0 24 24' width='18' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
     background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 18px 18px;
-    padding-right: 36px;
+    background-position: right 10px center;
+    background-size: 14px;
+    padding-right: 35px;
+    cursor: pointer;
 }
 .perfil-form-group select:focus {
     border-color: #6A8A65;
-    box-shadow: 0 0 0 2px rgba(106,138,101,0.13);
+    box-shadow: 0 0 0 3px rgba(106,138,101,0.1);
 }
 
 .perfil-form-actions {
     display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 18px;
-    margin-top: 10px;
+    gap: 12px;
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid #e9ecef;
+    flex-wrap: wrap;
 }
 .perfil-salvo-msg {
     color: #28a745;
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
+    padding: 6px 12px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 4px;
 }
 
 @media (max-width: 900px) {
@@ -287,7 +300,35 @@ body {
     }
     .perfil-form-row {
         flex-direction: column;
+        gap: 15px;
+    }
+    .perfil-form-actions {
+        flex-direction: column;
         gap: 10px;
+    }
+    .botao-salvar,
+    .botao-sair,
+    .botao-apagar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .perfil-avatar-novo {
+        padding: 15px;
+    }
+    .perfil-avatar-novo img {
+        width: 70px;
+        height: 70px;
+    }
+    .perfil-avatar-novo h2 {
+        font-size: 18px;
+    }
+    .modal-content {
+        padding: 20px;
+    }
+    .modal-actions {
+        flex-direction: column;
     }
 }
 
@@ -380,54 +421,60 @@ body {
 .botao-salvar {
     background-color: #6A8A65; /* Verde principal */
     color: white;
-    padding: 12px 25px;
+    padding: 10px 20px;
     border: none;
     border-radius: 6px;
-    font-size: 16px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s, transform 0.1s;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .botao-salvar:hover {
     background-color: #587554; /* Verde mais escuro no hover */
+    transform: translateY(-1px);
 }
 
 .botao-sair {
-  background: #f3b13a;
+  background: #f39c12;
   color: #fff;
-  padding: 12px 18px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .botao-sair:hover {
-  background: #d18e0c;
+  background: #d68910;
+  transform: translateY(-1px);
 }
 
 .botao-apagar {
   background: #e74c3c;
   color: #fff;
-  padding: 12px 18px;
+  padding: 10px 18px;
   border: none;
-  border-radius: 8px;
-  font-size: 15px;
-  font-weight: 700;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background-color 0.2s, transform 0.1s;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .botao-apagar:hover {
   background: #c0392b;
+  transform: translateY(-1px);
 }
 
 /* Modal de confirmação de exclusão de conta */
 .modal-overlay {
   position: fixed;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(0,0,0,0.35);
+  background: rgba(0,0,0,0.5);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -435,33 +482,35 @@ body {
 }
 .modal-content {
   background: #fff;
-  border-radius: 12px;
-  padding: 32px 28px 24px 28px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-  max-width: 350px;
+  border-radius: 8px;
+  padding: 25px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+  max-width: 380px;
   width: 90vw;
   text-align: center;
-  animation: modalShow 0.2s;
+  animation: modalShow 0.3s ease-out;
 }
 @keyframes modalShow {
-  from { transform: scale(0.92); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
 .modal-content h3 {
   margin-top: 0;
   color: #e74c3c;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 700;
+  margin-bottom: 12px;
 }
 .modal-content p {
-  color: #444;
-  font-size: 16px;
-  margin: 18px 0 28px 0;
+  color: #495057;
+  font-size: 15px;
+  margin: 0 0 20px 0;
+  line-height: 1.4;
 }
 .modal-actions {
   display: flex;
   justify-content: center;
-  gap: 18px;
+  gap: 12px;
 }
 
 /* --- Estilos do Rodapé (Consistente com style.css) --- */
@@ -476,4 +525,60 @@ body {
 
 .rodape p {
     margin: 0;
+}
+
+/* Estilos para a página Perfil - Redesenhada */
+
+.perfil-page .page-header {
+    background: linear-gradient(135deg, #6A8A65 0%, #587554 100%);
+    color: white;
+    border-bottom: none;
+}
+
+.perfil-page .page-header h1 {
+    color: white;
+    font-size: 20px;
+    margin-bottom: 3px;
+}
+
+.perfil-page .page-header p {
+    color: rgba(255,255,255,0.9);
+    font-size: 13px;
+}
+
+.perfil-page .page-body {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.perfil-content {
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .perfil-content {
+        max-width: 100%;
+        padding: 20px;
+    }
+    
+    .perfil-form-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .perfil-form-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .botao-salvar,
+    .botao-sair,
+    .botao-apagar {
+        width: 100%;
+    }
 }

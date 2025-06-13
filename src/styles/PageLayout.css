@@ -1,0 +1,101 @@
+/* Estilos para o layout padrão com sidebar */
+
+.main-with-sidebar {
+    flex-grow: 1;
+    background-color: #f8f9fa;
+    display: flex;
+    padding: 20px 0;
+}
+
+.page-container {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 0 15px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    min-height: calc(100vh - 200px);
+}
+
+.page-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-header {
+    padding: 20px 30px 15px 30px;
+    border-bottom: 1px solid #e9ecef;
+    background-color: #fff;
+    text-align: center;
+}
+
+.page-header h1 {
+    margin: 0 0 5px 0;
+    font-size: 22px;
+    color: #6A8A65;
+    font-weight: 700;
+}
+
+.page-header p {
+    margin: 0;
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.page-body {
+    flex-grow: 1;
+    padding: 25px 30px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-with-sidebar {
+        padding: 15px;
+    }
+    
+    .page-container {
+        border-radius: 4px;
+        min-height: calc(100vh - 150px);
+    }
+    
+    .page-header {
+        padding: 15px 20px 12px 20px;
+    }
+    
+    .page-header h1 {
+        font-size: 20px;
+    }
+    
+    .page-header p {
+        font-size: 13px;
+    }
+    
+    .page-body {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 600px) {
+    .page-container {
+        flex-direction: column;
+    }
+    
+    .page-header {
+        padding: 12px 15px 10px 15px;
+    }
+    
+    .page-header h1 {
+        font-size: 18px;
+    }
+    
+    .page-header p {
+        font-size: 12px;
+    }
+    
+    .page-body {
+        padding: 15px;
+    }
+}
