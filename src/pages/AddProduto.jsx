@@ -1,301 +1,350 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import SafeImage from '../components/SafeImage';
 import '../styles/AddProduto.css';
+import '../styles/SafeImage.css';
 
 const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
     const navigate = useNavigate();
-    const { id } = useParams(); // Pega o ID da URL se for modo de edição
+    const { id } = useParams();
+    const { user } = useAuth();
+    const isEditing = Boolean(id);
 
-    // Estados para os campos do formulário
-    const [titulo, setTitulo] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [categoria, setCategoria] = useState('');
-    const [genero, setGenero] = useState('');
-    const [tamanho, setTamanho] = useState('');
-    const [condicao, setCondicao] = useState('');
-    const [localizacao, setLocalizacao] = useState('');
-    const [fotos, setFotos] = useState([]); // Para armazenar os objetos File do input
-    const [previewFotos, setPreviewFotos] = useState([]); // Para armazenar URLs de pré-visualização
+    const [formData, setFormData] = useState({
+        titulo: '',
+        descricao: '',
+        categoria: '',
+        genero: '',
+        tamanho: '',
+        condicao: '',
+        localizacao: '',
+        fotos: []
+    });
 
-    // Efeito para carregar dados do produto se for modo de edição (id existe)
-    // Ou para resetar o formulário se não estiver em modo de edição (id não existe)
-    useEffect(() => {
-        // Limpa URLs de pré-visualização anteriores para evitar vazamento de memória
-        // Isso é feito apenas no "cleanup" do useEffect, mas também pode ser feito
-        // antes de criar novas URLs no handleFileChange.
-        const currentPreviewFotos = previewFotos; // Captura o valor atual para o cleanup
-        return () => {
-            currentPreviewFotos.forEach(url => {
-                if (url.startsWith('blob:')) { // Apenas revoga URLs criadas por URL.createObjectURL
-                    URL.revokeObjectURL(url);
-                }
-            });
-        };
-    }, [previewFotos]); // Dependência em previewFotos para que o cleanup seja re-executado quando ele muda
-
+    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        if (id && produtos) {
-            const produtoParaEditar = produtos.find(p => String(p.id) === id); // Compare como string para segurança
-            if (produtoParaEditar) {
-                setTitulo(produtoParaEditar.titulo);
-                setDescricao(produtoParaEditar.descricao);
-                setCategoria(produtoParaEditar.categoria);
-                setGenero(produtoParaEditar.genero);
-                setTamanho(produtoParaEditar.tamanho);
-                setCondicao(produtoParaEditar.condicao);
-                setLocalizacao(produtoParaEditar.localizacao);
-                // Ao editar, as fotos já são URLs permanentes (ou de public/img)
-                setPreviewFotos(produtoParaEditar.fotos);
-                setFotos([]); // O input de arquivo não pode ser pré-preenchido com File objects
-            } else {
-                alert("Produto não encontrado para edição. Redirecionando para Publicar Item.");
-                navigate('/publicar');
+        if (isEditing && produtos) {
+            const produto = produtos.find(p => p.id === parseInt(id));
+            if (produto) {
+                setFormData({
+                    titulo: produto.titulo || '',
+                    descricao: produto.descricao || '',
+                    categoria: produto.categoria || '',
+                    genero: produto.genero || '',
+                    tamanho: produto.tamanho || '',
+                    condicao: produto.condicao || '',
+                    localizacao: produto.localizacao || '',
+                    fotos: produto.fotos || []
+                });
             }
-        } else {
-            // Modo de adição: reseta todos os campos
-            setTitulo('');
-            setDescricao('');
-            setCategoria('');
-            setGenero('');
-            setTamanho('');
-            setCondicao('');
-            setLocalizacao('');
-            setFotos([]);
-            setPreviewFotos([]);
         }
-    }, [id, produtos, navigate]); // Dependências: id, produtos (para buscar), navigate (para redirecionar)
+    }, [isEditing, id, produtos]);
 
-
-    // Função para lidar com a seleção de arquivos de imagem
-    const handleFileChange = (e) => {
-        // Revoga URLs antigas ANTES de criar novas, para evitar vazamento de memória IMEDIATO
-        previewFotos.forEach(url => {
-            if (url.startsWith('blob:')) {
-                URL.revokeObjectURL(url);
-            }
-        });
-
-        const selectedFiles = Array.from(e.target.files);
-        setFotos(selectedFiles); // Guarda os objetos File
-
-        // Cria URLs temporárias para pré-visualização na UI
-        const newPreviewUrls = selectedFiles.map(file => URL.createObjectURL(file));
-        setPreviewFotos(newPreviewUrls);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prev => ({
+            ...prev,
+            [name]: value
+        }));
+        
+        if (errors[name]) {
+            setErrors(prev => ({
+                ...prev,
+                [name]: ''
+            }));
+        }
     };
 
-    // Função para lidar com o envio do formulário
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const handleImageUpload = (e) => {
+        const files = Array.from(e.target.files);
+        
+        files.forEach(file => {
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    const imageDataUrl = event.target.result;
+                    setFormData(prev => ({
+                        ...prev,
+                        fotos: [...prev.fotos, imageDataUrl]
+                    }));
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    };
 
-        // Validação básica
-        if (!titulo || !descricao || !categoria || !genero || !tamanho || !condicao || !localizacao || previewFotos.length === 0) {
-            alert('Por favor, preencha todos os campos e adicione ao menos uma foto.');
+    const removeImage = (index) => {
+        setFormData(prev => ({
+            ...prev,
+            fotos: prev.fotos.filter((_, i) => i !== index)
+        }));
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!formData.titulo.trim()) newErrors.titulo = 'Título é obrigatório';
+        if (!formData.descricao.trim()) newErrors.descricao = 'Descrição é obrigatória';
+        if (!formData.categoria) newErrors.categoria = 'Categoria é obrigatória';
+        if (!formData.genero) newErrors.genero = 'Gênero é obrigatório';
+        if (!formData.tamanho.trim()) newErrors.tamanho = 'Tamanho é obrigatório';
+        if (!formData.condicao) newErrors.condicao = 'Condição é obrigatória';
+        if (!formData.localizacao.trim()) newErrors.localizacao = 'Localização é obrigatória';
+        if (formData.fotos.length === 0) newErrors.fotos = 'Pelo menos uma foto é obrigatória';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        if (!validateForm()) {
             return;
         }
 
-        const produtoData = {
-            titulo,
-            descricao,
-            categoria,
-            genero,
-            tamanho,
-            condicao,
-            localizacao,
-            fotos: previewFotos, // Armazena as URLs de pré-visualização (que podem ser blobs ou paths de public)
-            // userId: user ? user.id : null, // Opcional: para associar ao usuário logado
-        };
+        setIsSubmitting(true);
 
-        if (id) {
-            // Modo de edição
-            updateProduto({ ...produtoData, id: parseInt(id) });
-            alert('Produto atualizado com sucesso!');
-        } else {
-            // Modo de adição
-            addProduto(produtoData);
-            alert('Produto adicionado com sucesso!');
-        }
+        try {
+            const usuarioAtual = user || JSON.parse(localStorage.getItem("usuarioReVeste"));
+            
+            const produtoData = {
+                ...formData,
+                userEmail: usuarioAtual?.email || 'usuario@example.com',
+                userId: usuarioAtual?.id || Date.now(),
+                autorEmail: usuarioAtual?.email || 'usuario@example.com',
+                ativo: true
+            };
 
-        navigate('/'); // Redireciona para a Home após o cadastro/edição
-    };
+            if (isEditing) {
+                updateProduto({ ...produtoData, id: parseInt(id) });
+            } else {
+                addProduto(produtoData);
+            }
 
-    // Função para lidar com a exclusão do anúncio (no modo de edição)
-    const handleDeleteClick = () => {
-        // Confirma com o usuário se ele realmente deseja excluir
-        if (deleteProduto(parseInt(id))) { // deleteProduto já tem sua própria confirmação interna
-            alert('Anúncio excluído com sucesso!');
-            navigate('/'); // Redireciona para a Home após a exclusão
+            navigate('/meus-anuncios');
+        } catch (error) {
+            console.error('Erro ao salvar produto:', error);
+            alert('Erro ao salvar produto. Tente novamente.');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
+    const handleDelete = () => {
+        if (deleteProduto && deleteProduto(parseInt(id))) {
+            navigate('/meus-anuncios');
+        }
+    };
 
     return (
         <>
             <Header />
-            <main className="main-publicar">
-                <div className="container-publicar">
-                    <h2 className="titulo-pagina">{id ? 'Editar Item' : 'Publicar um Item'}</h2>
-                    <p className="subtitulo-pagina">Preencha os detalhes da sua roupa para doação.</p>
+            <main className="main-add-produto">
+                <div className="container-add-produto">
+                    <div className="form-header">
+                        <h1>{isEditing ? 'Editar Anúncio' : 'Publicar Novo Item'}</h1>
+                        <p>{isEditing ? 'Atualize as informações do seu item' : 'Preencha os dados do item que deseja trocar'}</p>
+                    </div>
 
-                    <form className="form-publicar" onSubmit={handleSubmit}>
-                        <div className="form-grupo">
-                            <label htmlFor="titulo">Título do Anúncio:</label>
+                    <form onSubmit={handleSubmit} className="form-add-produto">
+                        {/* Título */}
+                        <div className="form-group">
+                            <label htmlFor="titulo">Título do anúncio *</label>
                             <input
                                 type="text"
                                 id="titulo"
                                 name="titulo"
-                                value={titulo} // <-- MUITO IMPORTANTE: CAMPO CONTROLADO COM 'value'
-                                onChange={(e) => setTitulo(e.target.value)} // <-- ATUALIZA O ESTADO NO CHANGE
-                                placeholder="Ex: Vestido de Verão Florido"
-                                required
+                                value={formData.titulo}
+                                onChange={handleInputChange}
+                                placeholder="Ex: Vestido floral tamanho M"
+                                className={errors.titulo ? 'error' : ''}
                             />
-                        </div>
-                        <div className="form-grupo">
-                            <label htmlFor="fotos">Fotos do Produto (até 5):</label>
-                            <div className="custom-file-input">
-                                <input
-                                    type="file"
-                                    id="fotos"
-                                    name="fotos[]"
-                                    accept="image/*"
-                                    multiple
-                                    onChange={handleFileChange} // <-- ATUALIZA O ESTADO NO CHANGE
-                                />
-                                <label htmlFor="fotos" className="custom-file-button">Escolher Arquivos</label>
-                                <span id="file-names" className="file-names-display">
-                                    {previewFotos.length > 0 ? `${previewFotos.length} arquivo(s) selecionado(s)` : 'Nenhum arquivo escolhido'}
-                                </span>
-                            </div>
-                            <small>Selecione imagens claras do seu item.</small>
-                            <div className="foto-previews">
-                                {previewFotos.map((url, index) => (
-                                    // As URLs aqui podem ser "blob:" (para novos uploads) ou "/img/..." (para existentes)
-                                    <img key={index} src={url} alt={`Pré-visualização ${index}`} className="preview-thumbnail" />
-                                ))}
-                            </div>
+                            {errors.titulo && <span className="error-message">{errors.titulo}</span>}
                         </div>
 
-                        <div className="form-grupo">
-                            <label htmlFor="descricao">Descrição:</label>
+                        {/* Descrição */}
+                        <div className="form-group">
+                            <label htmlFor="descricao">Descrição *</label>
                             <textarea
                                 id="descricao"
                                 name="descricao"
-                                value={descricao} // <-- CAMPO CONTROLADO
-                                onChange={(e) => setDescricao(e.target.value)} // <-- ATUALIZA O ESTADO
-                                rows="5"
-                                placeholder="Descreva a roupa, condição, material, etc."
-                                required
-                            ></textarea>
+                                value={formData.descricao}
+                                onChange={handleInputChange}
+                                placeholder="Descreva o item, estado de conservação, marca, etc."
+                                rows="4"
+                                className={errors.descricao ? 'error' : ''}
+                            />
+                            {errors.descricao && <span className="error-message">{errors.descricao}</span>}
                         </div>
 
-                        <div className="form-grupo-linha">
-                            <div className="form-grupo">
-                                <label htmlFor="categoria">Categoria:</label>
+                        {/* Fotos */}
+                        <div className="form-group">
+                            <label>Fotos do item *</label>
+                            <div className="fotos-container">
+                                {formData.fotos.map((foto, index) => (
+                                    <div key={index} className="foto-preview">
+                                        <SafeImage
+                                            src={foto}
+                                            alt={`Foto ${index + 1}`}
+                                            className="preview-image"
+                                        />
+                                        <button
+                                            type="button"
+                                            onClick={() => removeImage(index)}
+                                            className="remove-foto"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                ))}
+                                <label className="upload-foto">
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        multiple
+                                        onChange={handleImageUpload}
+                                        style={{ display: 'none' }}
+                                    />
+                                    <div className="upload-placeholder">
+                                        <span>+</span>
+                                        <small>Adicionar foto</small>
+                                    </div>
+                                </label>
+                            </div>
+                            {errors.fotos && <span className="error-message">{errors.fotos}</span>}
+                        </div>
+
+                        {/* Categoria e Gênero */}
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="categoria">Categoria *</label>
                                 <select
                                     id="categoria"
                                     name="categoria"
-                                    value={categoria} // <-- CAMPO CONTROLADO
-                                    onChange={(e) => setCategoria(e.target.value)} // <-- ATUALIZA O ESTADO
-                                    required
+                                    value={formData.categoria}
+                                    onChange={handleInputChange}
+                                    className={errors.categoria ? 'error' : ''}
                                 >
-                                    <option value="">Selecione a Categoria</option>
-                                    <option value="camisetas">Camisetas</option>
-                                    <option value="calcas">Calças</option>
+                                    <option value="">Selecione</option>
                                     <option value="vestidos">Vestidos</option>
-                                    <option value="saias">Saias</option>
-                                    <option value="blusas">Blusas</option>
+                                    <option value="calcas">Calças</option>
+                                    <option value="camisetas">Camisetas</option>
                                     <option value="casacos">Casacos</option>
-                                    <option value="acessorios">Acessórios</option>
                                     <option value="calcados">Calçados</option>
-                                    <option value="outros">Outros</option>
+                                    <option value="acessorios">Acessórios</option>
                                 </select>
+                                {errors.categoria && <span className="error-message">{errors.categoria}</span>}
                             </div>
 
-                            <div className="form-grupo">
-                                <label htmlFor="genero">Gênero:</label>
+                            <div className="form-group">
+                                <label htmlFor="genero">Gênero *</label>
                                 <select
                                     id="genero"
                                     name="genero"
-                                    value={genero} // <-- CAMPO CONTROLADO
-                                    onChange={(e) => setGenero(e.target.value)} // <-- ATUALIZA O ESTADO
-                                    required
+                                    value={formData.genero}
+                                    onChange={handleInputChange}
+                                    className={errors.genero ? 'error' : ''}
                                 >
-                                    <option value="">Selecione o Gênero</option>
+                                    <option value="">Selecione</option>
                                     <option value="feminino">Feminino</option>
                                     <option value="masculino">Masculino</option>
-                                    <option value="infantil">Infantil</option>
                                     <option value="unissex">Unissex</option>
                                 </select>
+                                {errors.genero && <span className="error-message">{errors.genero}</span>}
                             </div>
                         </div>
 
-                        <div className="form-grupo-linha">
-                            <div className="form-grupo">
-                                <label htmlFor="tamanho">Tamanho:</label>
-                                <select
+                        {/* Tamanho e Condição */}
+                        <div className="form-row">
+                            <div className="form-group">
+                                <label htmlFor="tamanho">Tamanho *</label>
+                                <input
+                                    type="text"
                                     id="tamanho"
                                     name="tamanho"
-                                    value={tamanho} // <-- CAMPO CONTROLADO
-                                    onChange={(e) => setTamanho(e.target.value)} // <-- ATUALIZA O ESTADO
-                                    required
-                                >
-                                    <option value="">Selecione o Tamanho</option>
-                                    <option value="pp">PP</option>
-                                    <option value="p">P</option>
-                                    <option value="m">M</option>
-                                    <option value="g">G</option>
-                                    <option value="gg">GG</option>
-                                    <option value="xg">XG</option>
-                                    <option value="unico">Único</option>
-                                    <option value="34">34</option>
-                                    <option value="36">36</option>
-                                    <option value="38">38</option>
-                                    <option value="40">40</option>
-                                    <option value="42">42</option>
-                                    <option value="44">44</option>
-                                </select>
+                                    value={formData.tamanho}
+                                    onChange={handleInputChange}
+                                    placeholder="Ex: M, 38, 42"
+                                    className={errors.tamanho ? 'error' : ''}
+                                />
+                                {errors.tamanho && <span className="error-message">{errors.tamanho}</span>}
                             </div>
 
-                            <div className="form-grupo">
-                                <label htmlFor="condicao">Condição:</label>
+                            <div className="form-group">
+                                <label htmlFor="condicao">Condição *</label>
                                 <select
                                     id="condicao"
                                     name="condicao"
-                                    value={condicao} // <-- CAMPO CONTROLADO
-                                    onChange={(e) => setCondicao(e.target.value)} // <-- ATUALIZA O ESTADO
-                                    required
+                                    value={formData.condicao}
+                                    onChange={handleInputChange}
+                                    className={errors.condicao ? 'error' : ''}
                                 >
-                                    <option value="">Selecione a Condição</option>
-                                    <option value="novo-etiqueta">Novo com Etiqueta</option>
-                                    <option value="usado-perfeito">Usado - Perfeito Estado</option>
-                                    <option value="usado-bom">Usado - Bom Estado</option>
-                                    <option value="usado-detalhes">Usado - Com Pequenos Detalhes</option>
+                                    <option value="">Selecione</option>
+                                    <option value="novo-etiqueta">Novo com etiqueta</option>
+                                    <option value="novo-sem-etiqueta">Novo sem etiqueta</option>
+                                    <option value="usado-perfeito">Usado - Perfeito estado</option>
+                                    <option value="usado-bom">Usado - Bom estado</option>
+                                    <option value="usado-regular">Usado - Estado regular</option>
                                 </select>
+                                {errors.condicao && <span className="error-message">{errors.condicao}</span>}
                             </div>
                         </div>
 
-                        <div className="form-grupo">
-                            <label htmlFor="localizacao">Localização para Retirada (Cidade/Estado):</label>
+                        {/* Localização */}
+                        <div className="form-group">
+                            <label htmlFor="localizacao">Localização *</label>
                             <input
                                 type="text"
                                 id="localizacao"
                                 name="localizacao"
-                                value={localizacao} // <-- CAMPO CONTROLADO
-                                onChange={(e) => setLocalizacao(e.target.value)} // <-- ATUALIZA O ESTADO
-                                placeholder="Ex: Florianópolis/SC"
-                                required
+                                value={formData.localizacao}
+                                onChange={handleInputChange}
+                                placeholder="Ex: São Paulo/SP"
+                                className={errors.localizacao ? 'error' : ''}
                             />
+                            {errors.localizacao && <span className="error-message">{errors.localizacao}</span>}
                         </div>
 
-                        <div className="form-actions-buttons">
-                            <button type="submit" className="botao-publicar">{id ? 'Salvar Alterações' : 'Publicar Item'}</button>
-                            {id && (
-                                <button type="button" className="btn-excluir-form" onClick={handleDeleteClick}>
-                                    Excluir Anúncio
+                        {/* Botões de ação */}
+                        <div className="form-actions">
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="btn btn-cancel"
+                                disabled={isSubmitting}
+                            >
+                                Cancelar
+                            </button>
+                            
+                            {isEditing && (
+                                <button
+                                    type="button"
+                                    onClick={handleDelete}
+                                    className="btn btn-delete"
+                                    disabled={isSubmitting}
+                                >
+                                    Excluir
                                 </button>
                             )}
+
+                            <button
+                                type="submit"
+                                className="btn btn-primary"
+                                disabled={isSubmitting}
+                            >
+                                {isSubmitting 
+                                    ? 'Salvando...' 
+                                    : isEditing 
+                                        ? 'Atualizar Anúncio' 
+                                        : 'Publicar Anúncio'
+                                }
+                            </button>
                         </div>
                     </form>
                 </div>
