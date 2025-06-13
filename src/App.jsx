@@ -21,166 +21,285 @@ import { AuthProvider } from './context/AuthContext';
 const initialProdutosData = [
   {
     id: 1,
-    titulo: "Vestido Floral de Verão",
-    descricao: "Vestido leve e fresco, ideal para o verão. Estampa floral vibrante. Em perfeito estado, pouco usado.",
-    fotos: ["/img/vestido-floral.jpg"],
+    titulo: "Vestido Verde Militar",
+    descricao: "Vestido com amarração na cintura, super confortável e estiloso. Ideal para o dia a dia.",
+    fotos: ["/img/vestido-verde.jpg"],
     categoria: "vestidos",
     genero: "feminino",
     tamanho: "M",
     condicao: "usado-perfeito",
-    localizacao: "Florianópolis/SC",
+    localizacao: "São Paulo/SP",
     dataPublicacao: "2025-06-12",
-    userId: 1
+    userId: 1,
+    userEmail: "usuario1@example.com"
   },
   {
     id: 2,
-    titulo: "Calça Jeans Skinny",
-    descricao: "Calça jeans confortável e estilosa, cor azul médio. Pouco usada, sem avarias.",
-    fotos: ["/img/calca-jeans.jpg"],
-    categoria: "calcas",
+    titulo: "Vestido Preto Elegante",
+    descricao: "Vestido preto com brilho e detalhes em franjas. Perfeito para festas e eventos especiais.",
+    fotos: ["/img/vestido-preto.jpg"],
+    categoria: "vestidos",
     genero: "feminino",
-    tamanho: "38",
+    tamanho: "P",
     condicao: "usado-bom",
-    localizacao: "São Paulo/SP",
+    localizacao: "Rio de Janeiro/RJ",
     dataPublicacao: "2025-06-11",
-    userId: 2
+    userId: 2,
+    userEmail: "usuario2@example.com"
   },
   {
     id: 3,
-    titulo: "Moletom Canguru Marrom",
-    descricao: "Moletom quente e confortável, ótimo para o inverno. Cor marrom sólido. Novo, nunca usado.",
-    fotos: ["/img/MoletomMarrom.jpeg"],
-    categoria: "casacos",
-    genero: "masculino",
-    tamanho: "P",
-    condicao: "novo-etiqueta",
-    localizacao: "Curitiba/PR",
+    titulo: "Vestido Branco Longo",
+    descricao: "Vestido longo branco com alças ajustáveis. Tecido leve e fresco para o verão.",
+    fotos: ["/img/vestido-branco.jpg"],
+    categoria: "vestidos",
+    genero: "feminino",
+    tamanho: "G",
+    condicao: "novo-sem-etiqueta",
+    localizacao: "Belo Horizonte/MG",
     dataPublicacao: "2025-06-10",
-    userId: 1
+    userId: 3,
+    userEmail: "usuario3@example.com"
   },
   {
     id: 4,
-    titulo: "Tênis Casual Vans",
-    descricao: "Tênis clássico Vans, cor preta com solado branco. Usado poucas vezes, em bom estado.",
-    fotos: ["/img/VansMasc.jpeg"],
+    titulo: "Top de Crochê Listrado",
+    descricao: "Top de crochê feito à mão com listras azuis e brancas. Peça única e artesanal.",
+    fotos: ["/img/top-croche.jpg"],
+    categoria: "blusas",
+    genero: "feminino",
+    tamanho: "P",
+    condicao: "novo-etiqueta",
+    localizacao: "Florianópolis/SC",
+    dataPublicacao: "2025-06-09",
+    userId: 4,
+    userEmail: "usuario4@example.com"
+  },
+  {
+    id: 5,
+    titulo: "Tênis Vans Old Skool",
+    descricao: "Tênis Vans clássico preto com detalhes brancos. Pouco usado, em excelente estado.",
+    fotos: ["/img/tenis-vans.jpg"],
+    categoria: "calcados",
+    genero: "unissex",
+    tamanho: "38",
+    condicao: "usado-perfeito",
+    localizacao: "Curitiba/PR",
+    dataPublicacao: "2025-06-08",
+    userId: 5,
+    userEmail: "usuario5@example.com"
+  },
+  {
+    id: 6,
+    titulo: "Tênis Converse All Star",
+    descricao: "All Star preto clássico, nunca sai de moda. Confortável e versátil para qualquer look.",
+    fotos: ["/img/tenis-converse.jpg"],
     categoria: "calcados",
     genero: "unissex",
     tamanho: "40",
     condicao: "usado-bom",
-    localizacao: "Rio de Janeiro/RJ",
-    dataPublicacao: "2025-06-09",
-    userId: 2
+    localizacao: "Porto Alegre/RS",
+    dataPublicacao: "2025-06-07",
+    userId: 6,
+    userEmail: "usuario6@example.com"
+  },
+  {
+    id: 7,
+    titulo: "Moletom Marrom Oversized",
+    descricao: "Moletom super confortável e quentinho. Cor marrom neutra que combina com tudo.",
+    fotos: ["/img/moletom-marrom.jpg"],
+    categoria: "casacos",
+    genero: "unissex",
+    tamanho: "M",
+    condicao: "usado-perfeito",
+    localizacao: "Brasília/DF",
+    dataPublicacao: "2025-06-06",
+    userId: 7,
+    userEmail: "usuario7@example.com"
+  },
+  {
+    id: 8,
+    titulo: "Moletom Azul com Capuz",
+    descricao: "Moletom azul marinho com capuz e bolso canguru. Ideal para dias frios e looks casuais.",
+    fotos: ["/img/moletom-azul.jpg"],
+    categoria: "casacos",
+    genero: "unissex",
+    tamanho: "G",
+    condicao: "novo-sem-etiqueta",
+    localizacao: "Salvador/BA",
+    dataPublicacao: "2025-06-05",
+    userId: 8,
+    userEmail: "usuario8@example.com"
+  },
+  {
+    id: 9,
+    titulo: "Jaqueta de Couro Preta",
+    descricao: "Jaqueta de couro sintético preta com zíperes. Estilo rock and roll, muito estilosa.",
+    fotos: ["/img/jaqueta-couro.jpg"],
+    categoria: "jaquetas",
+    genero: "feminino",
+    tamanho: "M",
+    condicao: "usado-bom",
+    localizacao: "Recife/PE",
+    dataPublicacao: "2025-06-04",
+    userId: 9,
+    userEmail: "usuario9@example.com"
+  },
+  {
+    id: 10,
+    titulo: "Jaqueta Puffer Bege",
+    descricao: "Jaqueta puffer bege com capuz. Super quente e moderna, perfeita para o inverno.",
+    fotos: ["/img/jaqueta-bege.jpg"],
+    categoria: "jaquetas",
+    genero: "feminino",
+    tamanho: "P",
+    condicao: "novo-etiqueta",
+    localizacao: "Fortaleza/CE",
+    dataPublicacao: "2025-06-03",
+    userId: 10,
+    userEmail: "usuario10@example.com"
+  },
+  {
+    id: 11,
+    titulo: "Jaqueta Jeans com Pelo",
+    descricao: "Jaqueta jeans com forro de pelinho. Combinação perfeita de estilo e conforto.",
+    fotos: ["/img/jaqueta-jeans.jpg"],
+    categoria: "jaquetas",
+    genero: "unissex",
+    tamanho: "M",
+    condicao: "usado-perfeito",
+    localizacao: "Manaus/AM",
+    dataPublicacao: "2025-06-02",
+    userId: 11,
+    userEmail: "usuario11@example.com"
+  },
+  {
+    id: 12,
+    titulo: "Conjunto Infantil Verde",
+    descricao: "Conjunto infantil com camiseta e shorts. Estampa de palmeira, super fofo e confortável.",
+    fotos: ["/img/conjunto-infantil.jpg"],
+    categoria: "infantil",
+    genero: "masculino",
+    tamanho: "4 anos",
+    condicao: "novo-etiqueta",
+    localizacao: "Natal/RN",
+    dataPublicacao: "2025-06-01",
+    userId: 12,
+    userEmail: "usuario12@example.com"
+  },
+  {
+    id: 13,
+    titulo: "Calça Jogger Bege",
+    descricao: "Calça jogger bege com cordão ajustável. Tecido macio e confortável para o dia a dia.",
+    fotos: ["/img/calca-bege.jpg"],
+    categoria: "calcas",
+    genero: "unissex",
+    tamanho: "M",
+    condicao: "usado-bom",
+    localizacao: "Goiânia/GO",
+    dataPublicacao: "2025-05-31",
+    userId: 13,
+    userEmail: "usuario13@example.com"
+  },
+  {
+    id: 14,
+    titulo: "Camiseta Básica Bege",
+    descricao: "Camiseta básica cor bege, essencial no guarda-roupa. Tecido de algodão macio.",
+    fotos: ["/img/camiseta-bege.jpg"],
+    categoria: "camisetas",
+    genero: "unissex",
+    tamanho: "G",
+    condicao: "novo-sem-etiqueta",
+    localizacao: "Belém/PA",
+    dataPublicacao: "2025-05-30",
+    userId: 14,
+    userEmail: "usuario14@example.com"
+  },
+  {
+    id: 15,
+    titulo: "Regata Branca Feminina",
+    descricao: "Regata branca básica feminina. Corte moderno e tecido fresquinho para o verão.",
+    fotos: ["/img/regata-branca.jpg"],
+    categoria: "blusas",
+    genero: "feminino",
+    tamanho: "P",
+    condicao: "usado-perfeito",
+    localizacao: "Vitória/ES",
+    dataPublicacao: "2025-05-29",
+    userId: 15,
+    userEmail: "usuario15@example.com"
   }
 ];
 
-function App() {
-  const [produtos, setProdutos] = useState(() => {
-    const savedProdutos = localStorage.getItem('reveste_produtos');
-    return savedProdutos ? JSON.parse(savedProdutos) : initialProdutosData;
-  });
+export default function App() {
+  const [produtos, setProdutos] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem('reveste_produtos', JSON.stringify(produtos));
-  }, [produtos]);
+    // Carrega produtos do localStorage ou usa os dados iniciais
+    const produtosSalvos = localStorage.getItem('reveste_produtos');
+    if (produtosSalvos) {
+      const produtosParsed = JSON.parse(produtosSalvos);
+      // Combina produtos salvos com produtos iniciais (evita duplicatas)
+      const produtosCombinados = [...initialProdutosData];
+      produtosParsed.forEach(produto => {
+        if (!produtosCombinados.find(p => p.id === produto.id)) {
+          produtosCombinados.push(produto);
+        }
+      });
+      setProdutos(produtosCombinados);
+      localStorage.setItem('reveste_produtos', JSON.stringify(produtosCombinados));
+    } else {
+      setProdutos(initialProdutosData);
+      localStorage.setItem('reveste_produtos', JSON.stringify(initialProdutosData));
+    }
+  }, []);
 
-  const addProduto = (newProduto) => {
-    const newId = produtos.length > 0 ? Math.max(...produtos.map(p => p.id)) + 1 : 1;
-    const produtoWithIdAndDate = {
-      ...newProduto,
-      id: newId,
+  const addProduto = (novoProduto) => {
+    const produtoComId = {
+      ...novoProduto,
+      id: Date.now(),
       dataPublicacao: new Date().toISOString().split('T')[0]
     };
-    setProdutos([...produtos, produtoWithIdAndDate]);
+    
+    const novosProdutos = [...produtos, produtoComId];
+    setProdutos(novosProdutos);
+    localStorage.setItem('reveste_produtos', JSON.stringify(novosProdutos));
   };
 
-  const updateProduto = (updatedProduto) => {
-    setProdutos(produtos.map(prod => (prod.id === updatedProduto.id ? updatedProduto : prod)));
+  const updateProduto = (produtoAtualizado) => {
+    const produtosAtualizados = produtos.map(produto =>
+      produto.id === produtoAtualizado.id ? produtoAtualizado : produto
+    );
+    setProdutos(produtosAtualizados);
+    localStorage.setItem('reveste_produtos', JSON.stringify(produtosAtualizados));
   };
 
   const deleteProduto = (id) => {
-    if (window.confirm("Tem certeza que deseja excluir este anúncio?")) {
-        setProdutos(produtos.filter(prod => prod.id !== id));
-        return true;
-    }
-    return false;
+    const produtosFiltrados = produtos.filter(produto => produto.id !== id);
+    setProdutos(produtosFiltrados);
+    localStorage.setItem('reveste_produtos', JSON.stringify(produtosFiltrados));
+    return true;
   };
 
   return (
-    <div className={styles.App}>
-      <AuthProvider>
-        <Router>
+    <AuthProvider>
+      <Router>
+        <div className={styles.App}>
           <Routes>
-            <Route path="/" element={<Home produtos={produtos} deleteProduto={deleteProduto} />} />
-            
-            <Route
-              path="/publicar"
-              element={
-                <PrivateRoute>
-                  <AddProduto addProduto={addProduto} />
-                </PrivateRoute>
-              }
-            />
-
-            <Route path="/produto/:id" element={<ProdutoDetalhes produtos={produtos} deleteProduto={deleteProduto} />} />
-
-            <Route
-              path="/editar-anuncio/:id"
-              element={
-                <PrivateRoute>
-                  <AddProduto
-                    produtos={produtos}
-                    updateProduto={updateProduto}
-                    deleteProduto={deleteProduto}
-                  />
-                </PrivateRoute>
-              }
-            />
-
-            <Route path="/categorias/:categoriaId" element={<CategoriaPage produtos={produtos} />} />
-
+            <Route path="/" element={<Home produtos={produtos} />} />
             <Route path="/registro" element={<Register />} />
             <Route path="/login" element={<Login />} />
-            
-            <Route
-              path="/perfil"
-              element={
-                <PrivateRoute>
-                  <Perfil />
-                </PrivateRoute>
-              }
-            />
-            
-            <Route
-              path="/chat"
-              element={
-                <PrivateRoute>
-                  <Chat />
-                </PrivateRoute>
-              }
-            />
-            
-            <Route
-              path="/favoritos"
-              element={
-                <PrivateRoute>
-                  <Favoritos />
-                </PrivateRoute>
-              }
-            />
-            
-            <Route
-              path="/meus-anuncios"
-              element={
-                <PrivateRoute>
-                  <MeusAnuncios />
-                </PrivateRoute>
-              }
-            />
+            <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
+            <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
+            <Route path="/favoritos" element={<PrivateRoute><Favoritos produtos={produtos} /></PrivateRoute>} />
+            <Route path="/meus-anuncios" element={<PrivateRoute><MeusAnuncios /></PrivateRoute>} />
+            <Route path="/publicar" element={<PrivateRoute><AddProduto addProduto={addProduto} produtos={produtos} /></PrivateRoute>} />
+            <Route path="/editar-anuncio/:id" element={<PrivateRoute><AddProduto produtos={produtos} updateProduto={updateProduto} deleteProduto={deleteProduto} /></PrivateRoute>} />
+            <Route path="/produto/:id" element={<ProdutoDetalhes produtos={produtos} />} />
+            <Route path="/categorias/:categoria" element={<CategoriaPage produtos={produtos} />} />
           </Routes>
-        </Router>
-      </AuthProvider>
-    </div>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
-
-export default App;

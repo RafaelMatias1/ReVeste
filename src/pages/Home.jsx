@@ -160,7 +160,7 @@ export default function Home({ produtos }) {
                             <Slider {...settings}>
                                 {categorias.map((cat) => (
                                     <div key={cat.id}>
-                                        <Link to={`/categorias/${cat.id}`} className="item-link">
+                                        <Link to={`/categorias/${cat.categoria}`} className="item-link">
                                             <ProdutoCard produto={{ 
                                                 id: cat.id, 
                                                 titulo: cat.nome, 
