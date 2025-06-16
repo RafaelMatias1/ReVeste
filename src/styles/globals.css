@@ -134,14 +134,266 @@ body { /* Reafirmando aqui, com Lato */
 
 /* --- Estilos do Rodapé (Componente Footer) --- */
 .rodape {
-    background-color: #404040;
-    color: #ccc;
-    padding: 30px 0;
-    text-align: center;
-    font-size: 14px;
+    background: linear-gradient(135deg, #2c3e35 0%, #404040 100%);
+    color: #e0e0e0;
     margin-top: auto;
     width: 100%;
     flex-shrink: 0;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1.5fr;
+    gap: 40px;
+    padding: 50px 0 30px 0;
+}
+
+.footer-section h4 {
+    color: #fff;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.footer-section h4::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 30px;
+    height: 3px;
+    background: linear-gradient(90deg, #6A8A65, #87a883);
+    border-radius: 2px;
+}
+
+/* Seção Principal */
+.footer-main .footer-logo h3 {
+    color: #6A8A65;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.footer-main .footer-logo p {
+    color: #87a883;
+    font-style: italic;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.footer-description {
+    color: #ccc;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    font-size: 15px;
+}
+
+.footer-social h4 {
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background: rgba(106, 138, 101, 0.2);
+    border-radius: 50%;
+    font-size: 20px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.social-links a:hover {
+    background: #6A8A65;
+    border-color: #87a883;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(106, 138, 101, 0.3);
+}
+
+/* Links do Footer */
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 12px;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: #6A8A65;
+    transform: translateX(5px);
+}
+
+/* Seção de Contato */
+.footer-contact p {
+    color: #ccc;
+    margin-bottom: 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-stats {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-stats p {
+    color: #ccc;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+.footer-stats strong {
+    color: #6A8A65;
+    font-weight: 700;
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 25px 0;
+    margin-top: 20px;
+}
+
+.footer-bottom-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.footer-bottom-content p {
+    color: #aaa;
+    font-size: 14px;
+    margin: 0;
+}
+
+.footer-bottom-links {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer-bottom-links a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom-links a:hover {
+    color: #6A8A65;
+}
+
+.footer-bottom-links span {
+    color: #666;
+}
+
+.footer-sustainability {
+    text-align: center;
+    color: #87a883;
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+    padding-top: 15px;
+    border-top: 1px solid rgba(135, 168, 131, 0.2);
+}
+
+/* Responsividade do Footer */
+@media (max-width: 1024px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 30px;
+    }
+    
+    .footer-main {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        grid-template-columns: 1fr 1fr;
+        gap: 25px;
+        padding: 40px 0 25px 0;
+    }
+    
+    .footer-main {
+        grid-column: 1 / -1;
+        text-align: center;
+    }
+    
+    .footer-main .footer-logo h3 {
+        font-size: 28px;
+    }
+    
+    .social-links {
+        justify-content: center;
+    }
+    
+    .footer-bottom-content {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+        padding: 30px 0 20px 0;
+    }
+    
+    .footer-section h4 {
+        font-size: 16px;
+        text-align: center;
+    }
+    
+    .footer-links {
+        text-align: center;
+    }
+    
+    .footer-contact {
+        text-align: center;
+    }
+    
+    .social-links a {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .footer-main .footer-logo h3 {
+        font-size: 24px;
+    }
+    
+    .footer-description {
+        font-size: 14px;
+    }
 }
 
 /* --- Estilos de Botões Padrão (Classes globais) --- */

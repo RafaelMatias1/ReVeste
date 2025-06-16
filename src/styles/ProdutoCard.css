@@ -1,5 +1,22 @@
 /* Estilos para o ProdutoCard.jsx */
 
+/* Remover sublinhado de TODOS os links que envolvem o card */
+.item-link,
+.produto-link,
+a.item-link,
+a.produto-link {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.item-link:hover,
+.produto-link:hover,
+a.item-link:hover,
+a.produto-link:hover {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
 .produto-card {
     background-color: #fff;
     border: 1px solid #e0e0e0;
@@ -9,31 +26,52 @@
     flex-direction: column;
     overflow: hidden;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    min-width: 280px; /* Garante um tamanho mínimo */
+    /* TAMANHO FIXO PARA TODOS OS CARDS */
+    width: 280px !important;
+    height: 420px !important; /* Aumentei a altura para dar mais espaço */
+    min-width: 280px;
+    max-width: 280px;
+    min-height: 420px;
+    max-height: 420px;
     position: relative;
-    text-decoration: none; /* Garante que o card não tenha sublinhado se for um Link */
-    color: inherit; /* Herda a cor do texto para que os links dentro não mudem */
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* Aplicar text-decoration: none a TODOS os elementos dentro do card */
+.produto-card,
+.produto-card *,
+.produto-card a,
+.produto-card h3,
+.produto-card p,
+.produto-card span,
+.produto-card div {
+    text-decoration: none !important;
 }
 
 .produto-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    text-decoration: none !important;
 }
 
 .produto-fotos {
     width: 100%;
-    height: 200px; /* Altura fixa para a imagem */
+    height: 180px !important; /* Altura fixa para a imagem */
+    min-height: 180px;
+    max-height: 180px;
     overflow: hidden;
-    background-color: #f0f0f0; /* Cor de fundo para placeholders */
+    background-color: #f0f0f0;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .produto-fotos img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Cobre o espaço sem distorcer */
+    object-fit: cover;
     display: block;
 }
 
@@ -41,81 +79,199 @@
     padding: 15px;
     display: flex;
     flex-direction: column;
-    flex-grow: 1; /* Ocupa o espaço restante */
+    flex-grow: 1;
+    min-height: 0; /* Permite que o flex funcione corretamente */
 }
 
 .produto-info h3 {
-    font-size: 1.5em;
-    color: #6A8A65; /* Cor do título */
+    font-size: 1.1em !important;
+    color: #6A8A65 !important;
     margin-top: 0;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     line-height: 1.3;
-}
-
-.produto-info .produto-descricao {
-    font-size: 0.95em;
-    color: #555;
-    margin-bottom: 15px;
-    flex-grow: 1;
+    text-decoration: none !important;
+    /* Limitar título a 2 linhas sem cortar */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3; /* Limita a 3 linhas para a descrição */
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    max-height: 2.6em;
+}
+
+.produto-info .produto-descricao {
+    font-size: 0.9em !important;
+    color: #555 !important;
+    margin-bottom: 12px;
+    line-height: 1.4;
+    text-decoration: none !important;
+    /* Permitir mais linhas e não cortar no meio */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    max-height: 4.2em; /* 3 linhas × 1.4 line-height */
 }
 
 .produto-info .produto-detalhes {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
-    font-size: 0.85em;
-    color: #777;
+    gap: 6px;
+    font-size: 0.8em !important;
     margin-bottom: 10px;
+    flex-shrink: 0;
 }
 
-.produto-info .produto-detalhes strong {
-    color: #333;
-    font-weight: 600;
+.produto-info .produto-detalhes span {
+    color: #777 !important;
+    text-decoration: none !important;
+    background: #f8f9fa;
+    padding: 3px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.75em;
 }
 
-.produto-info .produto-localizacao,
-.produto-info .produto-data {
-    font-size: 0.85em;
-    color: #888;
-    margin-bottom: 5px;
+.produto-meta {
+    margin-top: auto; /* Empurra para o final do card */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.produto-meta .produto-data {
+    font-size: 0.8em !important;
+    color: #888 !important;
+    text-decoration: none !important;
+    /* Não cortar a data */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.produto-meta .produto-localizacao {
+    font-size: 0.8em !important;
+    color: #888 !important;
+    text-decoration: none !important;
+    /* Não cortar a localização */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Botão de Editar Anúncio dentro do card */
 .btn-editar-anuncio {
-    background-color: #f0ad4e; /* Uma cor de aviso/edição */
-    color: white;
+    background-color: #f0ad4e;
+    color: white !important;
     padding: 8px 12px;
     border: none;
     border-radius: 5px;
-    font-size: 0.8em;
+    font-size: 0.75em !important;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
     margin-top: 10px;
-    align-self: flex-end; /* Alinha o botão à direita inferior */
-    text-decoration: none; /* Remove sublinhado de link */
-    display: inline-block; /* Para garantir que o padding funcione */
+    align-self: flex-end;
+    text-decoration: none !important;
+    display: inline-block;
+    flex-shrink: 0;
 }
 
 .btn-editar-anuncio:hover {
     background-color: #ec971f;
     transform: translateY(-2px);
+    text-decoration: none !important;
+    color: white !important;
 }
 
 /* Responsividade do card */
+@media (max-width: 768px) {
+    .produto-card {
+        width: 260px !important;
+        height: 400px !important;
+        min-width: 260px;
+        max-width: 260px;
+        min-height: 400px;
+        max-height: 400px;
+    }
+    
+    .produto-fotos {
+        height: 160px !important;
+        min-height: 160px;
+        max-height: 160px;
+    }
+    
+    .produto-info h3 {
+        font-size: 1em !important;
+    }
+    
+    .produto-info .produto-descricao {
+        font-size: 0.85em !important;
+    }
+}
+
 @media (max-width: 480px) {
     .produto-card {
-        min-width: 100%;
+        width: 240px !important;
+        height: 380px !important;
+        min-width: 240px;
+        max-width: 240px;
+        min-height: 380px;
+        max-height: 380px;
     }
+    
     .produto-fotos {
-        height: 160px;
+        height: 140px !important;
+        min-height: 140px;
+        max-height: 140px;
     }
+    
+    .produto-info {
+        padding: 12px;
+    }
+    
     .produto-info h3 {
-        font-size: 1.3em;
+        font-size: 0.95em !important;
+    }
+    
+    .produto-info .produto-descricao {
+        font-size: 0.8em !important;
+    }
+    
+    .produto-meta .produto-data,
+    .produto-meta .produto-localizacao {
+        font-size: 0.75em !important;
+    }
+}
+
+/* Para containers de cards (carrosséis) */
+.carrossel-categorias .slick-slide > div,
+.carrossel-dinamico .slick-slide > div {
+    display: flex !important;
+    justify-content: center;
+    padding: 0 10px;
+}
+
+/* Grid de produtos (para páginas de categoria) */
+.produtos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 280px) !important;
+    gap: 25px;
+    justify-content: center;
+    margin-bottom: 40px;
+}
+
+@media (max-width: 768px) {
+    .produtos-grid {
+        grid-template-columns: repeat(auto-fill, 260px) !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .produtos-grid {
+        grid-template-columns: repeat(auto-fill, 240px) !important;
+        gap: 15px;
     }
 }

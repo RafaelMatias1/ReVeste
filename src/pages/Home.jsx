@@ -202,35 +202,6 @@ export default function Home({ produtos }) {
                         )}
                     </div>
                 </section>
-
-                <section className="secao_produtos">
-                    <div className="container">
-                        <h2>Mais procurados Inverno</h2>
-                        <p className="no-products-message">Em breve, os itens mais procurados para o inverno aparecerão aqui!</p>
-                    </div>
-                </section>
-
-                <section className="secao_produtos">
-                    <div className="container">
-                        <h2>Mais procurados Feminino</h2>
-                        <p className="no-products-message">Em breve, os itens mais procurados na moda feminina aparecerão aqui!</p>
-                    </div>
-                </section>
-
-                <section className="secao_produtos">
-                    <div className="container">
-                        <h2>Mais procurados Verão</h2>
-                        <p className="no-products-message">Em breve, os itens mais procurados para o verão aparecerão aqui!</p>
-                    </div>
-                </section>
-
-                <section className="secao_produtos">
-                    <div className="container">
-                        <h2>Mais procurados Infantil</h2>
-                        <p className="no-products-message">Em breve, os itens mais procurados na moda infantil aparecerão aqui!</p>
-                    </div>
-                </section>
-
             </main>
             <Footer />
         </>
