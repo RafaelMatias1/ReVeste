@@ -1,13 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import '../styles/globals.css'; // <--- CORRIGIDO: Removido o underscore aqui
-// Importe suas imagens do public/img (AJUSTE ESTES CAMINHOS SE NECESSÁRIO)
-// Caminho esperado: public/img/image (16).png, public/img/coracao.png, public/img/fotoperfil.jpeg
-import logo from '../components/img/image (16).png'; // <--- EX: Se image (16).png está em public/img, o caminho correto é /img/image (16).png
-import coracao from '../components/img/coracao.png'; // <--- O caminho DEVE ser /img/coracao.png
-import fotoperfil from '../components/img/fotoperfil.jpeg'; // <--- O caminho DEVE ser /img/fotoperfil.jpeg
-
+import '../styles/globals.css';
 
 const Header = () => {
     const { isAuthenticated, user } = useAuth();
@@ -17,7 +11,7 @@ const Header = () => {
             <div className="container">
                 <div className="logo">
                     <Link to="/">
-                        <img src={logo} alt="Ícone de cabide" />
+                        <img src="/img/image (16).png" alt="Ícone de cabide" />
                         <h1>ReVeste</h1>
                     </Link>
                 </div>
@@ -26,8 +20,11 @@ const Header = () => {
                         {isAuthenticated && (
                             <>
                                 <li>
-                                    <Link to="/favoritos" aria-label="Favoritos">
-                                        <img src={coracao} alt="Ícone de coração" />
+                                    <Link to="/favoritos" aria-label="Favoritos" className="menu-icon-link">
+                                        {/* CORAÇÃO USANDO SVG AO INVÉS DE IMAGEM */}
+                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                                        </svg>
                                     </Link>
                                 </li>
                                 <li><Link to="/chat">Chat</Link></li>
@@ -37,7 +34,7 @@ const Header = () => {
                                 <li>
                                     <Link to="/perfil" className="menu_usuario">
                                         <span>{user ? user.nome : "Perfil"}</span>
-                                        <img src={fotoperfil} alt={user ? user.nome : "Foto de Perfil"} />
+                                        <img src="/img/fotoperfil.jpeg" alt={user ? user.nome : "Foto de Perfil"} />
                                     </Link>
                                 </li>
                             </>

@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
-import ContactModal from '../components/ContactModal'; // NOVO IMPORT
+import ContactModal from '../components/ContactModal';
+import FavoriteButton from '../components/FavoriteButton'; // NOVO IMPORT
 import { useAuth } from '../context/AuthContext';
 import '../styles/ProdutoDetalhes.css';
 import '../styles/ProdutoCard.css';
@@ -102,6 +103,8 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                         <div className="imagem-produto-grande">
                             {/* Exibe a primeira foto do produto ou um placeholder */}
                             <img src={produto.fotos[0] || RELATED_IMAGES.placeholder} alt={produto.titulo} />
+                            {/* BOTÃO DE FAVORITO ADICIONADO NA IMAGEM GRANDE */}
+                            <FavoriteButton produto={produto} size="large" className="produto-detalhes-favorite" />
                         </div>
                         <div className="info-produto-detalhes">
                             <h2 className="titulo-produto-detalhes">{produto.titulo}</h2>

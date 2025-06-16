@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PageLayout from "../components/PageLayout";
-import fotoperfil from "../components/img/fotoperfil.jpeg";
 import "../styles/Perfil.css";
 
 export default function Perfil() {
@@ -73,7 +72,7 @@ export default function Perfil() {
     >
       <div className="perfil-content">
         <div className="perfil-avatar-novo">
-          <img src={fotoperfil} alt={form.nome} />
+          <img src="/img/fotoperfil.jpeg" alt={form.nome} />
           <h2>{form.nome}</h2>
           <span className="perfil-email">{form.email}</span>
         </div>

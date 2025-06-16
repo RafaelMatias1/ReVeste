@@ -70,6 +70,7 @@
     border-radius: 8px;
     overflow: hidden;
     padding: 10px; /* Padding interno para a imagem */
+    position: relative; /* ADICIONADO PARA O BOTÃO DE FAVORITO */
 }
 
 .imagem-produto-grande img {
@@ -230,6 +231,11 @@
 
 /* (O ProdutoCard.css já estiliza os cards individuais, então não precisa repetir item_produto aqui) */
 
+/* Estilo específico para o botão de favorito na página de detalhes */
+.produto-detalhes-favorite {
+    top: 20px;
+    right: 20px;
+}
 
 /* --- Responsividade (mantida e pode ser ajustada conforme necessário) --- */
 @media (max-width: 992px) {
