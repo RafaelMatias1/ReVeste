@@ -28,11 +28,11 @@ a.produto-link:hover {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     /* TAMANHO FIXO PARA TODOS OS CARDS */
     width: 280px !important;
-    height: 420px !important; /* Aumentei a altura para dar mais espaço */
+    height: 450px !important; /* Aumentei ainda mais a altura */
     min-width: 280px;
     max-width: 280px;
-    min-height: 420px;
-    max-height: 420px;
+    min-height: 450px;
+    max-height: 450px;
     position: relative;
     text-decoration: none !important;
     color: inherit !important;
@@ -57,9 +57,9 @@ a.produto-link:hover {
 
 .produto-fotos {
     width: 100%;
-    height: 180px !important; /* Altura fixa para a imagem */
-    min-height: 180px;
-    max-height: 180px;
+    height: 200px !important; /* Altura fixa para a imagem */
+    min-height: 200px;
+    max-height: 200px;
     overflow: hidden;
     background-color: #f0f0f0;
     display: flex;
@@ -76,27 +76,29 @@ a.produto-link:hover {
 }
 
 .produto-info {
-    padding: 15px;
+    padding: 16px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    min-height: 0; /* Permite que o flex funcione corretamente */
+    height: calc(450px - 200px - 32px); /* altura total - imagem - padding total */
+    overflow: hidden;
 }
 
 .produto-info h3 {
-    font-size: 1.1em !important;
+    font-size: 1.2em !important;
     color: #6A8A65 !important;
     margin-top: 0;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     line-height: 1.3;
     text-decoration: none !important;
-    /* Limitar título a 2 linhas sem cortar */
+    font-weight: 600;
+    /* Título com altura mínima garantida */
+    min-height: 1.6em;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    max-height: 2.6em;
 }
 
 .produto-info .produto-descricao {
@@ -105,13 +107,15 @@ a.produto-link:hover {
     margin-bottom: 12px;
     line-height: 1.4;
     text-decoration: none !important;
-    /* Permitir mais linhas e não cortar no meio */
+    flex-grow: 1;
+    /* Descrição com altura controlada */
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
-    max-height: 4.2em; /* 3 linhas × 1.4 line-height */
+    min-height: 4.2em; /* 3 linhas × 1.4 line-height */
+    max-height: 4.2em;
 }
 
 .produto-info .produto-detalhes {
@@ -119,46 +123,53 @@ a.produto-link:hover {
     flex-wrap: wrap;
     gap: 6px;
     font-size: 0.8em !important;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     flex-shrink: 0;
+    min-height: 2.5em; /* Altura mínima para os detalhes */
 }
 
 .produto-info .produto-detalhes span {
     color: #777 !important;
     text-decoration: none !important;
     background: #f8f9fa;
-    padding: 3px 8px;
+    padding: 4px 8px;
     border-radius: 4px;
     white-space: nowrap;
     font-size: 0.75em;
+    line-height: 1.2;
 }
 
 .produto-meta {
     margin-top: auto; /* Empurra para o final do card */
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: 6px;
     flex-shrink: 0;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+    min-height: 3em; /* Altura mínima para meta informações */
 }
 
 .produto-meta .produto-data {
-    font-size: 0.8em !important;
+    font-size: 0.85em !important;
     color: #888 !important;
     text-decoration: none !important;
-    /* Não cortar a data */
-    white-space: nowrap;
+    margin: 0;
+    line-height: 1.3;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .produto-meta .produto-localizacao {
-    font-size: 0.8em !important;
+    font-size: 0.85em !important;
     color: #888 !important;
     text-decoration: none !important;
-    /* Não cortar a localização */
-    white-space: nowrap;
+    margin: 0;
+    line-height: 1.3;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* Botão de Editar Anúncio dentro do card */
@@ -190,21 +201,25 @@ a.produto-link:hover {
 @media (max-width: 768px) {
     .produto-card {
         width: 260px !important;
-        height: 400px !important;
+        height: 420px !important;
         min-width: 260px;
         max-width: 260px;
-        min-height: 400px;
-        max-height: 400px;
+        min-height: 420px;
+        max-height: 420px;
     }
     
     .produto-fotos {
-        height: 160px !important;
-        min-height: 160px;
-        max-height: 160px;
+        height: 180px !important;
+        min-height: 180px;
+        max-height: 180px;
+    }
+    
+    .produto-info {
+        height: calc(420px - 180px - 32px);
     }
     
     .produto-info h3 {
-        font-size: 1em !important;
+        font-size: 1.1em !important;
     }
     
     .produto-info .produto-descricao {
@@ -215,25 +230,26 @@ a.produto-link:hover {
 @media (max-width: 480px) {
     .produto-card {
         width: 240px !important;
-        height: 380px !important;
+        height: 400px !important;
         min-width: 240px;
         max-width: 240px;
-        min-height: 380px;
-        max-height: 380px;
+        min-height: 400px;
+        max-height: 400px;
     }
     
     .produto-fotos {
-        height: 140px !important;
-        min-height: 140px;
-        max-height: 140px;
+        height: 160px !important;
+        min-height: 160px;
+        max-height: 160px;
     }
     
     .produto-info {
-        padding: 12px;
+        padding: 14px;
+        height: calc(400px - 160px - 28px);
     }
     
     .produto-info h3 {
-        font-size: 0.95em !important;
+        font-size: 1em !important;
     }
     
     .produto-info .produto-descricao {
@@ -242,7 +258,7 @@ a.produto-link:hover {
     
     .produto-meta .produto-data,
     .produto-meta .produto-localizacao {
-        font-size: 0.75em !important;
+        font-size: 0.8em !important;
     }
 }
 

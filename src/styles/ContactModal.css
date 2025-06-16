@@ -1,0 +1,331 @@
+/* Estilos para o Modal de Contato */
+
+.contact-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: modalOverlayShow 0.3s ease-out;
+}
+
+@keyframes modalOverlayShow {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.contact-modal {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: modalShow 0.3s ease-out;
+}
+
+@keyframes modalShow {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Header do Modal */
+.contact-modal-header {
+    background: linear-gradient(135deg, #6A8A65 0%, #587554 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 16px 16px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.contact-modal-header h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.close-modal-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: rotate(90deg);
+}
+
+/* Body do Modal */
+.contact-modal-body {
+    padding: 25px;
+}
+
+.contact-info {
+    margin-bottom: 25px;
+}
+
+.contact-item-title h4 {
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 15px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.email-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f8f9fa;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+.email-text {
+    flex: 1;
+    color: #495057;
+    font-weight: 500;
+    font-size: 15px;
+    word-break: break-all;
+}
+
+.copy-email-btn {
+    background: #6A8A65;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.copy-email-btn:hover {
+    background: #587554;
+    transform: translateY(-1px);
+}
+
+.contact-divider {
+    text-align: center;
+    margin: 20px 0;
+    position: relative;
+    color: #6c757d;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.contact-divider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: #e9ecef;
+    z-index: 1;
+}
+
+.contact-divider span {
+    background: white;
+    padding: 0 15px;
+    position: relative;
+    z-index: 2;
+}
+
+.whatsapp-container {
+    text-align: center;
+}
+
+.whatsapp-btn {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.whatsapp-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+}
+
+/* Dicas */
+.contact-tips {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 20px;
+    border-radius: 12px;
+    border-left: 4px solid #6A8A65;
+}
+
+.contact-tips h5 {
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.contact-tips ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-tips li {
+    color: #6c757d;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.contact-tips li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: #6A8A65;
+    font-weight: bold;
+}
+
+/* Footer do Modal */
+.contact-modal-footer {
+    padding: 20px 25px;
+    border-top: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.btn-close-modal {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-close-modal:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .contact-modal-overlay {
+        padding: 15px;
+    }
+    
+    .contact-modal {
+        max-width: none;
+        width: 100%;
+    }
+    
+    .contact-modal-header {
+        padding: 18px 20px;
+    }
+    
+    .contact-modal-header h3 {
+        font-size: 18px;
+    }
+    
+    .contact-modal-body {
+        padding: 20px;
+    }
+    
+    .email-container {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .copy-email-btn {
+        width: 100%;
+    }
+    
+    .contact-tips {
+        padding: 15px;
+    }
+    
+    .contact-modal-footer {
+        padding: 15px 20px;
+    }
+    
+    .btn-close-modal {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-modal-overlay {
+        padding: 10px;
+    }
+    
+    .contact-modal-header {
+        padding: 15px;
+    }
+    
+    .contact-modal-header h3 {
+        font-size: 16px;
+    }
+    
+    .contact-modal-body {
+        padding: 15px;
+    }
+    
+    .contact-tips {
+        padding: 12px;
+    }
+    
+    .contact-tips li {
+        font-size: 12px;
+    }
+}

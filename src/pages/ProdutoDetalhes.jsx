@@ -3,6 +3,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
+import ContactModal from '../components/ContactModal'; // NOVO IMPORT
 import { useAuth } from '../context/AuthContext';
 import '../styles/ProdutoDetalhes.css';
 import '../styles/ProdutoCard.css';
@@ -22,6 +23,9 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
     const { id } = useParams();
     const navigate = useNavigate();
     const { user, isAuthenticated } = useAuth();
+    
+    // NOVO STATE PARA O MODAL
+    const [isContactModalOpen, setIsContactModalOpen] = useState(false);
     
     const produto = produtos.find(p => p.id === parseInt(id));
 
@@ -48,8 +52,17 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
         return date.toLocaleDateString('pt-BR', { year: 'numeric', month: 'long', day: 'numeric' });
     };
 
-    // <--- CORRIGIDO: Definição da variável displayDataPublicacao AQUI!
     const displayDataPublicacao = formatDate(produto.dataPublicacao);
+
+    // NOVA FUNÇÃO PARA ABRIR O MODAL
+    const handleContactClick = () => {
+        setIsContactModalOpen(true);
+    };
+
+    // NOVA FUNÇÃO PARA FECHAR O MODAL
+    const handleCloseContactModal = () => {
+        setIsContactModalOpen(false);
+    };
 
     // Função para lidar com a exclusão do produto
     const handleDelete = () => {
@@ -93,8 +106,14 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                         <div className="info-produto-detalhes">
                             <h2 className="titulo-produto-detalhes">{produto.titulo}</h2>
                             <div className="botoes-acao">
-                                <button className="botao-solicitar">Fazer Proposta de Encontro</button>
-                                <a href="/chat" className="botao-chat">Chat</a>
+                                {/* BOTÃO ATUALIZADO COM A NOVA FUNÇÃO */}
+                                <button 
+                                    className="botao-solicitar"
+                                    onClick={handleContactClick}
+                                >
+                                    Fazer Proposta de Encontro
+                                </button>
+                                <Link to="/chat" className="botao-chat">Chat</Link>
                             </div>
                             <ul className="lista-detalhes">
                                 <li><strong>Descrição:</strong> {produto.descricao}</li>
@@ -137,6 +156,15 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                     </section>
                 </div>
             </main>
+            
+            {/* MODAL DE CONTATO ADICIONADO */}
+            <ContactModal
+                isOpen={isContactModalOpen}
+                onClose={handleCloseContactModal}
+                vendedorEmail={produto.userEmail || 'contato@example.com'}
+                produtoTitulo={produto.titulo}
+            />
+            
             <Footer />
         </>
     );
