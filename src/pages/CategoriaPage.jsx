@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import PageLayout from '../components/PageLayout';
 import ProdutoCard from '../components/ProdutoCard';
 import '../styles/CategoriaPage.css';
 
@@ -30,54 +29,49 @@ const CategoriaPage = ({ produtos = [] }) => {
 
     // Filtrar produtos por categoria
     const produtosFiltrados = useMemo(() => {
-        let produtosDaCategoria = produtos;
+        let resultados = produtos;
 
-        // Filtrar por categoria
-        if (categoria && categoria !== 'todos') {
-            const categoriasPermitidas = categoriasMap[categoria] || [categoria];
-            produtosDaCategoria = produtos.filter(produto => 
-                categoriasPermitidas.includes(produto.categoria) ||
-                produto.genero === categoria ||
-                (categoria === 'inverno' && ['casacos', 'jaquetas', 'moletom'].includes(produto.categoria)) ||
-                (categoria === 'verao' && ['vestidos', 'blusas', 'shorts', 'regatas'].includes(produto.categoria))
+        // Filtro por categoria
+        if (categoriasMap[categoria]) {
+            resultados = resultados.filter(produto => 
+                categoriasMap[categoria].some(cat => 
+                    produto.categoria?.toLowerCase().includes(cat.toLowerCase()) ||
+                    produto.genero?.toLowerCase().includes(cat.toLowerCase())
+                )
             );
         }
 
-        // Aplicar filtros adicionais
+        // Filtro por tamanho
         if (filtroTamanho) {
-            produtosDaCategoria = produtosDaCategoria.filter(produto => 
-                produto.tamanho.toLowerCase().includes(filtroTamanho.toLowerCase())
+            resultados = resultados.filter(produto => 
+                produto.tamanho?.toLowerCase() === filtroTamanho.toLowerCase()
             );
         }
 
+        // Filtro por condição
         if (filtroCondicao) {
-            produtosDaCategoria = produtosDaCategoria.filter(produto => 
-                produto.condicao === filtroCondicao
+            resultados = resultados.filter(produto => 
+                produto.condicao?.toLowerCase() === filtroCondicao.toLowerCase()
             );
         }
 
+        // Filtro por gênero
         if (filtroGenero) {
-            produtosDaCategoria = produtosDaCategoria.filter(produto => 
-                produto.genero === filtroGenero
+            resultados = resultados.filter(produto => 
+                produto.genero?.toLowerCase() === filtroGenero.toLowerCase()
             );
         }
 
-        // Ordenar produtos
+        // Ordenação
         switch (ordenacao) {
             case 'recentes':
-                return produtosDaCategoria.sort((a, b) => 
-                    new Date(b.dataPublicacao) - new Date(a.dataPublicacao)
-                );
+                return resultados.sort((a, b) => new Date(b.dataPublicacao) - new Date(a.dataPublicacao));
             case 'antigos':
-                return produtosDaCategoria.sort((a, b) => 
-                    new Date(a.dataPublicacao) - new Date(b.dataPublicacao)
-                );
+                return resultados.sort((a, b) => new Date(a.dataPublicacao) - new Date(b.dataPublicacao));
             case 'alfabetica':
-                return produtosDaCategoria.sort((a, b) => 
-                    a.titulo.localeCompare(b.titulo)
-                );
+                return resultados.sort((a, b) => a.titulo.localeCompare(b.titulo));
             default:
-                return produtosDaCategoria;
+                return resultados;
         }
     }, [produtos, categoria, filtroTamanho, filtroCondicao, filtroGenero, ordenacao]);
 
@@ -95,10 +89,9 @@ const CategoriaPage = ({ produtos = [] }) => {
             'casacos': 'Casacos',
             'jaquetas': 'Jaquetas',
             'camisetas': 'Camisetas',
-            'calcas': 'Calças',
-            'todos': 'Todos os Produtos'
+            'calcas': 'Calças'
         };
-        return nomes[cat] || cat?.charAt(0).toUpperCase() + cat?.slice(1);
+        return nomes[cat] || cat;
     };
 
     // Limpar todos os filtros
@@ -110,134 +103,144 @@ const CategoriaPage = ({ produtos = [] }) => {
     };
 
     return (
-        <>
-            <Header />
-            <main className="main-categoria-page">
-                <div className="container">
-                    {/* Breadcrumb */}
-                    <nav className="breadcrumb">
-                        <Link to="/">Home</Link>
-                        <span>›</span>
-                        <span>{getNomeCategoria(categoria)}</span>
-                    </nav>
+        <main className="main-categoria-page">
+            <div className="container">
+                {/* Breadcrumb */}
+                <nav className="breadcrumb">
+                    <Link to="/">Início</Link>
+                    <span>→</span>
+                    <span>{getNomeCategoria(categoria)}</span>
+                </nav>
 
-                    {/* Cabeçalho da categoria */}
-                    <div className="categoria-header">
-                        <h1>{getNomeCategoria(categoria)}</h1>
-                        <p className="categoria-contador">
-                            {produtosFiltrados.length} {produtosFiltrados.length === 1 ? 'produto encontrado' : 'produtos encontrados'}
-                        </p>
+                {/* Cabeçalho da categoria */}
+                <header className="categoria-header">
+                    <h1>{getNomeCategoria(categoria)}</h1>
+                    <p className="categoria-contador">
+                        {produtosFiltrados.length} {produtosFiltrados.length === 1 ? 'produto encontrado' : 'produtos encontrados'}
+                    </p>
+                </header>
+
+                {/* Filtros */}
+                <section className="filtros-container">
+                    <div className="filtros-grupo">
+                        <div className="filtro">
+                            <label htmlFor="filtro-tamanho">Tamanho</label>
+                            <select 
+                                id="filtro-tamanho"
+                                value={filtroTamanho}
+                                onChange={(e) => setFiltroTamanho(e.target.value)}
+                            >
+                                <option value="">Todos os tamanhos</option>
+                                <option value="pp">PP</option>
+                                <option value="p">P</option>
+                                <option value="m">M</option>
+                                <option value="g">G</option>
+                                <option value="gg">GG</option>
+                                <option value="xgg">XGG</option>
+                                <option value="36">36</option>
+                                <option value="37">37</option>
+                                <option value="38">38</option>
+                                <option value="39">39</option>
+                                <option value="40">40</option>
+                                <option value="41">41</option>
+                                <option value="42">42</option>
+                                <option value="43">43</option>
+                                <option value="44">44</option>
+                            </select>
+                        </div>
+
+                        <div className="filtro">
+                            <label htmlFor="filtro-condicao">Condição</label>
+                            <select 
+                                id="filtro-condicao"
+                                value={filtroCondicao}
+                                onChange={(e) => setFiltroCondicao(e.target.value)}
+                            >
+                                <option value="">Todas as condições</option>
+                                <option value="novo-etiqueta">Novo com etiqueta</option>
+                                <option value="novo-sem-etiqueta">Novo sem etiqueta</option>
+                                <option value="usado-perfeito">Usado - Perfeito</option>
+                                <option value="usado-bom">Usado - Bom estado</option>
+                                <option value="usado-regular">Usado - Estado regular</option>
+                            </select>
+                        </div>
+
+                        <div className="filtro">
+                            <label htmlFor="filtro-genero">Gênero</label>
+                            <select 
+                                id="filtro-genero"
+                                value={filtroGenero}
+                                onChange={(e) => setFiltroGenero(e.target.value)}
+                            >
+                                <option value="">Todos os gêneros</option>
+                                <option value="feminino">Feminino</option>
+                                <option value="masculino">Masculino</option>
+                                <option value="unissex">Unissex</option>
+                                <option value="infantil">Infantil</option>
+                            </select>
+                        </div>
+
+                        <div className="filtro">
+                            <label htmlFor="ordenacao">Ordenar por</label>
+                            <select 
+                                id="ordenacao"
+                                value={ordenacao}
+                                onChange={(e) => setOrdenacao(e.target.value)}
+                            >
+                                <option value="recentes">Mais recentes</option>
+                                <option value="antigos">Mais antigos</option>
+                                <option value="alfabetica">Ordem alfabética</option>
+                            </select>
+                        </div>
+
+                        <button 
+                            type="button"
+                            className="btn-limpar-filtros"
+                            onClick={limparFiltros}
+                        >
+                            Limpar filtros
+                        </button>
                     </div>
+                </section>
 
-                    {/* Filtros e ordenação */}
-                    <div className="filtros-container">
-                        <div className="filtros-grupo">
-                            <div className="filtro">
-                                <label htmlFor="tamanho">Tamanho:</label>
-                                <select 
-                                    id="tamanho" 
-                                    value={filtroTamanho} 
-                                    onChange={(e) => setFiltroTamanho(e.target.value)}
-                                >
-                                    <option value="">Todos os tamanhos</option>
-                                    <option value="PP">PP</option>
-                                    <option value="P">P</option>
-                                    <option value="M">M</option>
-                                    <option value="G">G</option>
-                                    <option value="GG">GG</option>
-                                    <option value="36">36</option>
-                                    <option value="38">38</option>
-                                    <option value="40">40</option>
-                                    <option value="42">42</option>
-                                </select>
-                            </div>
-
-                            <div className="filtro">
-                                <label htmlFor="condicao">Condição:</label>
-                                <select 
-                                    id="condicao" 
-                                    value={filtroCondicao} 
-                                    onChange={(e) => setFiltroCondicao(e.target.value)}
-                                >
-                                    <option value="">Todas as condições</option>
-                                    <option value="novo-etiqueta">Novo com etiqueta</option>
-                                    <option value="novo-sem-etiqueta">Novo sem etiqueta</option>
-                                    <option value="usado-perfeito">Usado - Perfeito</option>
-                                    <option value="usado-bom">Usado - Bom estado</option>
-                                    <option value="usado-regular">Usado - Regular</option>
-                                </select>
-                            </div>
-
-                            <div className="filtro">
-                                <label htmlFor="genero">Gênero:</label>
-                                <select 
-                                    id="genero" 
-                                    value={filtroGenero} 
-                                    onChange={(e) => setFiltroGenero(e.target.value)}
-                                >
-                                    <option value="">Todos</option>
-                                    <option value="feminino">Feminino</option>
-                                    <option value="masculino">Masculino</option>
-                                    <option value="unissex">Unissex</option>
-                                </select>
-                            </div>
-
-                            <div className="filtro">
-                                <label htmlFor="ordenacao">Ordenar por:</label>
-                                <select 
-                                    id="ordenacao" 
-                                    value={ordenacao} 
-                                    onChange={(e) => setOrdenacao(e.target.value)}
-                                >
-                                    <option value="recentes">Mais recentes</option>
-                                    <option value="antigos">Mais antigos</option>
-                                    <option value="alfabetica">A-Z</option>
-                                </select>
-                            </div>
-
+                {/* Grid de produtos */}
+                {produtosFiltrados.length === 0 ? (
+                    <section className="empty-state">
+                        <div className="empty-icon">📦</div>
+                        <h3>Nenhum produto encontrado</h3>
+                        <p>
+                            Não encontramos produtos nesta categoria com os filtros selecionados. 
+                            Tente ajustar os filtros ou explore outras categorias.
+                        </p>
+                        <div className="empty-actions">
                             <button 
-                                className="btn-limpar-filtros"
+                                type="button"
+                                className="btn btn-outline"
                                 onClick={limparFiltros}
                             >
-                                Limpar Filtros
+                                Limpar filtros
                             </button>
+                            <Link to="/" className="btn btn-primary">
+                                Explorar todos os produtos
+                            </Link>
                         </div>
-                    </div>
-
-                    {/* Grid de produtos */}
-                    {produtosFiltrados.length > 0 ? (
-                        <div className="produtos-grid">
-                            {produtosFiltrados.map((produto) => (
-                                <ProdutoCard key={produto.id} produto={produto} />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="empty-state">
-                            <div className="empty-icon">👕</div>
-                            <h3>Nenhum produto encontrado</h3>
-                            <p>
-                                {categoria === 'todos' 
-                                    ? 'Não há produtos cadastrados ainda.'
-                                    : `Não há produtos na categoria "${getNomeCategoria(categoria)}" no momento.`
-                                }
-                            </p>
-                            <div className="empty-actions">
-                                <Link to="/" className="btn btn-outline">
-                                    Voltar ao início
-                                </Link>
-                                <button 
-                                    className="btn btn-primary"
-                                    onClick={limparFiltros}
-                                >
-                                    Limpar filtros
-                                </button>
-                            </div>
-                        </div>
-                    )}
-                </div>
-            </main>
-            <Footer />
-        </>
+                    </section>
+                ) : (
+                    <section className="produtos-grid">
+                        {produtosFiltrados.map((produto) => (
+                            <Link 
+                                to={`/produto/${produto.id}`} 
+                                className="item-link" 
+                                key={produto.id}
+                                style={{ textDecoration: 'none', color: 'inherit' }}
+                            >
+                                <ProdutoCard produto={produto} />
+                            </Link>
+                        ))}
+                    </section>
+                )}
+            </div>
+        </main>
     );
 };
 

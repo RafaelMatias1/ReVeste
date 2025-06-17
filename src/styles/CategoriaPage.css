@@ -133,6 +133,47 @@
     margin-bottom: 40px;
 }
 
+/* Corrigir links dos produtos */
+.produtos-grid .item-link {
+    text-decoration: none !important;
+    color: inherit !important;
+    display: block;
+}
+
+.produtos-grid .item-link:hover {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+.produtos-grid .item-link:visited {
+    text-decoration: none !important;
+    color: inherit !important;
+}
+
+/* Garantir que o card seja clicável inteiramente */
+.produtos-grid .produto-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.produtos-grid .produto-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* Evitar conflitos de z-index */
+.produtos-grid .item-link {
+    position: relative;
+    z-index: 1;
+}
+
+.produtos-grid .favorite-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10; /* MAIOR QUE O LINK PARA FUNCIONAR INDEPENDENTEMENTE */
+}
+
 /* Estado vazio */
 .empty-state {
     text-align: center;
