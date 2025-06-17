@@ -10,7 +10,7 @@ body {
     min-height: 100vh;
 }
 
-/* Reafirmando estilos do cabeçalho para garantir consistência (geralmente estariam no style.css) */
+/* Reafirmando estilos do cabeçalho para garantir consistência */
 .cabecalho {
     background: #6A8A65;
     color: #fff;
@@ -78,32 +78,26 @@ body {
     font-weight: 700;
 }
 
-.menu_principal a img {
-    height: 24px;
-    vertical-align: middle;
+.btn-publicar {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-weight: 600;
 }
 
-.menu_usuario span {
-    margin-right: 8px;
-    font-weight: 400;
-}
-
-.menu_usuario img {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid #fff;
+.btn-publicar:hover {
+    background: rgba(255, 255, 255, 0.3);
 }
 
 /* Estilos para a seção principal de cadastro */
 .main-cadastro-novo {
-    min-height: 80vh;
+    flex: 1; /* PERMITE QUE O MAIN OCUPE O ESPAÇO DISPONÍVEL */
     display: flex;
     align-items: center;
     justify-content: center;
     background: #f3f8f2;
     padding: 40px 0;
+    min-height: calc(100vh - 200px); /* AJUSTA A ALTURA MÍNIMA */
 }
 
 .card-cadastro-novo {
@@ -221,12 +215,18 @@ body {
 /* Responsividade básica */
 @media (max-width: 600px) {
     .card-cadastro-novo {
-        padding: 24px 8px 18px 8px;
+        padding: 24px 20px 18px 20px;
+        margin: 20px;
     }
 
     .container-cabecalho {
         flex-direction: column;
         gap: 10px;
-        padding: 0 8px;
+        padding: 0 15px;
+    }
+    
+    .main-cadastro-novo {
+        padding: 20px 0;
+        min-height: calc(100vh - 180px);
     }
 }

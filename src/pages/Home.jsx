@@ -9,7 +9,22 @@ import '../styles/ProdutoCard.css';
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 
-export default function Home({ produtos }) {
+// Componente específico para cards de categoria
+const CategoriaCard = ({ categoria }) => {
+    return (
+        <div className="categoria-card">
+            <div className="categoria-fotos">
+                <img src={categoria.img} alt={categoria.nome} />
+            </div>
+            <div className="categoria-info">
+                <h3>{categoria.nome}</h3>
+                <p className="categoria-descricao">{categoria.descricao}</p>
+            </div>
+        </div>
+    );
+};
+
+export default function Home({ produtos = [] }) {
     const [termoBusca, setTermoBusca] = useState('');
     const [resultadosBusca, setResultadosBusca] = useState([]);
     const [mostrandoResultadosBusca, setMostrandoResultadosBusca] = useState(false);
@@ -56,6 +71,7 @@ export default function Home({ produtos }) {
         ]
     };
 
+    // FUNÇÃO DE BUSCA CORRIGIDA COM VERIFICAÇÃO DE PROPRIEDADES
     const realizarBusca = (termo) => {
         if (!termo.trim()) {
             setResultadosBusca([]);
@@ -63,12 +79,28 @@ export default function Home({ produtos }) {
             return;
         }
 
-        const resultados = produtos.filter(produto => 
-            produto.titulo.toLowerCase().includes(termo.toLowerCase()) ||
-            produto.descricao.toLowerCase().includes(termo.toLowerCase()) ||
-            produto.categoria.toLowerCase().includes(termo.toLowerCase()) ||
-            produto.localizacao.toLowerCase().includes(termo.toLowerCase())
-        );
+        const termoLower = termo.toLowerCase();
+        
+        const resultados = produtos.filter(produto => {
+            // Verifica se o produto existe e tem as propriedades necessárias
+            if (!produto) return false;
+            
+            // Função auxiliar para verificar se uma string contém o termo de busca
+            const contemTermo = (valor) => {
+                return valor && typeof valor === 'string' && valor.toLowerCase().includes(termoLower);
+            };
+            
+            return (
+                contemTermo(produto.titulo) ||
+                contemTermo(produto.descricao) ||
+                contemTermo(produto.categoria) ||
+                contemTermo(produto.localizacao) ||
+                contemTermo(produto.marca) ||
+                contemTermo(produto.cor) ||
+                contemTermo(produto.tamanho) ||
+                contemTermo(produto.condicao)
+            );
+        });
 
         setResultadosBusca(resultados);
         setMostrandoResultadosBusca(true);
@@ -77,7 +109,15 @@ export default function Home({ produtos }) {
     const handleBuscaChange = (e) => {
         const termo = e.target.value;
         setTermoBusca(termo);
-        realizarBusca(termo);
+        
+        // Só busca se o termo tiver pelo menos 2 caracteres
+        if (termo.length >= 2) {
+            realizarBusca(termo);
+        } else if (termo.length === 0) {
+            // Limpa os resultados se o campo estiver vazio
+            setResultadosBusca([]);
+            setMostrandoResultadosBusca(false);
+        }
     };
 
     const limparBusca = () => {
@@ -117,7 +157,11 @@ export default function Home({ produtos }) {
                                         ✕
                                     </button>
                                 )}
-                                <button className="search-btn" onClick={() => realizarBusca(termoBusca)}>
+                                <button 
+                                    className="search-btn" 
+                                    onClick={() => realizarBusca(termoBusca)}
+                                    disabled={!termoBusca.trim()}
+                                >
                                     🔍
                                 </button>
                             </div>
@@ -168,17 +212,7 @@ export default function Home({ produtos }) {
                                         {categorias.map((cat) => (
                                             <div key={cat.id}>
                                                 <Link to={`/categorias/${cat.categoria}`} className="item-link">
-                                                    <ProdutoCard produto={{ 
-                                                        id: cat.id, 
-                                                        titulo: cat.nome, 
-                                                        fotos: [cat.img],
-                                                        descricao: cat.descricao,
-                                                        categoria: cat.nome,
-                                                        tamanho: 'N/A',
-                                                        condicao: 'N/A',
-                                                        localizacao: 'Geral',
-                                                        dataPublicacao: 'N/A'
-                                                    }} />
+                                                    <CategoriaCard categoria={cat} />
                                                 </Link>
                                             </div>
                                         ))}

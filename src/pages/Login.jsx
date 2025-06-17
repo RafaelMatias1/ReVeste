@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Footer from '../components/Footer'; // IMPORTAR O FOOTER COMPONENTE
 import '../styles/Login.css';
 
 export default function Login() {
@@ -113,13 +114,7 @@ export default function Login() {
                     </div>
                 </div>
             </main>
-
-            {/* Footer Simples */}
-            <footer className="rodape">
-                <div className="container">
-                    <p>&copy; 2025 ReVeste - Todos os direitos reservados.</p>
-                </div>
-            </footer>
+            <Footer />
         </div>
     );
 }
