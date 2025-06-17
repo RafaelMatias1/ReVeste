@@ -17,12 +17,12 @@ import ProdutoDetalhes from './pages/ProdutoDetalhes';
 import CategoriaPage from './pages/CategoriaPage';
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
+import { FavoritesProvider } from './context/FavoritesContext';
 
 const initialProdutosData = [
   {
     id: 1,
     titulo: "Vestido Verde Militar",
-    descricao: "Vestido com amarração na cintura, super confortável e estiloso. Ideal para o dia a dia.",
     fotos: ["/img/vestido-verde.jpg"],
     categoria: "vestidos",
     genero: "feminino",
@@ -283,23 +283,25 @@ export default function App() {
 
   return (
     <AuthProvider>
-      <Router>
-        <div className={styles.App}>
-          <Routes>
-            <Route path="/" element={<Home produtos={produtos} />} />
-            <Route path="/registro" element={<Register />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
-            <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
-            <Route path="/favoritos" element={<PrivateRoute><Favoritos produtos={produtos} /></PrivateRoute>} />
-            <Route path="/meus-anuncios" element={<PrivateRoute><MeusAnuncios /></PrivateRoute>} />
-            <Route path="/publicar" element={<PrivateRoute><AddProduto addProduto={addProduto} produtos={produtos} /></PrivateRoute>} />
-            <Route path="/editar-anuncio/:id" element={<PrivateRoute><AddProduto produtos={produtos} updateProduto={updateProduto} deleteProduto={deleteProduto} /></PrivateRoute>} />
-            <Route path="/produto/:id" element={<ProdutoDetalhes produtos={produtos} />} />
-            <Route path="/categorias/:categoria" element={<CategoriaPage produtos={produtos} />} />
-          </Routes>
-        </div>
-      </Router>
+      <FavoritesProvider>
+        <Router>
+          <div className={styles.App}>
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/registro" element={<Register />} />
+              <Route path="/" element={<PrivateRoute><Home produtos={produtos} /></PrivateRoute>} />
+              <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
+              <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
+              <Route path="/favoritos" element={<PrivateRoute><Favoritos produtos={produtos} /></PrivateRoute>} />
+              <Route path="/meus-anuncios" element={<PrivateRoute><MeusAnuncios /></PrivateRoute>} />
+              <Route path="/publicar" element={<PrivateRoute><AddProduto addProduto={addProduto} produtos={produtos} /></PrivateRoute>} />
+              <Route path="/editar-anuncio/:id" element={<PrivateRoute><AddProduto produtos={produtos} updateProduto={updateProduto} deleteProduto={deleteProduto} /></PrivateRoute>} />
+              <Route path="/produto/:id" element={<PrivateRoute><ProdutoDetalhes produtos={produtos} /></PrivateRoute>} />
+              <Route path="/categorias/:categoria" element={<PrivateRoute><CategoriaPage produtos={produtos} /></PrivateRoute>} />
+            </Routes>
+          </div>
+        </Router>
+      </FavoritesProvider>
     </AuthProvider>
   );
 }

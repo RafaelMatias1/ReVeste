@@ -1,0 +1,86 @@
+/* Estilos para o Botão de Favorito */
+
+.favorite-button {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4px);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 5;
+}
+
+.favorite-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 1);
+}
+
+.favorite-button.favorited {
+    background: rgba(255, 255, 255, 1);
+}
+
+.favorite-button.favorited:hover {
+    transform: scale(1.1);
+}
+
+.favorite-button svg {
+    transition: all 0.2s ease;
+}
+
+.favorite-button:hover svg {
+    transform: scale(1.1);
+}
+
+.favorite-button.small {
+    width: 32px;
+    height: 32px;
+}
+
+.favorite-button.small svg {
+    width: 16px;
+    height: 16px;
+}
+
+.favorite-button.large {
+    width: 48px;
+    height: 48px;
+}
+
+.favorite-button.large svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Para cards de produto */
+.produto-card {
+    position: relative;
+}
+
+.produto-fotos {
+    position: relative;
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .favorite-button {
+        width: 36px;
+        height: 36px;
+        top: 8px;
+        right: 8px;
+    }
+    
+    .favorite-button svg {
+        width: 18px;
+        height: 18px;
+    }
+}
