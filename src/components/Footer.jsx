@@ -14,8 +14,8 @@ const Footer = () => {
                             <p>Transformando moda em sustentabilidade</p>
                         </div>
                         <p className="footer-description">
-                            A plataforma que conecta pessoas que querem dar uma segunda vida às suas roupas. 
-                            Compre, venda e troque peças de forma consciente e sustentável.
+                     Faça parte da comunidade ReVeste! Um espaço para doar e trocar roupas, 
+                     promovendo o consumo consciente e estendendo a vida útil de cada peça. Moda com propósito.
                         </p>
                         <div className="footer-social">
                             <h4>Siga-nos</h4>
@@ -71,9 +71,9 @@ const Footer = () => {
                     <div className="footer-section">
                         <h4>Contato</h4>
                         <div className="footer-contact">
-                            <p>📧 contato@reveste.com.br</p>
-                            <p>📱 (11) 99999-9999</p>
-                            <p>📍 São Paulo, SP - Brasil</p>
+                            <p>📧 RevesteBrasil@gmail.com.br</p>
+                            <p>📱 (48) 99999-9999</p>
+                            <p>📍 Florianópolis, SC - Brasil</p>
                         </div>
                         <div className="footer-stats">
                             <p><strong>+10.000</strong> usuários</p>

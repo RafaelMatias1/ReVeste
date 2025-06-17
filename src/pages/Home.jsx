@@ -135,8 +135,8 @@ export default function Home({ produtos = [] }) {
                     <div className="container">
                         <h1 className="hero-title">Transforme sua Moda</h1>
                         <p className="hero-subtitle">
-                            Compre, venda e troque roupas de forma sustentável. 
-                            Dê uma segunda vida às suas peças favoritas!
+                            Troque e doe roupas de forma sustentável.
+                             Dê uma segunda vida às suas peças favoritas e encontre novos tesouros!
                         </p>
                         
                         <div className="hero-search">
