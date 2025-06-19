@@ -1,0 +1,537 @@
+/* Estilos para a página Sobre Nós */
+
+.main-sobre-nos {
+    flex-grow: 1;
+    background-color: #f8f9fa;
+}
+
+/* Hero Section */
+.hero-sobre {
+    background: linear-gradient(135deg, #6A8A65 0%, #587554 100%);
+    color: white;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-sobre::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.03)"/><circle cx="75" cy="75" r="1" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.5;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-sobre h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin: 0 0 20px 0;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-sobre p {
+    font-size: 1.3rem;
+    opacity: 0.95;
+    margin: 0;
+}
+
+/* Seções gerais */
+.main-sobre-nos section {
+    padding: 60px 0;
+}
+
+.main-sobre-nos h2 {
+    font-size: 2.5rem;
+    color: #333;
+    text-align: center;
+    margin-bottom: 50px;
+    font-weight: 700;
+}
+
+/* Seção Missão */
+.secao-missao {
+    background: white;
+}
+
+.missao-content {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.missao-texto {
+    flex: 1;
+}
+
+.missao-texto h2 {
+    text-align: left;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+}
+
+.missao-texto p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #555;
+    margin-bottom: 20px;
+}
+
+.missao-imagem {
+    flex: 0 0 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.placeholder-imagem {
+    width: 250px;
+    height: 250px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Estilos do Carrossel - NOVO DESIGN */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.carousel-content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    min-height: 350px;
+    position: relative;
+}
+
+.carousel-btn {
+    background: linear-gradient(135deg, #6A8A65 0%, #87a883 100%);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(106, 138, 101, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 10;
+}
+
+.carousel-btn:hover {
+    background: linear-gradient(135deg, #87a883 0%, #6A8A65 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(106, 138, 101, 0.4);
+}
+
+.carousel-btn:active {
+    transform: translateY(0);
+}
+
+/* Indicadores do carrossel */
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 30px;
+}
+
+.indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: none;
+    background: #d1d5db;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.indicator.active {
+    background: #6A8A65;
+    transform: scale(1.2);
+}
+
+.indicator:hover {
+    background: #87a883;
+}
+
+/* Seção Valores - Carrossel com 3 cards */
+.secao-valores {
+    background: #f8f9fa;
+}
+
+.secao-valores .valor-card {
+    background: white;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Card principal (centro) */
+.secao-valores .valor-card.main {
+    padding: 50px 40px;
+    width: 400px;
+    transform: scale(1);
+    z-index: 3;
+}
+
+/* Cards laterais (preview) */
+.secao-valores .valor-card.side {
+    padding: 30px 25px;
+    width: 250px;
+    transform: scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.secao-valores .valor-card.side:hover {
+    opacity: 0.9;
+    transform: scale(0.85);
+}
+
+.secao-valores .valor-card.main.active {
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.valor-icon {
+    font-size: 4rem;
+    margin-bottom: 25px;
+    display: block;
+}
+
+.secao-valores .valor-card.side .valor-icon {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+}
+
+.secao-valores .valor-card h3 {
+    font-size: 1.8rem;
+    color: #6A8A65;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.secao-valores .valor-card.side h3 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+}
+
+.secao-valores .valor-card p {
+    color: #666;
+    line-height: 1.7;
+    font-size: 1.1rem;
+}
+
+/* Seção Como Funciona - Carrossel com 3 cards */
+.secao-como-funciona {
+    background: white;
+}
+
+.secao-como-funciona .passo {
+    text-align: center;
+    padding: 20px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Passo principal (centro) */
+.secao-como-funciona .passo.main {
+    width: 400px;
+    transform: scale(1);
+    z-index: 3;
+}
+
+/* Passos laterais (preview) */
+.secao-como-funciona .passo.side {
+    width: 250px;
+    transform: scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.secao-como-funciona .passo.side:hover {
+    opacity: 0.9;
+    transform: scale(0.85);
+}
+
+.passo-numero {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #6A8A65 0%, #87a883 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 auto 25px;
+    box-shadow: 0 8px 25px rgba(106, 138, 101, 0.3);
+    transition: all 0.3s ease;
+}
+
+.secao-como-funciona .passo.side .passo-numero {
+    width: 60px;
+    height: 60px;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+}
+
+.secao-como-funciona .passo.main.active .passo-numero {
+    transform: scale(1.1);
+    box-shadow: 0 10px 30px rgba(106, 138, 101, 0.4);
+}
+
+.secao-como-funciona .passo h3 {
+    font-size: 1.6rem;
+    color: #333;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.secao-como-funciona .passo.side h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+}
+
+.secao-como-funciona .passo p {
+    color: #666;
+    line-height: 1.6;
+    font-size: 1.1rem;
+}
+
+/* Seção Impacto - Carrossel com 3 cards */
+.secao-impacto {
+    background: #f8f9fa;
+}
+
+.secao-impacto .stat-card {
+    background: white;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+    border: 3px solid transparent;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+}
+
+/* Card principal (centro) */
+.secao-impacto .stat-card.main {
+    padding: 60px 40px;
+    width: 350px;
+    transform: scale(1);
+    z-index: 3;
+}
+
+/* Cards laterais (preview) */
+.secao-impacto .stat-card.side {
+    padding: 40px 25px;
+    width: 200px;
+    transform: scale(0.8);
+    opacity: 0.7;
+    z-index: 2;
+}
+
+.secao-impacto .stat-card.side:hover {
+    opacity: 0.9;
+    transform: scale(0.85);
+}
+
+.secao-impacto .stat-card.main.active {
+    border-color: #6A8A65;
+    transform: scale(1.05);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+.stat-numero {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #6A8A65;
+    margin-bottom: 15px;
+    display: block;
+}
+
+.stat-numero-small {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #6A8A65;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-label {
+    color: #666;
+    font-size: 1.2rem;
+    font-weight: 500;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+    .carousel-container {
+        max-width: 800px;
+        gap: 15px;
+    }
+    
+    .secao-valores .valor-card.main,
+    .secao-como-funciona .passo.main {
+        width: 350px;
+    }
+    
+    .secao-valores .valor-card.side,
+    .secao-como-funciona .passo.side {
+        width: 200px;
+    }
+    
+    .secao-impacto .stat-card.main {
+        width: 300px;
+    }
+    
+    .secao-impacto .stat-card.side {
+        width: 150px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-sobre h1 {
+        font-size: 2.5rem;
+    }
+
+    .hero-sobre p {
+        font-size: 1.1rem;
+    }
+
+    .main-sobre-nos h2 {
+        font-size: 2rem;
+    }
+
+    .missao-content {
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    .missao-texto h2 {
+        text-align: center;
+    }
+
+    .missao-imagem {
+        flex: none;
+    }
+
+    .placeholder-imagem {
+        width: 200px;
+        height: 200px;
+        font-size: 2.5rem;
+    }
+
+    .carousel-container {
+        gap: 10px;
+        padding: 0 10px;
+    }
+
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+
+    .carousel-content {
+        min-height: 300px;
+    }
+
+    /* Mobile: mostrar apenas card principal */
+    .secao-valores .valor-card.side,
+    .secao-como-funciona .passo.side,
+    .secao-impacto .stat-card.side {
+        display: none;
+    }
+    
+    .secao-valores .valor-card.main,
+    .secao-como-funciona .passo.main,
+    .secao-impacto .stat-card.main {
+        width: 100%;
+        max-width: 350px;
+        transform: scale(1) !important;
+    }
+
+    .passo-numero {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+
+    .stat-numero {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-sobre {
+        padding: 60px 0;
+    }
+
+    .hero-sobre h1 {
+        font-size: 2rem;
+    }
+
+    .main-sobre-nos section {
+        padding: 40px 0;
+    }
+
+    .carousel-container {
+        gap: 5px;
+        padding: 0 5px;
+    }
+
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+
+    .secao-valores .valor-card.main,
+    .secao-impacto .stat-card.main {
+        padding: 30px 20px;
+    }
+
+    .secao-valores .valor-card h3 {
+        font-size: 1.5rem;
+    }
+
+    .carousel-indicators {
+        margin-top: 20px;
+    }
+}

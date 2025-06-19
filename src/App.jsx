@@ -15,6 +15,7 @@ import MeusAnuncios from './pages/MeusAnuncios';
 import AddProduto from './pages/AddProduto';
 import ProdutoDetalhes from './pages/ProdutoDetalhes';
 import CategoriaPage from './pages/CategoriaPage';
+import SobreNos from './pages/SobreNos';
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritesProvider } from './context/FavoritesContext';
@@ -290,6 +291,7 @@ export default function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Register />} />
               <Route path="/" element={<Home produtos={produtos} />} />
+              <Route path="/sobre-nos" element={<SobreNos />} />
               <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
               <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
               <Route path="/favoritos" element={<PrivateRoute><Favoritos produtos={produtos} /></PrivateRoute>} />

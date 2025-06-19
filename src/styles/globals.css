@@ -210,8 +210,38 @@ body { /* Reafirmando aqui, com Lato */
 .footer-description {
     color: #ccc;
     line-height: 1.6;
-    margin-bottom: 30px;
+    margin-bottom: 25px;
     font-size: 15px;
+}
+
+/* NOVO: Estilos para o botão Sobre Nós */
+.footer-about-button {
+    margin-top: 5px;
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+.btn-about-us {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #6A8A65 0%, #87a883 100%);
+    color: white;
+    text-decoration: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(106, 138, 101, 0.3);
+}
+
+.btn-about-us:hover {
+    background: linear-gradient(135deg, #87a883 0%, #6A8A65 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(106, 138, 101, 0.4);
+    text-decoration: none;
+    color: white;
 }
 
 .footer-social h4 {

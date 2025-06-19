@@ -43,6 +43,14 @@ const Footer = () => {
                                 Faça parte da comunidade ReVeste! Um espaço para doar e trocar roupas, 
                                 promovendo o consumo consciente e estendendo a vida útil de cada peça. Moda com propósito.
                             </p>
+                            
+                            {/* NOVO: Botão Sobre Nós */}
+                            <div className="footer-about-button">
+                                <Link to="/sobre-nos" className="btn-about-us">
+                                    📖 Saiba mais sobre nós
+                                </Link>
+                            </div>
+                            
                             <div className="footer-social">
                                 <h4>Siga-nos</h4>
                                 <div className="social-links">
@@ -97,6 +105,11 @@ const Footer = () => {
                                 <li>
                                     <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/vestidos', 'Vestidos', e)}>
                                         Vestidos
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/blusas', 'Blusas', e)}>
+                                        Blusas
                                     </a>
                                 </li>
                                 <li>
