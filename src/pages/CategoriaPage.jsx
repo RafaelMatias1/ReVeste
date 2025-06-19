@@ -2,7 +2,8 @@ import React, { useState, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import AuthModal from '../components/AuthModal';
-import PageLayout from '../components/PageLayout';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
 import '../styles/CategoriaPage.css';
 
@@ -117,8 +118,21 @@ const CategoriaPage = ({ produtos = [] }) => {
         navigate(`/produto/${produtoId}`);
     };
 
+    // FUNÇÃO PARA LIDAR COM CLIQUE EM PRODUTO DO FOOTER COM MODAL
+    const handleAuthenticatedFooterLink = (path, e) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            setShowAuthModal(true);
+            return;
+        }
+        navigate(path);
+    };
+
     return (
         <>
+            {/* ADICIONAR HEADER */}
+            <Header />
+            
             <main className="main-categoria-page">
                 <div className="container">
                     {/* Breadcrumb */}
@@ -256,6 +270,9 @@ const CategoriaPage = ({ produtos = [] }) => {
                     )}
                 </div>
             </main>
+
+            {/* ADICIONAR FOOTER */}
+            <Footer />
 
             {/* Modal de Autenticação */}
             <AuthModal
