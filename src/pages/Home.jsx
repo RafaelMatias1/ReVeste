@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
+import { useAuth } from '../context/AuthContext';
+import AuthModal from '../components/AuthModal';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
@@ -10,9 +12,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 // Componente específico para cards de categoria
-const CategoriaCard = ({ categoria }) => {
+const CategoriaCard = ({ categoria, onClick }) => {
     return (
-        <div className="categoria-card">
+        <div className="categoria-card" onClick={onClick} style={{ cursor: 'pointer' }}>
             <div className="categoria-fotos">
                 <img src={categoria.img} alt={categoria.nome} />
             </div>
@@ -28,6 +30,10 @@ export default function Home({ produtos = [] }) {
     const [termoBusca, setTermoBusca] = useState('');
     const [resultadosBusca, setResultadosBusca] = useState([]);
     const [mostrandoResultadosBusca, setMostrandoResultadosBusca] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
+    const [authModalMessage, setAuthModalMessage] = useState('');
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
     const categorias = [
         { id: 1, nome: "Verão", categoria: "verao", img: "/img/verao.jpeg", descricao: "Roupas leves e frescas" },
@@ -126,6 +132,26 @@ export default function Home({ produtos = [] }) {
         setMostrandoResultadosBusca(false);
     };
 
+    // FUNÇÃO PARA LIDAR COM CLIQUE EM CATEGORIA
+    const handleCategoriaClick = (categoria) => {
+        if (!isAuthenticated) {
+            setAuthModalMessage(`Para explorar a categoria "${categoria.nome}" e ver todos os produtos disponíveis, você precisa fazer login na sua conta.`);
+            setShowAuthModal(true);
+            return;
+        }
+        navigate(`/categorias/${categoria.categoria}`);
+    };
+
+    // FUNÇÃO PARA LIDAR COM CLIQUE EM PRODUTO
+    const handleProdutoClick = (produtoId) => {
+        if (!isAuthenticated) {
+            setAuthModalMessage('Para ver os detalhes deste produto e interagir com outros usuários, você precisa fazer login na sua conta.');
+            setShowAuthModal(true);
+            return;
+        }
+        navigate(`/produto/${produtoId}`);
+    };
+
     return (
         <>
             <Header />
@@ -135,8 +161,8 @@ export default function Home({ produtos = [] }) {
                     <div className="container">
                         <h1 className="hero-title">Transforme sua Moda</h1>
                         <p className="hero-subtitle">
-                            Troque e doe roupas de forma sustentável.
-                             Dê uma segunda vida às suas peças favoritas e encontre novos tesouros!
+                            Compre, venda e troque roupas de forma sustentável. 
+                            Dê uma segunda vida às suas peças favoritas!
                         </p>
                         
                         <div className="hero-search">
@@ -192,9 +218,13 @@ export default function Home({ produtos = [] }) {
                             ) : (
                                 <div className="produtos-grid">
                                     {resultadosBusca.map(produto => (
-                                        <Link to={`/produto/${produto.id}`} className="item-link" key={produto.id}>
+                                        <div 
+                                            key={produto.id}
+                                            onClick={() => handleProdutoClick(produto.id)}
+                                            style={{ cursor: 'pointer' }}
+                                        >
                                             <ProdutoCard produto={produto} />
-                                        </Link>
+                                        </div>
                                     ))}
                                 </div>
                             )}
@@ -211,9 +241,10 @@ export default function Home({ produtos = [] }) {
                                     <Slider {...settings}>
                                         {categorias.map((cat) => (
                                             <div key={cat.id}>
-                                                <Link to={`/categorias/${cat.categoria}`} className="item-link">
-                                                    <CategoriaCard categoria={cat} />
-                                                </Link>
+                                                <CategoriaCard 
+                                                    categoria={cat} 
+                                                    onClick={() => handleCategoriaClick(cat)}
+                                                />
                                             </div>
                                         ))}
                                     </Slider>
@@ -233,9 +264,12 @@ export default function Home({ produtos = [] }) {
                                                 .slice().reverse()
                                                 .map(produto => (
                                                     <div key={produto.id}>
-                                                        <Link to={`/produto/${produto.id}`} className="item-link">
+                                                        <div 
+                                                            onClick={() => handleProdutoClick(produto.id)}
+                                                            style={{ cursor: 'pointer' }}
+                                                        >
                                                             <ProdutoCard produto={produto} />
-                                                        </Link>
+                                                        </div>
                                                     </div>
                                                 ))}
                                         </Slider>
@@ -248,6 +282,14 @@ export default function Home({ produtos = [] }) {
             </main>
             
             <Footer />
+
+            {/* Modal de Autenticação */}
+            <AuthModal
+                isOpen={showAuthModal}
+                onClose={() => setShowAuthModal(false)}
+                message={authModalMessage}
+                title="Login Necessário"
+            />
         </>
     );
 }

@@ -1,8 +1,22 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import '../styles/globals.css';
 
 const Footer = () => {
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    const handleAuthenticatedLink = (path, e) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            alert('Faça login para acessar esta página!');
+            navigate('/login');
+            return;
+        }
+        navigate(path);
+    };
+
     return (
         <footer className="rodape">
             <div className="container">
@@ -14,8 +28,8 @@ const Footer = () => {
                             <p>Transformando moda em sustentabilidade</p>
                         </div>
                         <p className="footer-description">
-                     Faça parte da comunidade ReVeste! Um espaço para doar e trocar roupas, 
-                     promovendo o consumo consciente e estendendo a vida útil de cada peça. Moda com propósito.
+                            Faça parte da comunidade ReVeste! Um espaço para doar e trocar roupas, 
+                            promovendo o consumo consciente e estendendo a vida útil de cada peça. Moda com propósito.
                         </p>
                         <div className="footer-social">
                             <h4>Siga-nos</h4>
@@ -33,11 +47,26 @@ const Footer = () => {
                         <h4>Links Rápidos</h4>
                         <ul className="footer-links">
                             <li><Link to="/">Início</Link></li>
-                            <li><Link to="/categorias/todos">Todos os Produtos</Link></li>
-                            <li><Link to="/categorias/feminino">Moda Feminina</Link></li>
-                            <li><Link to="/categorias/masculino">Moda Masculina</Link></li>
-                            <li><Link to="/categorias/infantil">Moda Infantil</Link></li>
-                            <li><Link to="/publicar">Publicar Item</Link></li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/feminino', e)}>
+                                    Moda Feminina
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/masculino', e)}>
+                                    Moda Masculina
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/infantil', e)}>
+                                    Moda Infantil
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/publicar', e)}>
+                                    Publicar Item
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
@@ -45,12 +74,36 @@ const Footer = () => {
                     <div className="footer-section">
                         <h4>Categorias</h4>
                         <ul className="footer-links">
-                            <li><Link to="/categorias/vestidos">Vestidos</Link></li>
-                            <li><Link to="/categorias/casacos">Casacos</Link></li>
-                            <li><Link to="/categorias/calcados">Calçados</Link></li>
-                            <li><Link to="/categorias/inverno">Roupas de Inverno</Link></li>
-                            <li><Link to="/categorias/verao">Roupas de Verão</Link></li>
-                            <li><Link to="/categorias/jaquetas">Jaquetas</Link></li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/vestidos', e)}>
+                                    Vestidos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/casacos', e)}>
+                                    Casacos
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/calcados', e)}>
+                                    Calçados
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/inverno', e)}>
+                                    Roupas de Inverno
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/verao', e)}>
+                                    Roupas de Verão
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" onClick={(e) => handleAuthenticatedLink('/categorias/jaquetas', e)}>
+                                    Jaquetas
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
