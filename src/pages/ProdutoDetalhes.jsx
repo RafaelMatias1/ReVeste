@@ -168,15 +168,7 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                     </section>
                 </div>
             </main>
-            
-            {/* MODAL DE CONTATO ADICIONADO */}
-            <ContactModal
-                isOpen={isContactModalOpen}
-                onClose={handleCloseContactModal}
-                vendedorEmail={produto.userEmail || 'contato@example.com'}
-                produtoTitulo={produto.titulo}
-            />
-            
+            <div style={{ height: '40px' }} />
             <Footer />
         </>
     );

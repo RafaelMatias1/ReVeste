@@ -1,11 +1,5 @@
 /* Estilos para a página de Chat */
 
-.main-chat {
-    flex-grow: 1;
-    background-color: #f8f9fa;
-    display: flex;
-}
-
 .chat-container {
     display: flex;
     max-width: 1200px;
@@ -188,16 +182,6 @@
 }
 
 /* Área de mensagens */
-.chat-messages {
-    flex-grow: 1;
-    padding: 25px;
-    overflow-y: auto;
-    background: linear-gradient(180deg, #f8f9fa 0%, #f1f3f5 100%);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
 .message {
     max-width: 75%;
     padding: 14px 18px;

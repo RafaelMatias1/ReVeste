@@ -289,15 +289,15 @@ export default function App() {
             <Routes>
               <Route path="/login" element={<Login />} />
               <Route path="/registro" element={<Register />} />
-              <Route path="/" element={<PrivateRoute><Home produtos={produtos} /></PrivateRoute>} />
+              <Route path="/" element={<Home produtos={produtos} />} />
               <Route path="/perfil" element={<PrivateRoute><Perfil /></PrivateRoute>} />
               <Route path="/chat" element={<PrivateRoute><Chat /></PrivateRoute>} />
               <Route path="/favoritos" element={<PrivateRoute><Favoritos produtos={produtos} /></PrivateRoute>} />
               <Route path="/meus-anuncios" element={<PrivateRoute><MeusAnuncios /></PrivateRoute>} />
               <Route path="/publicar" element={<PrivateRoute><AddProduto addProduto={addProduto} produtos={produtos} /></PrivateRoute>} />
               <Route path="/editar-anuncio/:id" element={<PrivateRoute><AddProduto produtos={produtos} updateProduto={updateProduto} deleteProduto={deleteProduto} /></PrivateRoute>} />
-              <Route path="/produto/:id" element={<PrivateRoute><ProdutoDetalhes produtos={produtos} /></PrivateRoute>} />
-              <Route path="/categorias/:categoria" element={<PrivateRoute><CategoriaPage produtos={produtos} /></PrivateRoute>} />
+              <Route path="/produto/:id" element={<ProdutoDetalhes produtos={produtos} deleteProduto={deleteProduto} />} />
+              <Route path="/categorias/:categoria" element={<CategoriaPage produtos={produtos} />} />
             </Routes>
           </div>
         </Router>
