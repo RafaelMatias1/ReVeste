@@ -1,5 +1,5 @@
 import React from 'react';
-import './InfoModal.css';
+import '../styles/InfoModal.css';
 
 const InfoModal = ({ isOpen, onClose, title, children }) => {
   if (!isOpen) return null;
