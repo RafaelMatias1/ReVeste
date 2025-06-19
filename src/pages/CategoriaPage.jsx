@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import PageLayout from '../components/PageLayout';
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
 import '../styles/CategoriaPage.css';
 
@@ -103,8 +104,9 @@ const CategoriaPage = ({ produtos = [] }) => {
     };
 
     return (
-        <main className="main-categoria-page">
-            <div className="container">
+        <>
+            <Header />
+            <main className="categoria-page container">
                 {/* Breadcrumb */}
                 <nav className="breadcrumb">
                     <Link to="/">Início</Link>
@@ -239,8 +241,9 @@ const CategoriaPage = ({ produtos = [] }) => {
                         ))}
                     </section>
                 )}
-            </div>
-        </main>
+            </main>
+            <Footer />
+        </>
     );
 };
 
