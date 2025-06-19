@@ -106,13 +106,32 @@ const Chat = () => {
     const [messages, setMessages] = useState(() => getWelcomeMessages('duvidas-gerais'));
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
+    const chatContainerRef = useRef(null);
 
+    // Scroll suave apenas para as mensagens, não para a página toda
     const scrollToBottom = () => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        if (messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ 
+                behavior: "smooth",
+                block: "end",
+                inline: "nearest"
+            });
+        }
     };
 
+    // Força a página voltar ao topo quando carregar
     useEffect(() => {
-        scrollToBottom();
+        window.scrollTo(0, 0);
+    }, []);
+
+    // Só faz scroll das mensagens quando elas mudam
+    useEffect(() => {
+        // Pequeno delay para garantir que o DOM foi atualizado
+        const timer = setTimeout(() => {
+            scrollToBottom();
+        }, 100);
+        
+        return () => clearTimeout(timer);
     }, [messages, isTyping]);
 
     const simulateTyping = (callback) => {
@@ -123,7 +142,12 @@ const Chat = () => {
         }, 1500);
     };
 
-    const handleSuggestionClick = (suggestion) => {
+    const handleSuggestionClick = (suggestion, e) => {
+        // Previne comportamento padrão usando o event recebido como parâmetro
+        if (e) {
+            e.preventDefault();
+        }
+        
         const userMessage = {
             id: Date.now(),
             text: suggestion,
@@ -147,7 +171,12 @@ const Chat = () => {
         });
     };
 
-    const handleCategoryChange = (categoryId) => {
+    const handleCategoryChange = (categoryId, e) => {
+        // Previne comportamento padrão usando o event recebido como parâmetro
+        if (e) {
+            e.preventDefault();
+        }
+        
         // Só muda se for uma categoria diferente da atual
         if (categoryId !== activeCategory) {
             setActiveCategory(categoryId);
@@ -167,15 +196,16 @@ const Chat = () => {
             subtitle={`Seção: ${chatResponses[activeCategory].title}`}
             className="chat-page"
         >
-            <div className="chat-content">
+            <div className="chat-content" ref={chatContainerRef}>
                 <div className="chat-categories">
                     <h3>Categorias de Ajuda</h3>
                     <div className="category-buttons">
                         {Object.entries(chatResponses).map(([key, category]) => (
                             <button
                                 key={key}
+                                type="button"
                                 className={`category-btn ${activeCategory === key ? 'active' : ''}`}
-                                onClick={() => handleCategoryChange(key)}
+                                onClick={(e) => handleCategoryChange(key, e)}
                             >
                                 {category.title}
                             </button>
@@ -206,8 +236,9 @@ const Chat = () => {
                         {chatResponses[activeCategory].suggestions.map((suggestion, index) => (
                             <button
                                 key={index}
+                                type="button"
                                 className="suggestion-btn"
-                                onClick={() => handleSuggestionClick(suggestion)}
+                                onClick={(e) => handleSuggestionClick(suggestion, e)}
                             >
                                 {suggestion}
                             </button>

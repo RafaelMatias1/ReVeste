@@ -17,6 +17,7 @@ import ProdutoDetalhes from './pages/ProdutoDetalhes';
 import CategoriaPage from './pages/CategoriaPage';
 import SobreNos from './pages/SobreNos';
 import PrivateRoute from './components/PrivateRoute';
+import ScrollToTop from './components/ScrollToTop';
 import { AuthProvider } from './context/AuthContext';
 import { FavoritesProvider } from './context/FavoritesContext';
 
@@ -286,6 +287,7 @@ export default function App() {
     <AuthProvider>
       <FavoritesProvider>
         <Router>
+          <ScrollToTop />
           <div className={styles.App}>
             <Routes>
               <Route path="/login" element={<Login />} />
