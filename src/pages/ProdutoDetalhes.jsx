@@ -27,6 +27,8 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
     
     // NOVO STATE PARA O MODAL
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
+    // Estado do carrossel (deve ficar ANTES de qualquer return condicional)
+    const [carouselIndex, setCarouselIndex] = useState(0);
     
     const produto = produtos.find(p => p.id === parseInt(id));
 
@@ -79,9 +81,8 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
     // Isso é um placeholder, `user.id` e `produto.userId` precisam ser os IDs reais de usuário
     const isOwner = isAuthenticated && user && produto.userId === user.id;
 
-    // Filtra "Outras Roupas" (excluindo o produto atual, e talvez limitando por categoria)
-    const outrasRoupas = produtos.filter(p => p.id !== produto.id && p.categoria === produto.categoria)
-                                .slice(0, 5);
+    // Seleciona até 4 produtos quaisquer (exceto o atual)
+    const outrasRoupas = produtos.filter(p => p.id !== produto.id).slice(0, 4);
 
 
     return (
@@ -146,11 +147,19 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                     <section className="secao_outras_roupas">
                         <h2>Outras Roupas</h2>
                         {outrasRoupas.length === 0 ? (
-                            <p className="no-products-message">Nenhuma roupa relacionada encontrada.</p>
+                            <p className="no-products-message">Nenhuma roupa encontrada.</p>
                         ) : (
-                            <div className="lista_itens">
+                            <div className="lista_itens" style={{
+                                display: 'grid',
+                                gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                                gap: '1.5rem',
+                                justifyItems: 'center',
+                                alignItems: 'stretch',
+                                margin: '0 auto',
+                                width: '100%'
+                            }}>
                                 {outrasRoupas.map((prod) => (
-                                    <Link to={`/produto/${prod.id}`} className="item-link" key={prod.id}>
+                                    <Link to={`/produto/${prod.id}`} className="item-link" key={prod.id} style={{ width: '100%', maxWidth: 280 }}>
                                         <ProdutoCard produto={prod} />
                                     </Link>
                                 ))}
