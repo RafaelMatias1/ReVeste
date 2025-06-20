@@ -22,14 +22,61 @@ export default function Perfil() {
   });
   const [salvo, setSalvo] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [erros, setErros] = useState({});
 
   function handleChange(e) {
-    setForm({ ...form, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    if (id === "cpf") {
+      // Permite apenas números e limita a 11 dígitos
+      const onlyNumbers = value.replace(/\D/g, "").slice(0, 11);
+      setForm({ ...form, cpf: onlyNumbers });
+    } else if (id === "nascimento") {
+      setForm({ ...form, nascimento: value });
+    } else {
+      setForm({ ...form, [id]: value });
+    }
     setSalvo(false);
+  }
+
+  function validarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+    if (cpf.length !== 11 || /^([0-9])\1+$/.test(cpf)) return false;
+    let soma = 0, resto;
+    for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i-1, i)) * (11 - i);
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(9, 10))) return false;
+    soma = 0;
+    for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i-1, i)) * (12 - i);
+    resto = (soma * 10) % 11;
+    if ((resto === 10) || (resto === 11)) resto = 0;
+    if (resto !== parseInt(cpf.substring(10, 11))) return false;
+    return true;
+  }
+
+  function validarNascimento(data) {
+    if (!data) return false;
+    const hoje = new Date();
+    const nascimento = new Date(data);
+    if (nascimento > hoje) return false;
+    if (nascimento.getFullYear() < 1900) return false;
+    return true;
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+    const novosErros = {};
+    if (!validarCPF(form.cpf)) {
+      novosErros.cpf = 'CPF inválido';
+    }
+    if (!validarNascimento(form.nascimento)) {
+      novosErros.nascimento = 'Data de nascimento inválida';
+    }
+    if (Object.keys(novosErros).length > 0) {
+      setErros(novosErros);
+      return;
+    }
+    setErros({});
     const usuarioAtualizado = {
       nome: form.nome,
       email: form.email,
@@ -106,11 +153,13 @@ export default function Perfil() {
           <div className="perfil-form-row">
             <div className="perfil-form-group">
               <label htmlFor="cpf">CPF</label>
-              <input type="text" id="cpf" value={form.cpf} onChange={handleChange} />
+              <input type="text" id="cpf" value={form.cpf} onChange={handleChange} maxLength={11} pattern="\d{11}" />
+              {erros.cpf && <span className="erro-campo">{erros.cpf}</span>}
             </div>
             <div className="perfil-form-group">
               <label htmlFor="nascimento">Data de nascimento</label>
-              <input type="date" id="nascimento" value={form.nascimento} onChange={handleChange} />
+              <input type="date" id="nascimento" value={form.nascimento} onChange={handleChange} max={new Date().toISOString().split('T')[0]} />
+              {erros.nascimento && <span className="erro-campo">{erros.nascimento}</span>}
             </div>
           </div>
           <div className="perfil-form-row">
