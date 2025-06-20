@@ -102,8 +102,56 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
 
                     <section className="detalhes-produto">
                         <div className="imagem-produto-grande">
-                            {/* Exibe a primeira foto do produto ou um placeholder */}
-                            <img src={produto.fotos[0] || RELATED_IMAGES.placeholder} alt={produto.titulo} />
+                            {/* Carrossel de imagens do produto - visual melhorado */}
+                            {produto.fotos && produto.fotos.length > 0 ? (
+                                <div style={{ position: 'relative', width: '100%', textAlign: 'center', padding: '16px 0' }}>
+                                    <img
+                                        src={produto.fotos[carouselIndex] || RELATED_IMAGES.placeholder}
+                                        alt={produto.titulo}
+                                        className="imagem-destaque"
+                                        style={{ maxWidth: '100%', maxHeight: 350, borderRadius: 12, boxShadow: '0 4px 24px #0001', border: '2px solid #6A8A65' }}
+                                    />
+                                    {produto.fotos.length > 1 && (
+                                        <>
+                                            <button
+                                                type="button"
+                                                onClick={() => setCarouselIndex((prev) => prev === 0 ? produto.fotos.length - 1 : prev - 1)}
+                                                style={{ position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)', background: '#fff', border: 'none', fontSize: 28, cursor: 'pointer', borderRadius: '50%', width: 44, height: 44, boxShadow: '0 2px 8px #0002', color: '#6A8A65', transition: 'background 0.2s' }}
+                                                aria-label="Foto anterior"
+                                            >
+                                                <span style={{ fontWeight: 'bold' }}>&#8592;</span>
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={() => setCarouselIndex((prev) => prev === produto.fotos.length - 1 ? 0 : prev + 1)}
+                                                style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: '#fff', border: 'none', fontSize: 28, cursor: 'pointer', borderRadius: '50%', width: 44, height: 44, boxShadow: '0 2px 8px #0002', color: '#6A8A65', transition: 'background 0.2s' }}
+                                                aria-label="Próxima foto"
+                                            >
+                                                <span style={{ fontWeight: 'bold' }}>&#8594;</span>
+                                            </button>
+                                            <div style={{ display: 'flex', justifyContent: 'center', marginTop: 12, gap: 8 }}>
+                                                {produto.fotos.map((_, idx) => (
+                                                    <span
+                                                        key={idx}
+                                                        style={{
+                                                            display: 'inline-block',
+                                                            width: carouselIndex === idx ? 16 : 10,
+                                                            height: carouselIndex === idx ? 16 : 10,
+                                                            borderRadius: '50%',
+                                                            background: carouselIndex === idx ? '#6A8A65' : '#ccc',
+                                                            border: carouselIndex === idx ? '2px solid #6A8A65' : '1px solid #ccc',
+                                                            transition: 'all 0.2s',
+                                                            boxShadow: carouselIndex === idx ? '0 2px 8px #6A8A6522' : 'none'
+                                                        }}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
+                                </div>
+                            ) : (
+                                <img src={RELATED_IMAGES.placeholder} alt={produto.titulo} />
+                            )}
                             {/* BOTÃO DE FAVORITO ADICIONADO NA IMAGEM GRANDE */}
                             <FavoriteButton produto={produto} size="large" className="produto-detalhes-favorite" />
                         </div>
