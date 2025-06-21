@@ -55,19 +55,33 @@ const MeusAnuncios = () => {
     const handleDelete = (id) => {
         if (window.confirm("Tem certeza que deseja excluir este anúncio?")) {
             try {
+                // Obter produtos atuais do localStorage
                 const produtos = JSON.parse(localStorage.getItem('reveste_produtos')) || [];
+                console.log('Produtos antes da exclusão:', produtos.length);
+                
+                // Filtrar removendo o produto com o ID especificado
                 const produtosAtualizados = produtos.filter(produto => produto.id !== id);
+                console.log('Produtos após exclusão:', produtosAtualizados.length);
+                
+                // Salvar no localStorage
                 localStorage.setItem('reveste_produtos', JSON.stringify(produtosAtualizados));
-                setMeusProdutos(produtosAtualizados.filter(produto => {
-                    const usuarioAtual = user || JSON.parse(localStorage.getItem("usuarioReVeste"));
-                    return usuarioAtual && (
-                        produto.userEmail === usuarioAtual.email || 
-                        produto.userId === usuarioAtual.id ||
-                        produto.autorEmail === usuarioAtual.email
-                    );
+                
+                // Atualizar estado local
+                setMeusProdutos(prev => prev.filter(produto => produto.id !== id));
+                
+                // Disparar eventos para sincronização
+                window.dispatchEvent(new CustomEvent('productDeleted', { detail: { id } }));
+                window.dispatchEvent(new StorageEvent('storage', { 
+                    key: 'reveste_produtos', 
+                    newValue: JSON.stringify(produtosAtualizados) 
                 }));
+                
+                alert('Produto excluído com sucesso!');
+                console.log('Produto excluído com ID:', id);
+                
             } catch (error) {
                 console.error('Erro ao excluir produto:', error);
+                alert('Erro ao excluir produto. Tente novamente.');
             }
         }
     };

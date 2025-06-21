@@ -45,6 +45,8 @@ Criar uma solução digital que combate o desperdício na indústria da moda, in
 - Proteção contra acesso não autorizado
 - Validação de formulários em tempo real
 - Armazenamento seguro no localStorage
+- **Sistema de sincronização** - Eventos customizados para atualização em tempo real
+- **Deleção consistente** - Remoção completa de produtos em todos os componentes
 
 ## 🚀 Tecnologias Utilizadas
 

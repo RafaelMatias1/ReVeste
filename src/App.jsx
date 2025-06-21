@@ -277,11 +277,71 @@ export default function App() {
   };
 
   const deleteProduto = (id) => {
-    const produtosFiltrados = produtos.filter(produto => produto.id !== id);
-    setProdutos(produtosFiltrados);
-    localStorage.setItem('reveste_produtos', JSON.stringify(produtosFiltrados));
-    return true;
+    try {
+      console.log('Deletando produto com ID:', id);
+      
+      // Atualizar o estado local
+      const produtosAtualizados = produtos.filter(produto => produto.id !== parseInt(id));
+      setProdutos(produtosAtualizados);
+      
+      // Atualizar o localStorage
+      localStorage.setItem('reveste_produtos', JSON.stringify(produtosAtualizados));
+      
+      // Disparar evento customizado para outros componentes
+      window.dispatchEvent(new CustomEvent('productDeleted', { detail: { id: parseInt(id) } }));
+      
+      console.log('Produto deletado com sucesso:', id);
+      return true;
+    } catch (error) {
+      console.error('Erro ao deletar produto:', error);
+      return false;
+    }
   };
+
+  // Função para debug - verificar produtos no localStorage
+  const debugProdutos = () => {
+    const produtosLS = JSON.parse(localStorage.getItem('reveste_produtos') || '[]');
+    console.log('Produtos no localStorage:', produtosLS.length);
+    console.log('Produtos no estado:', produtos.length);
+    console.log('Diferença:', produtosLS.length - produtos.length);
+    return produtosLS;
+  };
+
+  // Adicionar função global para debug
+  window.debugProdutos = debugProdutos;
+
+  useEffect(() => {
+    // Listener para evento customizado de deleção
+    const handleProductDeleted = (e) => {
+      const { id } = e.detail;
+      console.log('Produto deletado detectado:', id);
+      
+      // Recarregar produtos do localStorage
+      const produtosAtualizados = JSON.parse(localStorage.getItem('reveste_produtos') || '[]');
+      setProdutos(produtosAtualizados);
+    };
+
+    // Listener para mudanças no localStorage (sincronização entre abas)
+    const handleStorageChange = (e) => {
+      if (e.key === 'reveste_produtos') {
+        try {
+          const novosProdutos = JSON.parse(e.newValue || '[]');
+          setProdutos(novosProdutos);
+          console.log('Produtos sincronizados via storage event');
+        } catch (error) {
+          console.error('Erro ao sincronizar produtos:', error);
+        }
+      }
+    };
+
+    window.addEventListener('productDeleted', handleProductDeleted);
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      window.removeEventListener('productDeleted', handleProductDeleted);
+      window.removeEventListener('storage', handleStorageChange);
+    };
+  }, []);
 
   return (
     <AuthProvider>
