@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { getProdutos, deleteProdutoFromData } from '../components/ProdutosData';
 import PageLayout from '../components/PageLayout';
 import SafeImage from '../components/SafeImage';
 import '../styles/SafeImage.css';
@@ -14,7 +15,7 @@ const MeusAnuncios = () => {
     useEffect(() => {
         const carregarMeusProdutos = () => {
             try {
-                const produtos = JSON.parse(localStorage.getItem('reveste_produtos')) || [];
+                const produtos = getProdutos();
                 const usuarioAtual = user || JSON.parse(localStorage.getItem("usuarioReVeste"));
                 
                 if (usuarioAtual && usuarioAtual.email) {
@@ -55,16 +56,8 @@ const MeusAnuncios = () => {
     const handleDelete = (id) => {
         if (window.confirm("Tem certeza que deseja excluir este anúncio?")) {
             try {
-                // Obter produtos atuais do localStorage
-                const produtos = JSON.parse(localStorage.getItem('reveste_produtos')) || [];
-                console.log('Produtos antes da exclusão:', produtos.length);
-                
-                // Filtrar removendo o produto com o ID especificado
-                const produtosAtualizados = produtos.filter(produto => produto.id !== id);
-                console.log('Produtos após exclusão:', produtosAtualizados.length);
-                
-                // Salvar no localStorage
-                localStorage.setItem('reveste_produtos', JSON.stringify(produtosAtualizados));
+                // Usar função do componente de dados
+                const produtosAtualizados = deleteProdutoFromData(id);
                 
                 // Atualizar estado local
                 setMeusProdutos(prev => prev.filter(produto => produto.id !== id));

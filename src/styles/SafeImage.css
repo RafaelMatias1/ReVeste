@@ -4,15 +4,18 @@
     position: relative;
     width: 100%;
     height: 100%;
+    overflow: hidden;
     background-color: #f8f9fa;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
 }
 
 .safe-image {
-    transition: all 0.3s ease;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: opacity 0.3s ease;
 }
 
 .safe-image.loading {
@@ -20,7 +23,7 @@
 }
 
 .safe-image.error {
-    opacity: 0.7;
+    opacity: 1;
 }
 
 .image-loading {
@@ -28,14 +31,16 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .loading-spinner {
-    width: 24px;
-    height: 24px;
-    border: 2px solid #e9ecef;
-    border-top: 2px solid #6A8A65;
+    width: 30px;
+    height: 30px;
+    border: 3px solid #e9ecef;
+    border-top: 3px solid #6A8A65;
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
@@ -43,4 +48,79 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Placeholder quando não há imagem */
+.safe-image-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    z-index: 1;
+}
+
+.safe-image {
+    position: relative;
+    z-index: 2;
+}
+
+/* Estados específicos para diferentes tamanhos */
+.safe-image-container.small {
+    min-height: 60px;
+}
+
+.safe-image-container.medium {
+    min-height: 150px;
+}
+
+.safe-image-container.large {
+    min-height: 250px;
+}
+
+/* Para cards de produtos */
+.produto-card .safe-image-container {
+    border-radius: 8px 8px 0 0;
+    height: 200px;
+}
+
+/* Para detalhes de produtos */
+.produto-detalhes .safe-image-container {
+    border-radius: 12px;
+    max-height: 400px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .loading-spinner {
+        width: 25px;
+        height: 25px;
+        border-width: 2px;
+    }
+    
+    .produto-card .safe-image-container {
+        height: 180px;
+    }
+    
+    .produto-detalhes .safe-image-container {
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .loading-spinner {
+        width: 20px;
+        height: 20px;
+        border-width: 2px;
+    }
+    
+    .produto-card .safe-image-container {
+        height: 160px;
+    }
+    
+    .produto-detalhes .safe-image-container {
+        max-height: 250px;
+    }
 }
