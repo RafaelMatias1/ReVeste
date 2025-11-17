@@ -9,6 +9,11 @@ export function FavoritesProvider({ children }) {
 
     // Carrega favoritos do localStorage quando o usuário muda
     useEffect(() => {
+        if (typeof window === 'undefined') {
+            setFavoritos([]);
+            return;
+        }
+        
         if (isAuthenticated && user) {
             const favoritosKey = `favoritos_${user.email}`;
             const favoritosSalvos = localStorage.getItem(favoritosKey);
@@ -24,6 +29,10 @@ export function FavoritesProvider({ children }) {
 
     // Salva favoritos no localStorage
     const salvarFavoritos = (novosFavoritos) => {
+        if (typeof window === 'undefined') {
+            return;
+        }
+        
         if (user) {
             const favoritosKey = `favoritos_${user.email}`;
             localStorage.setItem(favoritosKey, JSON.stringify(novosFavoritos));

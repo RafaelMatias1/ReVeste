@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { produtoAPI } from '../services/api';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SafeImage from '../components/SafeImage';
@@ -111,34 +112,46 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
         setIsSubmitting(true);
 
         try {
-            const usuarioAtual = user || JSON.parse(localStorage.getItem("usuarioReVeste"));
-            
             const produtoData = {
-                ...formData,
-                userEmail: usuarioAtual?.email || 'usuario@example.com',
-                userId: usuarioAtual?.id || Date.now(),
-                autorEmail: usuarioAtual?.email || 'usuario@example.com',
-                ativo: true
+                titulo: formData.titulo,
+                descricao: formData.descricao,
+                categoria: formData.categoria,
+                genero: formData.genero,
+                tamanho: formData.tamanho,
+                condicao: formData.condicao,
+                localizacao: formData.localizacao,
+                fotos: formData.fotos || []
             };
 
             if (isEditing) {
-                updateProduto({ ...produtoData, id: parseInt(id) });
+                // Atualizar produto via API
+                await produtoAPI.update(id, produtoData);
+                alert('Produto atualizado com sucesso!');
             } else {
-                addProduto(produtoData);
+                // Criar novo produto via API
+                await produtoAPI.create(produtoData);
+                alert('Produto publicado com sucesso!');
             }
 
             navigate('/meus-anuncios');
         } catch (error) {
             console.error('Erro ao salvar produto:', error);
-            alert('Erro ao salvar produto. Tente novamente.');
+            alert(error.response?.data?.message || 'Erro ao salvar produto. Tente novamente.');
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const handleDelete = () => {
-        if (deleteProduto && deleteProduto(parseInt(id))) {
-            navigate('/meus-anuncios');
+    const handleDelete = async () => {
+        if (window.confirm('Tem certeza que deseja excluir este produto?')) {
+            try {
+                await produtoAPI.delete(id);
+                alert('Produto excluído com sucesso!');
+                navigate('/meus-anuncios');
+            } catch (error) {
+                console.error('Erro ao excluir produto:', error);
+                alert('Erro ao excluir produto. Tente novamente.');
+            }
         }
     };
 

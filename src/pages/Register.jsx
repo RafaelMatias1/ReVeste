@@ -21,7 +21,7 @@ export default function Register() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!formData.nome || !formData.email || !formData.senha || !formData.confirmarSenha) {
@@ -39,14 +39,14 @@ export default function Register() {
             return;
         }
 
-        // Registrar usuário
-        const success = register(formData.nome, formData.email, formData.senha);
+        // Registrar usuário via API
+        const result = await register(formData.nome, formData.email, formData.senha);
         
-        if (success) {
+        if (result.success) {
             alert('Conta criada com sucesso!');
             navigate('/');
         } else {
-            alert('Erro ao criar conta. Este email já pode estar cadastrado.');
+            alert(result.message || 'Erro ao criar conta. Este email já pode estar cadastrado.');
         }
     };
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { produtoAPI } from '../services/api';
 import { getProdutos, deleteProdutoFromData } from '../components/ProdutosData';
 import PageLayout from '../components/PageLayout';
 import SafeImage from '../components/SafeImage';
@@ -13,23 +14,54 @@ const MeusAnuncios = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const carregarMeusProdutos = () => {
+        const carregarMeusProdutos = async () => {
             try {
-                const produtos = getProdutos();
-                const usuarioAtual = user || JSON.parse(localStorage.getItem("usuarioReVeste"));
-                
-                if (usuarioAtual && usuarioAtual.email) {
-                    // Filtra produtos do usuário atual baseado no email
-                    const produtosDoUsuario = produtos.filter(produto => 
-                        produto.userEmail === usuarioAtual.email || 
-                        produto.userId === usuarioAtual.id ||
-                        produto.autorEmail === usuarioAtual.email
+                if (user && user.id) {
+                    // Tentar carregar da API
+                    const response = await produtoAPI.getAll();
+                    // Filtrar produtos do usuário
+                    const produtosDoUsuario = response.produtos.filter(p => 
+                        p.usuario?._id === user.id || p.usuario?.id === user.id
                     );
                     setMeusProdutos(produtosDoUsuario);
+                } else {
+                    // Fallback para localStorage
+                    const produtos = getProdutos();
+                    let usuarioAtual = user;
+                    
+                    if (!usuarioAtual && typeof window !== 'undefined') {
+                        const usuarioStr = localStorage.getItem("usuarioReVeste");
+                        usuarioAtual = usuarioStr ? JSON.parse(usuarioStr) : null;
+                    }
+                    
+                    if (usuarioAtual && usuarioAtual.email) {
+                        const produtosDoUsuario = produtos.filter(produto => 
+                            produto.userEmail === usuarioAtual.email || 
+                            produto.userId === usuarioAtual.id ||
+                            produto.autorEmail === usuarioAtual.email
+                        );
+                        setMeusProdutos(produtosDoUsuario);
+                    }
                 }
             } catch (error) {
                 console.error('Erro ao carregar produtos:', error);
-                setMeusProdutos([]);
+                // Fallback para localStorage em caso de erro
+                try {
+                    const produtos = getProdutos();
+                    let usuarioAtual = user;
+                    if (!usuarioAtual && typeof window !== 'undefined') {
+                        const usuarioStr = localStorage.getItem("usuarioReVeste");
+                        usuarioAtual = usuarioStr ? JSON.parse(usuarioStr) : null;
+                    }
+                    if (usuarioAtual && usuarioAtual.email) {
+                        const produtosDoUsuario = produtos.filter(produto => 
+                            produto.userEmail === usuarioAtual.email
+                        );
+                        setMeusProdutos(produtosDoUsuario);
+                    }
+                } catch {
+                    setMeusProdutos([]);
+                }
             } finally {
                 setLoading(false);
             }
@@ -38,43 +70,46 @@ const MeusAnuncios = () => {
         carregarMeusProdutos();
 
         // Listener para atualizar quando localStorage mudar
-        const handleStorageChange = () => {
-            carregarMeusProdutos();
-        };
+        if (typeof window !== 'undefined') {
+            const handleStorageChange = () => {
+                carregarMeusProdutos();
+            };
 
-        window.addEventListener('storage', handleStorageChange);
+            window.addEventListener('storage', handleStorageChange);
         
-        // Também escuta mudanças locais
-        const interval = setInterval(carregarMeusProdutos, 2000);
+            // Também escuta mudanças locais
+            const interval = setInterval(carregarMeusProdutos, 2000);
 
-        return () => {
-            window.removeEventListener('storage', handleStorageChange);
-            clearInterval(interval);
-        };
+            return () => {
+                window.removeEventListener('storage', handleStorageChange);
+                clearInterval(interval);
+            };
+        }
     }, [user]);
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Tem certeza que deseja excluir este anúncio?")) {
             try {
-                // Usar função do componente de dados
-                const produtosAtualizados = deleteProdutoFromData(id);
+                // Tentar deletar via API
+                await produtoAPI.delete(id);
                 
                 // Atualizar estado local
-                setMeusProdutos(prev => prev.filter(produto => produto.id !== id));
-                
-                // Disparar eventos para sincronização
-                window.dispatchEvent(new CustomEvent('productDeleted', { detail: { id } }));
-                window.dispatchEvent(new StorageEvent('storage', { 
-                    key: 'reveste_produtos', 
-                    newValue: JSON.stringify(produtosAtualizados) 
-                }));
+                setMeusProdutos(prev => prev.filter(produto => 
+                    produto.id !== id && produto._id !== id
+                ));
                 
                 alert('Produto excluído com sucesso!');
-                console.log('Produto excluído com ID:', id);
-                
             } catch (error) {
                 console.error('Erro ao excluir produto:', error);
-                alert('Erro ao excluir produto. Tente novamente.');
+                
+                // Fallback para localStorage
+                try {
+                    const produtosAtualizados = deleteProdutoFromData(id);
+                    setMeusProdutos(prev => prev.filter(produto => produto.id !== id));
+                    alert('Produto excluído com sucesso!');
+                } catch {
+                    alert('Erro ao excluir produto. Tente novamente.');
+                }
             }
         }
     };

@@ -131,6 +131,10 @@ export const initialProdutosData = [
 
 // Função para obter produtos do localStorage ou retornar dados iniciais
 export const getProdutos = () => {
+    if (typeof window === 'undefined') {
+        return initialProdutosData;
+    }
+    
     try {
         const produtosSalvos = localStorage.getItem('reveste_produtos');
         if (produtosSalvos) {
@@ -146,6 +150,10 @@ export const getProdutos = () => {
 
 // Função para salvar produtos no localStorage
 export const saveProdutos = (produtos) => {
+    if (typeof window === 'undefined') {
+        return false;
+    }
+    
     try {
         localStorage.setItem('reveste_produtos', JSON.stringify(produtos));
         return true;
@@ -191,6 +199,10 @@ export const deleteProdutoFromData = (produtoId) => {
 
 // Função para inicializar dados se não existirem
 export const initializeProdutosData = () => {
+    if (typeof window === 'undefined') {
+        return initialProdutosData;
+    }
+    
     const produtosExistentes = localStorage.getItem('reveste_produtos');
     if (!produtosExistentes) {
         saveProdutos(initialProdutosData);

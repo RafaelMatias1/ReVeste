@@ -20,7 +20,7 @@ export default function Login() {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         
         if (!formData.email || !formData.senha) {
@@ -28,13 +28,13 @@ export default function Login() {
             return;
         }
 
-        // Simular autenticação
-        const success = login(formData.email, formData.senha);
+        // Autenticar via API
+        const result = await login(formData.email, formData.senha);
         
-        if (success) {
+        if (result.success) {
             navigate('/');
         } else {
-            alert('Email ou senha incorretos!');
+            alert(result.message || 'Email ou senha incorretos!');
         }
     };
 

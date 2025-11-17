@@ -5,11 +5,17 @@ import PageLayout from "../components/PageLayout";
 import "../styles/Perfil.css";
 
 export default function Perfil() {
-  const { user, logout } = useAuth();
+  const { user, logout, updateUser, deleteAccount } = useAuth();
   const navigate = useNavigate();
 
   const [form, setForm] = useState(() => {
-    const usuario = user || JSON.parse(localStorage.getItem("usuarioReVeste")) || {};
+    let usuario = user || {};
+    
+    if (!user && typeof window !== 'undefined') {
+      const usuarioStr = localStorage.getItem("usuarioReVeste");
+      usuario = usuarioStr ? JSON.parse(usuarioStr) : {};
+    }
+    
     return {
       nome: usuario.nome || "",
       email: usuario.email || "",
@@ -63,7 +69,7 @@ export default function Perfil() {
     return true;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     const novosErros = {};
     if (!validarCPF(form.cpf)) {
@@ -77,18 +83,22 @@ export default function Perfil() {
       return;
     }
     setErros({});
-    const usuarioAtualizado = {
+    
+    // Atualizar usuário via API
+    const result = await updateUser({
       nome: form.nome,
-      email: form.email,
       telefone: form.telefone,
       sexo: form.sexo,
-      senha: form.senha,
       cpf: form.cpf,
       nascimento: form.nascimento,
-    };
-    localStorage.setItem("usuarioReVeste", JSON.stringify(usuarioAtualizado));
-    setSalvo(true);
-    setTimeout(() => setSalvo(false), 2000);
+    });
+    
+    if (result.success) {
+      setSalvo(true);
+      setTimeout(() => setSalvo(false), 2000);
+    } else {
+      alert(result.message || 'Erro ao atualizar perfil');
+    }
   }
 
   function handleLogout() {
@@ -100,11 +110,14 @@ export default function Perfil() {
     setShowModal(true);
   }
 
-  function confirmDelete() {
-    localStorage.removeItem("usuarioReVeste");
-    localStorage.setItem("reVesteLogado", "false");
-    logout();
-    navigate("/registro");
+  async function confirmDelete() {
+    const result = await deleteAccount();
+    if (result.success) {
+      navigate("/registro");
+    } else {
+      alert(result.message || 'Erro ao deletar conta');
+      setShowModal(false);
+    }
   }
 
   function cancelDelete() {
