@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { produtoAPI } from '../services/api';
-import { getProdutos, deleteProdutoFromData } from '../components/ProdutosData';
 import PageLayout from '../components/PageLayout';
 import SafeImage from '../components/SafeImage';
 import '../styles/SafeImage.css';
@@ -17,80 +16,35 @@ const MeusAnuncios = () => {
         const carregarMeusProdutos = async () => {
             try {
                 if (user && user.id) {
-                    // Tentar carregar da API
+                    // Carregar produtos da API
                     const response = await produtoAPI.getAll();
+                    
                     // Filtrar produtos do usuário
-                    const produtosDoUsuario = response.produtos.filter(p => 
-                        p.usuario?._id === user.id || p.usuario?.id === user.id
-                    );
+                    const produtosDoUsuario = response.produtos.filter(p => {
+                        const usuarioId = p.usuario?._id?.toString() || p.usuario?.id?.toString() || p.usuario?.toString();
+                        const userIdStr = user.id.toString();
+                        return usuarioId === userIdStr;
+                    });
+                    
                     setMeusProdutos(produtosDoUsuario);
                 } else {
-                    // Fallback para localStorage
-                    const produtos = getProdutos();
-                    let usuarioAtual = user;
-                    
-                    if (!usuarioAtual && typeof window !== 'undefined') {
-                        const usuarioStr = localStorage.getItem("usuarioReVeste");
-                        usuarioAtual = usuarioStr ? JSON.parse(usuarioStr) : null;
-                    }
-                    
-                    if (usuarioAtual && usuarioAtual.email) {
-                        const produtosDoUsuario = produtos.filter(produto => 
-                            produto.userEmail === usuarioAtual.email || 
-                            produto.userId === usuarioAtual.id ||
-                            produto.autorEmail === usuarioAtual.email
-                        );
-                        setMeusProdutos(produtosDoUsuario);
-                    }
+                    setMeusProdutos([]);
                 }
             } catch (error) {
                 console.error('Erro ao carregar produtos:', error);
-                // Fallback para localStorage em caso de erro
-                try {
-                    const produtos = getProdutos();
-                    let usuarioAtual = user;
-                    if (!usuarioAtual && typeof window !== 'undefined') {
-                        const usuarioStr = localStorage.getItem("usuarioReVeste");
-                        usuarioAtual = usuarioStr ? JSON.parse(usuarioStr) : null;
-                    }
-                    if (usuarioAtual && usuarioAtual.email) {
-                        const produtosDoUsuario = produtos.filter(produto => 
-                            produto.userEmail === usuarioAtual.email
-                        );
-                        setMeusProdutos(produtosDoUsuario);
-                    }
-                } catch {
-                    setMeusProdutos([]);
-                }
+                setMeusProdutos([]);
             } finally {
                 setLoading(false);
             }
         };
 
         carregarMeusProdutos();
-
-        // Listener para atualizar quando localStorage mudar
-        if (typeof window !== 'undefined') {
-            const handleStorageChange = () => {
-                carregarMeusProdutos();
-            };
-
-            window.addEventListener('storage', handleStorageChange);
-        
-            // Também escuta mudanças locais
-            const interval = setInterval(carregarMeusProdutos, 2000);
-
-            return () => {
-                window.removeEventListener('storage', handleStorageChange);
-                clearInterval(interval);
-            };
-        }
     }, [user]);
 
     const handleDelete = async (id) => {
         if (window.confirm("Tem certeza que deseja excluir este anúncio?")) {
             try {
-                // Tentar deletar via API
+                // Deletar via API
                 await produtoAPI.delete(id);
                 
                 // Atualizar estado local
@@ -101,15 +55,7 @@ const MeusAnuncios = () => {
                 alert('Produto excluído com sucesso!');
             } catch (error) {
                 console.error('Erro ao excluir produto:', error);
-                
-                // Fallback para localStorage
-                try {
-                    const produtosAtualizados = deleteProdutoFromData(id);
-                    setMeusProdutos(prev => prev.filter(produto => produto.id !== id));
-                    alert('Produto excluído com sucesso!');
-                } catch {
-                    alert('Erro ao excluir produto. Tente novamente.');
-                }
+                alert('Erro ao excluir produto. Tente novamente.');
             }
         }
     };
@@ -159,7 +105,7 @@ const MeusAnuncios = () => {
             <div className="meus-anuncios-content">
                 <div className="produtos-grid">
                     {meusProdutos.map((produto) => (
-                        <div key={produto.id} className="produto-card">
+                        <div key={produto._id || produto.id} className="produto-card">
                             <div className="produto-imagem">
                                 <SafeImage
                                     src={produto.fotos && produto.fotos[0]}
@@ -196,19 +142,19 @@ const MeusAnuncios = () => {
 
                             <div className="produto-actions">
                                 <Link 
-                                    to={`/produto/${produto.id}`} 
+                                    to={`/produto/${produto._id || produto.id}`} 
                                     className="btn btn-outline"
                                 >
                                     Ver Detalhes
                                 </Link>
                                 <Link 
-                                    to={`/editar-anuncio/${produto.id}`} 
+                                    to={`/editar-anuncio/${produto._id || produto.id}`} 
                                     className="btn btn-secondary"
                                 >
                                     Editar
                                 </Link>
                                 <button 
-                                    onClick={() => handleDelete(produto.id)}
+                                    onClick={() => handleDelete(produto._id || produto.id)}
                                     className="btn btn-danger"
                                 >
                                     Excluir

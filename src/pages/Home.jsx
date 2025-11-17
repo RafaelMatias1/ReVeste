@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import { useAuth } from '../context/AuthContext';
+import { produtoAPI } from '../services/api';
 import AuthModal from '../components/AuthModal';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -26,7 +27,8 @@ const CategoriaCard = ({ categoria, onClick }) => {
     );
 };
 
-export default function Home({ produtos = [] }) {
+export default function Home() {
+    const [produtos, setProdutos] = useState([]);
     const [termoBusca, setTermoBusca] = useState('');
     const [resultadosBusca, setResultadosBusca] = useState([]);
     const [mostrandoResultadosBusca, setMostrandoResultadosBusca] = useState(false);
@@ -34,6 +36,21 @@ export default function Home({ produtos = [] }) {
     const [authModalMessage, setAuthModalMessage] = useState('');
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+    // Carregar produtos da API
+    useEffect(() => {
+        const carregarProdutos = async () => {
+            try {
+                const response = await produtoAPI.getAll();
+                setProdutos(response.produtos || []);
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                setProdutos([]);
+            }
+        };
+
+        carregarProdutos();
+    }, []);
 
     const categorias = [
         { id: 1, nome: "Verão", categoria: "verao", img: "/img/verao.jpeg", descricao: "Roupas leves e frescas" },
@@ -217,15 +234,18 @@ export default function Home({ produtos = [] }) {
                                 </div>
                             ) : (
                                 <div className="produtos-grid">
-                                    {resultadosBusca.map(produto => (
-                                        <div 
-                                            key={produto.id}
-                                            onClick={() => handleProdutoClick(produto.id)}
-                                            style={{ cursor: 'pointer' }}
-                                        >
-                                            <ProdutoCard produto={produto} />
-                                        </div>
-                                    ))}
+                                    {resultadosBusca.map(produto => {
+                                        const produtoId = produto._id || produto.id;
+                                        return (
+                                            <div 
+                                                key={produtoId}
+                                                onClick={() => handleProdutoClick(produtoId)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                <ProdutoCard produto={produto} />
+                                            </div>
+                                        );
+                                    })}
                                 </div>
                             )}
                         </div>
@@ -262,16 +282,19 @@ export default function Home({ produtos = [] }) {
                                         <Slider {...settings}>
                                             {produtos
                                                 .slice().reverse()
-                                                .map(produto => (
-                                                    <div key={produto.id}>
-                                                        <div 
-                                                            onClick={() => handleProdutoClick(produto.id)}
-                                                            style={{ cursor: 'pointer' }}
-                                                        >
-                                                            <ProdutoCard produto={produto} />
+                                                .map(produto => {
+                                                    const produtoId = produto._id || produto.id;
+                                                    return (
+                                                        <div key={produtoId}>
+                                                            <div 
+                                                                onClick={() => handleProdutoClick(produtoId)}
+                                                                style={{ cursor: 'pointer' }}
+                                                            >
+                                                                <ProdutoCard produto={produto} />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    );
+                                                })}
                                         </Slider>
                                     </div>
                                 )}

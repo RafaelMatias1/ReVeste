@@ -6,7 +6,8 @@ import '../styles/FavoriteButton.css';
 const FavoriteButton = ({ produto, size = 'normal', className = '' }) => {
     const { toggleFavorito, isFavorito } = useFavorites();
     const { isAuthenticated } = useAuth();
-    const favorited = isFavorito(produto.id);
+    const produtoId = produto._id || produto.id;
+    const favorited = isFavorito(produtoId);
 
     const handleClick = (e) => {
         e.preventDefault();

@@ -14,7 +14,7 @@ const produtoSchema = new mongoose.Schema({
   categoria: {
     type: String,
     required: [true, 'Categoria é obrigatória'],
-    enum: ['vestidos', 'blusas', 'calcas', 'shorts', 'calcados', 'acessorios', 'outros']
+    enum: ['vestidos', 'blusas', 'calcas', 'camisetas', 'casacos', 'shorts', 'calcados', 'acessorios', 'outros']
   },
   genero: {
     type: String,
@@ -28,7 +28,7 @@ const produtoSchema = new mongoose.Schema({
   condicao: {
     type: String,
     required: [true, 'Condição é obrigatória'],
-    enum: ['novo', 'usado-perfeito', 'usado-bom', 'usado-regular']
+    enum: ['novo', 'novo-etiqueta', 'novo-sem-etiqueta', 'usado-perfeito', 'usado-bom', 'usado-regular']
   },
   localizacao: {
     type: String,

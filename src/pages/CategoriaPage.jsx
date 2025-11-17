@@ -1,21 +1,38 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { produtoAPI } from '../services/api';
 import AuthModal from '../components/AuthModal';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
 import '../styles/CategoriaPage.css';
 
-const CategoriaPage = ({ produtos = [] }) => {
+const CategoriaPage = () => {
     const { categoria } = useParams();
     const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
+    const [produtos, setProdutos] = useState([]);
     const [filtroTamanho, setFiltroTamanho] = useState('');
     const [filtroCondicao, setFiltroCondicao] = useState('');
     const [filtroGenero, setFiltroGenero] = useState('');
     const [ordenacao, setOrdenacao] = useState('recentes');
     const [showAuthModal, setShowAuthModal] = useState(false);
+
+    // Carregar produtos da API
+    useEffect(() => {
+        const carregarProdutos = async () => {
+            try {
+                const response = await produtoAPI.getAll();
+                setProdutos(response.produtos || []);
+            } catch (error) {
+                console.error('Erro ao carregar produtos:', error);
+                setProdutos([]);
+            }
+        };
+
+        carregarProdutos();
+    }, []);
 
     // Mapear as categorias da URL para as categorias dos produtos
     const categoriasMap = {
@@ -257,15 +274,18 @@ const CategoriaPage = ({ produtos = [] }) => {
                         </section>
                     ) : (
                         <section className="produtos-grid">
-                            {produtosFiltrados.map((produto) => (
-                                <div 
-                                    key={produto.id}
-                                    onClick={(e) => handleProdutoClick(produto.id, e)}
-                                    style={{ cursor: 'pointer' }}
-                                >
-                                    <ProdutoCard produto={produto} />
-                                </div>
-                            ))}
+                            {produtosFiltrados.map((produto) => {
+                                const produtoId = produto._id || produto.id;
+                                return (
+                                    <div 
+                                        key={produtoId}
+                                        onClick={(e) => handleProdutoClick(produtoId, e)}
+                                        style={{ cursor: 'pointer' }}
+                                    >
+                                        <ProdutoCard produto={produto} />
+                                    </div>
+                                );
+                            })}
                         </section>
                     )}
                 </div>

@@ -174,12 +174,8 @@ export const produtoAPI = {
     },
 
     // Criar novo produto
-    create: async (formData) => {
-        const response = await api.post('/produtos', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
+    create: async (produtoData) => {
+        const response = await api.post('/produtos', produtoData);
         return response.data;
     },
 

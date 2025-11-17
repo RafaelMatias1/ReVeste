@@ -8,7 +8,7 @@ import SafeImage from '../components/SafeImage';
 import '../styles/AddProduto.css';
 import '../styles/SafeImage.css';
 
-const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
+const AddProduto = () => {
     const navigate = useNavigate();
     const { id } = useParams();
     const { user } = useAuth();
@@ -29,22 +29,30 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     useEffect(() => {
-        if (isEditing && produtos) {
-            const produto = produtos.find(p => p.id === parseInt(id));
-            if (produto) {
-                setFormData({
-                    titulo: produto.titulo || '',
-                    descricao: produto.descricao || '',
-                    categoria: produto.categoria || '',
-                    genero: produto.genero || '',
-                    tamanho: produto.tamanho || '',
-                    condicao: produto.condicao || '',
-                    localizacao: produto.localizacao || '',
-                    fotos: produto.fotos || []
-                });
+        const carregarProduto = async () => {
+            if (isEditing && id) {
+                try {
+                    const produto = await produtoAPI.getById(id);
+                    setFormData({
+                        titulo: produto.titulo || '',
+                        descricao: produto.descricao || '',
+                        categoria: produto.categoria || '',
+                        genero: produto.genero || '',
+                        tamanho: produto.tamanho || '',
+                        condicao: produto.condicao || '',
+                        localizacao: produto.localizacao || '',
+                        fotos: produto.fotos || []
+                    });
+                } catch (error) {
+                    console.error('Erro ao carregar produto:', error);
+                    alert('Erro ao carregar produto. Você será redirecionado.');
+                    navigate('/meus-anuncios');
+                }
             }
-        }
-    }, [isEditing, id, produtos]);
+        };
+
+        carregarProduto();
+    }, [isEditing, id, navigate]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -61,22 +69,63 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
         }
     };
 
-    const handleImageUpload = (e) => {
+    // Função para redimensionar imagem
+    const resizeImage = (file, maxWidth = 1200, maxHeight = 1200, quality = 0.8) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    // Calcular novas dimensões mantendo proporção
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = (height * maxWidth) / width;
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = (width * maxHeight) / height;
+                            height = maxHeight;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // Converter para base64 com qualidade reduzida
+                    const resizedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                    resolve(resizedDataUrl);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    };
+
+    const handleImageUpload = async (e) => {
         const files = Array.from(e.target.files);
         
-        files.forEach(file => {
+        for (const file of files) {
             if (file && file.type.startsWith('image/')) {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const imageDataUrl = event.target.result;
+                try {
+                    // Redimensionar imagem antes de adicionar
+                    const resizedImage = await resizeImage(file);
                     setFormData(prev => ({
                         ...prev,
-                        fotos: [...prev.fotos, imageDataUrl]
+                        fotos: [...prev.fotos, resizedImage]
                     }));
-                };
-                reader.readAsDataURL(file);
+                } catch (error) {
+                    console.error('Erro ao processar imagem:', error);
+                    alert('Erro ao processar uma das imagens. Tente novamente.');
+                }
             }
-        });
+        }
     };
 
     const removeImage = (index) => {
@@ -112,6 +161,13 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
         setIsSubmitting(true);
 
         try {
+            // Verificar se usuário está autenticado
+            if (!user) {
+                alert('Você precisa estar logado para publicar um produto.');
+                navigate('/login');
+                return;
+            }
+
             const produtoData = {
                 titulo: formData.titulo,
                 descricao: formData.descricao,
@@ -122,6 +178,9 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
                 localizacao: formData.localizacao,
                 fotos: formData.fotos || []
             };
+
+            console.log('Enviando produto:', produtoData);
+            console.log('Usuário logado:', user);
 
             if (isEditing) {
                 // Atualizar produto via API
@@ -136,7 +195,19 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
             navigate('/meus-anuncios');
         } catch (error) {
             console.error('Erro ao salvar produto:', error);
-            alert(error.response?.data?.message || 'Erro ao salvar produto. Tente novamente.');
+            
+            // Tratamento de erros específicos
+            if (error.response?.status === 401) {
+                alert('Sua sessão expirou. Por favor, faça login novamente.');
+                navigate('/login');
+            } else if (error.response?.status === 400) {
+                const errorMsg = error.response?.data?.errors
+                    ? error.response.data.errors.map(e => e.msg).join('\n')
+                    : error.response?.data?.message || 'Dados inválidos';
+                alert(errorMsg);
+            } else {
+                alert(error.response?.data?.message || 'Erro ao salvar produto. Tente novamente.');
+            }
         } finally {
             setIsSubmitting(false);
         }
@@ -246,11 +317,14 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
                                 >
                                     <option value="">Selecione</option>
                                     <option value="vestidos">Vestidos</option>
-                                    <option value="calcas">Calças</option>
+                                    <option value="blusas">Blusas</option>
                                     <option value="camisetas">Camisetas</option>
+                                    <option value="calcas">Calças</option>
+                                    <option value="shorts">Shorts</option>
                                     <option value="casacos">Casacos</option>
                                     <option value="calcados">Calçados</option>
                                     <option value="acessorios">Acessórios</option>
+                                    <option value="outros">Outros</option>
                                 </select>
                                 {errors.categoria && <span className="error-message">{errors.categoria}</span>}
                             </div>
@@ -267,6 +341,7 @@ const AddProduto = ({ addProduto, produtos, updateProduto, deleteProduto }) => {
                                     <option value="">Selecione</option>
                                     <option value="feminino">Feminino</option>
                                     <option value="masculino">Masculino</option>
+                                    <option value="infantil">Infantil</option>
                                     <option value="unissex">Unissex</option>
                                 </select>
                                 {errors.genero && <span className="error-message">{errors.genero}</span>}

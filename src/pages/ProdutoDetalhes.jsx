@@ -4,8 +4,9 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProdutoCard from '../components/ProdutoCard';
 import ContactModal from '../components/ContactModal';
-import FavoriteButton from '../components/FavoriteButton'; // NOVO IMPORT
+import FavoriteButton from '../components/FavoriteButton';
 import { useAuth } from '../context/AuthContext';
+import { produtoAPI } from '../services/api';
 import '../styles/ProdutoDetalhes.css';
 import '../styles/ProdutoCard.css';
 
@@ -25,14 +26,63 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
     const navigate = useNavigate();
     const { user, isAuthenticated } = useAuth();
     
-    // NOVO STATE PARA O MODAL
+    // Estados
+    const [produto, setProduto] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [outrasRoupas, setOutrasRoupas] = useState([]);
     const [isContactModalOpen, setIsContactModalOpen] = useState(false);
-    // Estado do carrossel (deve ficar ANTES de qualquer return condicional)
     const [carouselIndex, setCarouselIndex] = useState(0);
     
-    const produto = produtos.find(p => p.id === parseInt(id));
+    // Buscar produto da API
+    useEffect(() => {
+        const carregarProduto = async () => {
+            try {
+                setLoading(true);
+                console.log('[ProdutoDetalhes] Buscando produto ID:', id);
+                const response = await produtoAPI.getById(id);
+                console.log('[ProdutoDetalhes] Produto recebido:', response);
+                setProduto(response.produto || response);
+            } catch (error) {
+                console.error('[ProdutoDetalhes] Erro ao carregar produto:', error);
+                setProduto(null);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    // Se o produto não for encontrado, redireciona ou mostra mensagem
+        const carregarOutrasRoupas = async () => {
+            try {
+                const response = await produtoAPI.getAll();
+                const outras = response.produtos
+                    .filter(p => (p._id || p.id) !== id)
+                    .slice(0, 4);
+                setOutrasRoupas(outras);
+            } catch (error) {
+                console.error('[ProdutoDetalhes] Erro ao carregar outras roupas:', error);
+                setOutrasRoupas([]);
+            }
+        };
+
+        if (id) {
+            carregarProduto();
+            carregarOutrasRoupas();
+        }
+    }, [id]);
+
+    // Loading state
+    if (loading) {
+        return (
+            <>
+                <Header />
+                <main className="principal-produto container">
+                    <p className="no-products-message">Carregando produto...</p>
+                </main>
+                <Footer />
+            </>
+        );
+    }
+
+    // Se o produto não for encontrado
     if (!produto) {
         return (
             <>
@@ -68,21 +118,30 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
     };
 
     // Função para lidar com a exclusão do produto
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (window.confirm(`Tem certeza que deseja excluir o anúncio "${produto.titulo}"?`)) {
-            // A função deleteProduto já faz a exclusão no App.jsx
-            deleteProduto(produto.id); // Esta função deve retornar true/false se confirmou
-            alert('Anúncio excluído com sucesso!');
-            navigate('/'); // Redireciona para a Home
+            try {
+                await produtoAPI.delete(produto._id || produto.id);
+                alert('Anúncio excluído com sucesso!');
+                navigate('/meus-anuncios');
+            } catch (error) {
+                console.error('[ProdutoDetalhes] Erro ao excluir produto:', error);
+                alert('Erro ao excluir o anúncio. Tente novamente.');
+            }
         }
     };
 
     // Lógica para determinar se o usuário logado é o dono do anúncio
-    // Isso é um placeholder, `user.id` e `produto.userId` precisam ser os IDs reais de usuário
-    const isOwner = isAuthenticated && user && produto.userId === user.id;
-
-    // Seleciona até 4 produtos quaisquer (exceto o atual)
-    const outrasRoupas = produtos.filter(p => p.id !== produto.id).slice(0, 4);
+    const produtoUsuarioId = produto.usuario?._id?.toString() || produto.usuario?.id?.toString() || produto.usuario?.toString();
+    const userId = user?.id?.toString();
+    const isOwner = isAuthenticated && user && produtoUsuarioId === userId;
+    
+    console.log('[ProdutoDetalhes] isOwner check:', {
+        isAuthenticated,
+        userId,
+        produtoUsuarioId,
+        isOwner
+    });
 
 
     return (
@@ -93,9 +152,7 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                     <nav className="breadcrumb" aria-label="Caminho de navegação">
                         <ul>
                             <li><Link to="/">Home</Link></li>
-                            {/* Ajuste do breadcrumb para categoria/localização */}
-                            {produto.localizacao && <li><Link to={`/categorias/${produto.localizacao.split('/')[0].toLowerCase()}`}>{produto.localizacao.split('/')[0]}</Link></li>}
-                            {produto.categoria && <li><Link to={`/categorias/${produto.categoria.toLowerCase()}`}>{produto.categoria}</Link></li>}
+                            <li><Link to={`/categoria/${produto.categoria}`}>{produto.categoria}</Link></li>
                             <li><span>{produto.titulo}</span></li>
                         </ul>
                     </nav>
@@ -180,7 +237,7 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                             {/* Botões de Edição e Exclusão, visíveis APENAS para o dono do anúncio */}
                             {isOwner && (
                                 <div className="owner-actions">
-                                    <Link to={`/editar-anuncio/${produto.id}`} className="btn-editar-produto">
+                                    <Link to={`/editar-anuncio/${produto._id || produto.id}`} className="btn-editar-produto">
                                         Editar Anúncio
                                     </Link>
                                     <button onClick={handleDelete} className="btn-excluir-produto">
@@ -207,7 +264,7 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
                                 width: '100%'
                             }}>
                                 {outrasRoupas.map((prod) => (
-                                    <Link to={`/produto/${prod.id}`} className="item-link" key={prod.id} style={{ width: '100%', maxWidth: 280 }}>
+                                    <Link to={`/produto/${prod._id || prod.id}`} className="item-link" key={prod._id || prod.id} style={{ width: '100%', maxWidth: 280 }}>
                                         <ProdutoCard produto={prod} />
                                     </Link>
                                 ))}
@@ -222,7 +279,7 @@ const ProdutoDetalhes = ({ produtos, deleteProduto }) => {
             <ContactModal 
                 isOpen={isContactModalOpen}
                 onClose={handleCloseContactModal}
-                vendedorEmail={produto.emailVendedor || produto.email || 'exemplo@email.com'}
+                vendedorEmail={produto.usuario?.email || produto.autorEmail || 'exemplo@email.com'}
                 produtoTitulo={produto.titulo}
             />
         </>

@@ -19,7 +19,8 @@ const ProdutoCard = ({ produto }) => {
             return;
         }
         // Se estiver logado, permite a navegação normal
-        navigate(`/produto/${produto.id}`);
+        const produtoId = produto._id || produto.id;
+        navigate(`/produto/${produtoId}`);
     };
 
     const formatarData = (data) => {

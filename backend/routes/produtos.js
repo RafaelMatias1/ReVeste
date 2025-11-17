@@ -8,10 +8,10 @@ const authMiddleware = require('../middleware/auth');
 const produtoValidation = [
   body('titulo').trim().notEmpty().withMessage('Título é obrigatório'),
   body('descricao').trim().notEmpty().withMessage('Descrição é obrigatória'),
-  body('categoria').isIn(['vestidos', 'blusas', 'calcas', 'shorts', 'calcados', 'acessorios', 'outros']).withMessage('Categoria inválida'),
+  body('categoria').isIn(['vestidos', 'blusas', 'calcas', 'camisetas', 'casacos', 'shorts', 'calcados', 'acessorios', 'outros']).withMessage('Categoria inválida'),
   body('genero').isIn(['feminino', 'masculino', 'infantil', 'unissex']).withMessage('Gênero inválido'),
   body('tamanho').trim().notEmpty().withMessage('Tamanho é obrigatório'),
-  body('condicao').isIn(['novo', 'usado-perfeito', 'usado-bom', 'usado-regular']).withMessage('Condição inválida'),
+  body('condicao').isIn(['novo', 'novo-etiqueta', 'novo-sem-etiqueta', 'usado-perfeito', 'usado-bom', 'usado-regular']).withMessage('Condição inválida'),
   body('localizacao').trim().notEmpty().withMessage('Localização é obrigatória')
 ];
 

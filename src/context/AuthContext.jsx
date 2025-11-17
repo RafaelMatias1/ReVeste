@@ -30,6 +30,7 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(true);
         if (typeof window !== 'undefined') {
           localStorage.setItem("reVesteLogado", "true");
+          localStorage.setItem("usuarioReVeste", JSON.stringify(response.user));
         }
         setUser(response.user);
         return { success: true };
@@ -73,6 +74,7 @@ export function AuthProvider({ children }) {
         setIsAuthenticated(true);
         if (typeof window !== 'undefined') {
           localStorage.setItem("reVesteLogado", "true");
+          localStorage.setItem("usuarioReVeste", JSON.stringify(response.user));
         }
         setUser(response.user);
         return { success: true };

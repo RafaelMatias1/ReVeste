@@ -54,14 +54,18 @@ export function FavoritesProvider({ children }) {
     };
 
     const isFavorito = (produtoId) => {
-        return favoritos.some(fav => fav.id === produtoId);
+        return favoritos.some(fav => {
+            const favId = fav._id || fav.id;
+            return favId === produtoId;
+        });
     };
 
     const toggleFavorito = (produto) => {
         if (!isAuthenticated) return false;
         
-        if (isFavorito(produto.id)) {
-            removerFavorito(produto.id);
+        const produtoId = produto._id || produto.id;
+        if (isFavorito(produtoId)) {
+            removerFavorito(produtoId);
             return false;
         } else {
             adicionarFavorito(produto);
